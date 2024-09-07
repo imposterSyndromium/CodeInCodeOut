@@ -11,7 +11,6 @@ import SwiftUI
 struct ScannedQRDataListView: View {
     @State private var viewModel = ScannedQRDataList_ViewModel()
     
-
     var body: some View {
         VStack {
             List {
@@ -20,10 +19,7 @@ struct ScannedQRDataListView: View {
                         HStack {
                             Text(qrscan.inspectionOf)
                             Text(qrscan.dateAdded, format: Date.FormatStyle(date: .numeric, time: .standard))
-                            
-
                         }
-                        
                     }
                 }
                 .onDelete(perform: { offsets in
@@ -33,13 +29,11 @@ struct ScannedQRDataListView: View {
                 })
             }
         }
-        .navigationTitle("QR Code Scanner")
+        .navigationTitle("Scanned Codes")
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    viewModel.appendItem(QRData(inspectionOf: "Test", emailAddress: "test@test.test", isInspected: true, dateAdded: Date()))
-                    viewModel.fetchItems()
-                    
+                    viewModel.appendItem(QRCodeData(inspectionOf: "Test", emailAddress: "test@test.test", isInspected: true, dateAdded: Date()))
                 } label: {
                     Image(systemName: "plus")
                 }
@@ -50,20 +44,16 @@ struct ScannedQRDataListView: View {
                 } label: {
                     Image(systemName: "qrcode.viewfinder")
                 }
-                
             }
         }
         .sheet(isPresented: $viewModel.isShowingScanner) {
             CodeScannerView(codeTypes: [.qr],
                             simulatedData: "This is a string of test String data.",
                             completion: viewModel.handleScan)
-            
         }
     }
-    
-    
-
 }
+
 
 #Preview {
     //ScannedQRDataListView( )

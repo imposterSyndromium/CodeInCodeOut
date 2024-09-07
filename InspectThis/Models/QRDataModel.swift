@@ -10,14 +10,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class QRData {
-//    var timeStamp: Date
-//    
-//    init(timeStamp: Date) {
-//        self.timeStamp = timeStamp
-//    }
-    
-    
+final class QRCodeData {
     var inspectionOf: String
     var emailAddress: String
     var isInspected: Bool
@@ -29,7 +22,4 @@ final class QRData {
         self.isInspected = isInspected
         self.dateAdded = dateAdded
     }
-    
-    
-
 }

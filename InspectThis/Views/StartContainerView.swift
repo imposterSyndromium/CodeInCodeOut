@@ -1,0 +1,24 @@
+//
+//  StartContainerView.swift
+//  InspectThis
+//
+//  Created by Robin O'Brien on 2024-09-07.
+//
+
+import SwiftUI
+
+struct StartContainerView: View {
+    @State private var isSplashScreenViewPresented = true
+    
+    var body: some View {
+        if !isSplashScreenViewPresented {
+            ContentView()
+        } else {
+            SplashScreenView(isPresented: $isSplashScreenViewPresented)
+        }
+    }
+}
+
+#Preview {
+    StartContainerView()
+}

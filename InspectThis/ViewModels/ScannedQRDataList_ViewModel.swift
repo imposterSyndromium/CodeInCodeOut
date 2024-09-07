@@ -10,74 +10,60 @@ import SwiftData
 
 
 
+import SwiftUI
+import SwiftData
 
 @Observable
 class ScannedQRDataList_ViewModel {
     
     @ObservationIgnored
-    private let dataSource: DataSource
+    private var dataSource: DataSource<QRCodeData>?
     
-    var qrScans: [QRData] = []
+    var qrScans: [QRCodeData] = []
     var isShowingScanner = false
-
-    init(dataSource: DataSource = DataSource.shared) {
-        self.dataSource = dataSource
-        qrScans = dataSource.fetchItems()
+    
+    init() {
+        Task { @MainActor in
+            self.dataSource = DataSource<QRCodeData>.shared(for: QRCodeData.self)
+            self.fetchItems()
+        }
     }
     
     
-    func appendItem(_ qrData: QRData) {
-        // mock append just a date
-        dataSource.appendItem(item: qrData)
+    func appendItem(_ qrData: QRCodeData) {
+        dataSource?.appendItem(item: qrData)
+        fetchItems()
     }
     
     
     func removeItem(_ index: Int) {
-        dataSource.removeItem(qrScans[index])
+        if index < qrScans.count {
+            dataSource?.removeItem(qrScans[index])
+            fetchItems()
+        }
     }
+    
     
     func fetchItems() {
-        qrScans = dataSource.fetchItems()
+        qrScans = dataSource?.fetchItems() ?? []
     }
     
     
-    
-    
-    
-    func handleScan(result: Result<ScanResult, ScanError>)  {
+    func handleScan(result: Result<ScanResult, ScanError>) {
         switch result {
         case .success(let result):
-            // get the QR code string content
-            //let codeDataString = result.string
-            let qrCode = QRData(inspectionOf: result.string, emailAddress: "myEmail@emailMe.com", isInspected: true, dateAdded: Date())
+            let qrCode = QRCodeData(inspectionOf: result.string, emailAddress: "myEmail@emailMe.com", isInspected: true, dateAdded: Date())
             
-            appendItem(qrCode)
-            fetchItems()
+            Task { @MainActor in
+                self.appendItem(qrCode)
+            }
         case .failure(let error):
             print("Scanning Failed: \(error.localizedDescription)")
         }
         
         isShowingScanner = false
     }
-    
 }
-
-
-
-//func handleCodeScan(result: Result<ScanResult, ScanError>) -> Bool {
-//    switch result {
-//        
-//    case .success(let result):
-//        // get the QR code string content
-//        let codeDataString = result.string
-//        print(codeDataString)
-//        
-//    case .failure(let error):
-//        print("Scanning Failed: \(error.localizedDescription)")
-//    }
-//    
-//    return false
-//}
 
 
     

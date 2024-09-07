@@ -48,7 +48,7 @@ struct ScanView: View {
             // get the QR code string content
             let codeDataString = result.string
             print(codeDataString)
-            
+            isShowingScanner = false
         case .failure(let error):
             print("Scanning Failed: \(error.localizedDescription)")
         }
@@ -60,5 +60,5 @@ struct ScanView: View {
 }
 
 #Preview {
-    ContentView()
+    ScanView()
 }

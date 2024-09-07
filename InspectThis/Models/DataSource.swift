@@ -8,28 +8,33 @@ import SwiftData
 import Foundation
 
 
+import SwiftData
+import Foundation
 
-final class DataSource {
+final class DataSource<T: PersistentModel> {
     // Setup the SwiftData container and context
     private let modelContainer: ModelContainer
     private let modelContext: ModelContext
-       
-    // I've made the component a singleton so we only have one instance of the ModelContainer
-    // NOTE: needs to run on the main thread to access mainContext
-    @MainActor
-    static let shared = DataSource()
     
-    
+    // Singleton instance
     @MainActor
-    private init() {
-        self.modelContainer = try! ModelContainer(for: QRData.self)
-        self.modelContext = modelContainer.mainContext
+    static func shared(for type: T.Type) -> DataSource<T> {
+        DataSource<T>()
     }
     
+    // initialize this class
+    @MainActor
+    private init() {
+        do {
+            self.modelContainer = try ModelContainer(for: T.self)
+            self.modelContext = modelContainer.mainContext
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error.localizedDescription)")
+        }
+    }
     
-    // TODO how to make this argument type generic on the next functions:
     // Add an item to the DB table
-    func appendItem(item: QRData) {
+    func appendItem(item: T) {
         do {
             modelContext.insert(item)
             try modelContext.save()
@@ -39,23 +44,26 @@ final class DataSource {
         }
     }
     
-    
-    // get data from DB
-    func fetchItems() -> [QRData] {
+    // Get data from DB
+    func fetchItems() -> [T] {
         do {
-            return try modelContext.fetch(FetchDescriptor<QRData>())
+            return try modelContext.fetch(FetchDescriptor<T>())
         } catch {
             print(error.localizedDescription)
             fatalError(error.localizedDescription)
         }
     }
     
-    
-    
-    // delete from DB
-    func removeItem(_ item: QRData) {
-        modelContext.delete(item)
+    // Delete from DB
+    func removeItem(_ item: T) {
+        do {
+            modelContext.delete(item)
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
+            fatalError(error.localizedDescription)
+        }
     }
-    
 }
+
 
