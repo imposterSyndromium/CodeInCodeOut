@@ -42,7 +42,19 @@ struct ScanView: View {
     }
     
     
-    
+    func handleScan(result: Result<ScanResult, ScanError>)  {
+        switch result {
+        case .success(let result):
+            // get the QR code string content
+            let codeDataString = result.string
+            print(codeDataString)
+            
+        case .failure(let error):
+            print("Scanning Failed: \(error.localizedDescription)")
+        }
+        
+
+    }
     
  
 }

@@ -9,20 +9,11 @@ import SwiftUI
 
 @main
 struct InspectThisApp: App {
-    let container: ModelContainer
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(container)
+        
     }
-    
-    init() {
-        do {
-            container = try ModelContainer(for: QRData.self)
-        } catch {
-            fatalError("Failed to create ModelContainer for QRData")
-        }
-    }
+  
 }

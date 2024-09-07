@@ -9,43 +9,53 @@ import SwiftData
 import SwiftUI
 
 struct ScannedQRDataListView: View {
-    @State private var viewModel: ScannedQRDataList_ViewModel
-    @State private var isShowingScanner = false
+    @State private var viewModel = ScannedQRDataList_ViewModel()
     
-    // inject the modelContext into this view upon creation
-    init(modelContext: ModelContext) {
-        let viewModel = ScannedQRDataList_ViewModel(modelContext: modelContext)
-        _viewModel = State(initialValue: viewModel)
-    }
-    
-    
+
     var body: some View {
         VStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            List {
+                ForEach(viewModel.qrScans) { qrscan in
+                    Text(qrscan.timeStamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                }
+                .onDelete(perform: { offsets in
+                    for index in offsets {
+                        viewModel.removeItem(index)
+                    }
+                })
+            }
         }
-        .navigationTitle("QR Scans")
+        .navigationTitle("QR Code Scanner")
         .toolbar {
-            ToolbarItem {
+            ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    isShowingScanner = true
+                    viewModel.appendItem()
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    viewModel.isShowingScanner = true
                 } label: {
                     Image(systemName: "qrcode.viewfinder")
                 }
+                
             }
         }
-        .sheet(isPresented: $isShowingScanner) {
+        .sheet(isPresented: $viewModel.isShowingScanner) {
             CodeScannerView(codeTypes: [.qr],
-                            simulatedData: "Robin O'Brien/nrobin.c.obrien@gmail.com",
-                            completion: handleScan)
+                            simulatedData: "This is a string of test String data.",
+                            completion: viewModel.handleScan)
+            
         }
     }
+    
+    
+
 }
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: QRData.self, configurations: config)
-
-    let viewModel = ScannedQRDataList_ViewModel()
-    return EditingView(user: user)
-     .modelContainer(container)
+    //ScannedQRDataListView( )
+    ContentView()
 }

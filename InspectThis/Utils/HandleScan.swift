@@ -7,24 +7,20 @@
 import CodeScanner
 import Foundation
 
-func handleScan(result: Result<ScanResult, ScanError>) {
-     // dismiss the sheet
-     //isShowingScanner = false
-     
-     // work with the scan result
-     switch result {
-     case .success(let result):
-         // get the qr code string content and split the result using /n
-         let details = result.string.components(separatedBy: "/n")
-         // ensure we have 2 pieces of info from the QR code string
-         guard details.count == 2 else { return }
-         // store the QR data
-         let qrData = [details[0], details[1]]
-         print(qrData)
-         
-     case .failure(let error):
-         print("Scanning Failed: \(error.localizedDescription)")
-     }
-     
- }
+
+
+func handleCodeScan(result: Result<ScanResult, ScanError>)  {
+    switch result {
+    case .success(let result):
+        // get the QR code string content
+        let codeDataString = result.string
+        print(codeDataString)
+        
+    case .failure(let error):
+        print("Scanning Failed: \(error.localizedDescription)")
+    }
+    
+
+}
+
 
