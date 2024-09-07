@@ -11,24 +11,24 @@ import SwiftData
 
 @Model
 final class QRData {
-    var timeStamp: Date
-    
-    init(timeStamp: Date) {
-        self.timeStamp = timeStamp
-    }
-    
-    
-//    var inspectionOf: String
-//    var emailAddress: String
-//    var isInspected: Bool
-//    var dateAdded: Date
-    
-//    init(inspectionOf: String, emailAddress: String, isInspected: Bool, dateAdded: Date) {
-//        self.inspectionOf = inspectionOf
-//        self.emailAddress = emailAddress
-//        self.isInspected = isInspected
-//        self.dateAdded = dateAdded
+//    var timeStamp: Date
+//    
+//    init(timeStamp: Date) {
+//        self.timeStamp = timeStamp
 //    }
+    
+    
+    var inspectionOf: String
+    var emailAddress: String
+    var isInspected: Bool
+    var dateAdded: Date
+    
+    init(inspectionOf: String, emailAddress: String, isInspected: Bool, dateAdded: Date) {
+        self.inspectionOf = inspectionOf
+        self.emailAddress = emailAddress
+        self.isInspected = isInspected
+        self.dateAdded = dateAdded
+    }
     
     
 

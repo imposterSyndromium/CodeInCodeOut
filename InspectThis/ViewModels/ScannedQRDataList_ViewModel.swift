@@ -26,8 +26,9 @@ class ScannedQRDataList_ViewModel {
     }
     
     
-    func appendItem() {
-        dataSource.appendItem(item: QRData(timeStamp: Date()))
+    func appendItem(_ qrData: QRData) {
+        // mock append just a date
+        dataSource.appendItem(item: qrData)
     }
     
     
@@ -35,13 +36,23 @@ class ScannedQRDataList_ViewModel {
         dataSource.removeItem(qrScans[index])
     }
     
+    func fetchItems() {
+        qrScans = dataSource.fetchItems()
+    }
+    
+    
+    
+    
+    
     func handleScan(result: Result<ScanResult, ScanError>)  {
         switch result {
         case .success(let result):
             // get the QR code string content
-            let codeDataString = result.string
-            print(codeDataString)
+            //let codeDataString = result.string
+            let qrCode = QRData(inspectionOf: result.string, emailAddress: "myEmail@emailMe.com", isInspected: true, dateAdded: Date())
             
+            appendItem(qrCode)
+            fetchItems()
         case .failure(let error):
             print("Scanning Failed: \(error.localizedDescription)")
         }

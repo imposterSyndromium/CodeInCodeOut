@@ -16,7 +16,15 @@ struct ScannedQRDataListView: View {
         VStack {
             List {
                 ForEach(viewModel.qrScans) { qrscan in
-                    Text(qrscan.timeStamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                    VStack {
+                        HStack {
+                            Text(qrscan.inspectionOf)
+                            Text(qrscan.dateAdded, format: Date.FormatStyle(date: .numeric, time: .standard))
+                            
+
+                        }
+                        
+                    }
                 }
                 .onDelete(perform: { offsets in
                     for index in offsets {
@@ -29,7 +37,9 @@ struct ScannedQRDataListView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    viewModel.appendItem()
+                    viewModel.appendItem(QRData(inspectionOf: "Test", emailAddress: "test@test.test", isInspected: true, dateAdded: Date()))
+                    viewModel.fetchItems()
+                    
                 } label: {
                     Image(systemName: "plus")
                 }
