@@ -8,36 +8,72 @@ import CodeScanner
 import SwiftData
 import SwiftUI
 
+
 struct ScannedQRDataListView: View {
     @State private var viewModel = ScannedQRDataList_ViewModel()
+    @State private var selectedRow = Set<QRCodeData2>()
     
     var body: some View {
         VStack {
-            List {
-                ForEach(viewModel.qrScans) { qrscan in
-                    VStack {
+            if !viewModel.qrScans.isEmpty {
+                List(viewModel.qrScans, selection: $selectedRow) { qrscan in
+                    VStack(alignment: .leading) {
                         HStack {
-                            Text(qrscan.inspectionOf)
-                            Text(qrscan.dateAdded, format: Date.FormatStyle(date: .numeric, time: .standard))
+                            VStack(alignment: .leading) {
+                                Text(qrscan.qrCodeStringData)
+                                    .font(.headline)
+                                
+                                Text(qrscan.dateAdded.formatted(date: .abbreviated, time: .shortened))
+                                    .foregroundStyle(.secondary)
+                                
+                                Text(qrscan.emailAddress)
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                            Spacer()
+                            
+                            if qrscan.isFavorite {
+                                Image(systemName: "star.fill")
+                                    .foregroundStyle(.yellow)
+                                    .padding(.bottom, 10)
+                            }
+                        }
+
+                    }
+                    .swipeActions {
+                        Button("Delete", systemImage: "trash", role: .destructive) {
+                            if let index = viewModel.qrScans.firstIndex(where: { $0.id == qrscan.id }) {
+                                viewModel.removeItem(index)
+                            }
+                        }
+                        
+                        // show the favorite / unFavorite mark
+                        if qrscan.isFavorite {
+                            Button("Remove favorite", systemImage: "star.slash") {
+                                qrscan.isFavorite.toggle()
+                            }
+                            .tint(.orange)
+                        } else {
+                            Button("Mark as favorite", systemImage: "star.fill") {
+                                qrscan.isFavorite.toggle()
+                            }
+                            .tint(.green)
                         }
                     }
                 }
-                .onDelete(perform: { offsets in
-                    for index in offsets {
-                        viewModel.removeItem(index)
-                    }
-                })
+                
+            } else {
+                
+                Text("No scans yet")
+                    .padding(.top, 30)
+                    .foregroundStyle(.secondary)
+                    .font(.title)
+                
+                Spacer()
             }
         }
-        .navigationTitle("Scanned Codes")
+        .navigationTitle("Scanned Codes").navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    viewModel.appendItem(QRCodeData(inspectionOf: "Test", emailAddress: "test@test.test", isInspected: true, dateAdded: Date()))
-                } label: {
-                    Image(systemName: "plus")
-                }
-            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     viewModel.isShowingScanner = true
@@ -47,15 +83,15 @@ struct ScannedQRDataListView: View {
             }
         }
         .sheet(isPresented: $viewModel.isShowingScanner) {
-            CodeScannerView(codeTypes: [.qr],
+            CodeScannerView(codeTypes: [.qr, .aztec, .catBody, .code128, .code39, .code39Mod43, .code93, .dataMatrix, .dogBody, .ean13, .ean8],
                             simulatedData: "This is a string of test String data.",
                             completion: viewModel.handleScan)
         }
+        
+        
     }
 }
 
-
 #Preview {
-    //ScannedQRDataListView( )
     ContentView()
 }

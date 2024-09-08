@@ -33,13 +33,13 @@ struct SplashScreenView: View {
             animationsRunning.toggle()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                withAnimation(.easeIn(duration: 0.2)) {
-                    isPresented.toggle()
+                withAnimation {
+                    isPresented = true
                 }
             })
         }
         .onTapGesture {
-            isPresented.toggle()
+            isPresented = true
         }
     }
         

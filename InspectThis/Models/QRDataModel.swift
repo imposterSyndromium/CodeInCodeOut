@@ -10,16 +10,18 @@ import Foundation
 import SwiftData
 
 @Model
-final class QRCodeData {
-    var inspectionOf: String
+final class QRCodeData2 {
+    var id: UUID
+    var qrCodeStringData: String
     var emailAddress: String
-    var isInspected: Bool
+    var isFavorite: Bool
     var dateAdded: Date
     
-    init(inspectionOf: String, emailAddress: String, isInspected: Bool, dateAdded: Date) {
-        self.inspectionOf = inspectionOf
+    init(id: UUID, qrCodeStringData: String, emailAddress: String, isFavorite: Bool, dateAdded: Date) {
+        self.id = id
+        self.qrCodeStringData = qrCodeStringData
         self.emailAddress = emailAddress
-        self.isInspected = isInspected
+        self.isFavorite = isFavorite
         self.dateAdded = dateAdded
     }
 }

@@ -17,20 +17,20 @@ import SwiftData
 class ScannedQRDataList_ViewModel {
     
     @ObservationIgnored
-    private var dataSource: DataSource<QRCodeData>?
+    private var dataSource: DataSource<QRCodeData2>?
     
-    var qrScans: [QRCodeData] = []
+    var qrScans: [QRCodeData2] = []
     var isShowingScanner = false
     
     init() {
         Task { @MainActor in
-            self.dataSource = DataSource<QRCodeData>.shared(for: QRCodeData.self)
+            self.dataSource = DataSource<QRCodeData2>.shared(for: QRCodeData2.self)
             self.fetchItems()
         }
     }
     
     
-    func appendItem(_ qrData: QRCodeData) {
+    func appendItem(_ qrData: QRCodeData2) {
         dataSource?.appendItem(item: qrData)
         fetchItems()
     }
@@ -52,7 +52,7 @@ class ScannedQRDataList_ViewModel {
     func handleScan(result: Result<ScanResult, ScanError>) {
         switch result {
         case .success(let result):
-            let qrCode = QRCodeData(inspectionOf: result.string, emailAddress: "myEmail@emailMe.com", isInspected: true, dateAdded: Date())
+            let qrCode = QRCodeData2(id: UUID(), qrCodeStringData: result.string, emailAddress: "myEmail@emailMe.com", isFavorite: false, dateAdded: Date())
             
             Task { @MainActor in
                 self.appendItem(qrCode)

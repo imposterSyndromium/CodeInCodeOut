@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct StartContainerView: View {
-    @State private var isSplashScreenViewPresented = true
+    @State private var isSplashScreenViewPresented = false
     
     var body: some View {
-        if !isSplashScreenViewPresented {
+        if isSplashScreenViewPresented {
             ContentView()
         } else {
             SplashScreenView(isPresented: $isSplashScreenViewPresented)
