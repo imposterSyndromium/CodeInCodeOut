@@ -10,35 +10,21 @@ import SwiftUI
 
 
 struct ScannedQRDataListView: View {
-    @State private var viewModel = ScannedQRDataList_ViewModel()
-    @State private var selectedRow = Set<QRCodeData2>()
+    @State var viewModel: QRData_ViewModel
+    @State private var selectedRow = Set<QRCodeData3>()
+    @State var startWithScanner: Bool
     
     var body: some View {
         VStack {
-            if !viewModel.qrScans.isEmpty {
-                List(viewModel.qrScans, selection: $selectedRow) { qrscan in
-                    VStack(alignment: .leading) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(qrscan.qrCodeStringData)
-                                    .font(.headline)
-                                
-                                Text(qrscan.dateAdded.formatted(date: .abbreviated, time: .shortened))
-                                    .foregroundStyle(.secondary)
-                                
-                                Text(qrscan.emailAddress)
-                                    .foregroundStyle(.secondary)
-                            }
-                            
-                            Spacer()
-                            
-                            if qrscan.isFavorite {
-                                Image(systemName: "star.fill")
-                                    .foregroundStyle(.yellow)
-                                    .padding(.bottom, 10)
-                            }
-                        }
+            if !viewModel.qrScans.isEmpty {               
+                
 
+                
+                List(viewModel.qrScans, selection: $selectedRow) { qrscan in
+                    NavigationLink {
+                       Text("Code Scan Details")
+                    } label: {
+                        createRow(qrscan: qrscan)
                     }
                     .swipeActions {
                         Button("Delete", systemImage: "trash", role: .destructive) {
@@ -52,12 +38,12 @@ struct ScannedQRDataListView: View {
                             Button("Remove favorite", systemImage: "star.slash") {
                                 qrscan.isFavorite.toggle()
                             }
-                            .tint(.orange)
+                            .tint(.gray)
                         } else {
-                            Button("Mark as favorite", systemImage: "star.fill") {
+                            Button("Add favorite", systemImage: "star.fill") {
                                 qrscan.isFavorite.toggle()
                             }
-                            .tint(.green)
+                            .tint(.orange)
                         }
                     }
                 }
@@ -87,11 +73,36 @@ struct ScannedQRDataListView: View {
                             simulatedData: "This is a string of test String data.",
                             completion: viewModel.handleScan)
         }
+        // show the scanner sheet if the view was launched with startWithScanner = true
+        .onAppear {
+            if startWithScanner {
+                startWithScanner = false
+                viewModel.isShowingScanner = true
+            }
+        }
         
         
     }
+    
+    func createRow(qrscan: QRCodeData3) -> some View {
+        VStack(alignment: .leading) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(qrscan.qrCodeStringData)
+                        .font(.headline)
+                    Text(qrscan.dateAdded.formatted(date: .abbreviated, time: .shortened))
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Image(systemName: "star.fill")
+                    .foregroundStyle(qrscan.isFavorite ? .yellow : .clear)
+                    .padding(.bottom, 10)
+            }
+        }
+    }
+    
 }
 
 #Preview {
-    ContentView()
+    MainMenuButtonView()
 }

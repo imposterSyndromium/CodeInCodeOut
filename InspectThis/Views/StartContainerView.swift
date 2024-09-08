@@ -12,7 +12,7 @@ struct StartContainerView: View {
     
     var body: some View {
         if isSplashScreenViewPresented {
-            ContentView()
+            MainMenuButtonView()
         } else {
             SplashScreenView(isPresented: $isSplashScreenViewPresented)
         }

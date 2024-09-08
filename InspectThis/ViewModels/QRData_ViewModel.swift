@@ -7,30 +7,33 @@
 import CodeScanner
 import Foundation
 import SwiftData
-
-
-
 import SwiftUI
-import SwiftData
+
 
 @Observable
-class ScannedQRDataList_ViewModel {
+class QRData_ViewModel {
     
     @ObservationIgnored
-    private var dataSource: DataSource<QRCodeData2>?
+    private var dataSource: DataSource<QRCodeData3>?
     
-    var qrScans: [QRCodeData2] = []
-    var isShowingScanner = false
+    var qrScans: [QRCodeData3] = []
+    var isShowingScanner = false {
+        didSet {
+            if !isShowingScanner {
+                fetchItems()
+            }
+        }
+    }
     
     init() {
         Task { @MainActor in
-            self.dataSource = DataSource<QRCodeData2>.shared(for: QRCodeData2.self)
+            self.dataSource = DataSource<QRCodeData3>.shared(for: QRCodeData3.self)
             self.fetchItems()
         }
     }
     
     
-    func appendItem(_ qrData: QRCodeData2) {
+    func appendItem(_ qrData: QRCodeData3) {
         dataSource?.appendItem(item: qrData)
         fetchItems()
     }
@@ -52,7 +55,8 @@ class ScannedQRDataList_ViewModel {
     func handleScan(result: Result<ScanResult, ScanError>) {
         switch result {
         case .success(let result):
-            let qrCode = QRCodeData2(id: UUID(), qrCodeStringData: result.string, emailAddress: "myEmail@emailMe.com", isFavorite: false, dateAdded: Date())
+            let image = result.image
+            let qrCode = QRCodeData3(id: UUID(), qrCodeStringData: result.string, emailAddress: "myEmail@emailMe.com", isFavorite: false, dateAdded: Date(), notes: "This is some data that belongs in notes")
             
             Task { @MainActor in
                 self.appendItem(qrCode)
@@ -63,9 +67,18 @@ class ScannedQRDataList_ViewModel {
         
         isShowingScanner = false
     }
+    
+    
+
 }
 
 
     
+extension UIImage {
+    func toData() -> Data? {
+        return self.pngData()
+    }
+}
+
 
 

@@ -3,4 +3,66 @@
    uuid = "60E78AED-B4C2-4A46-92E8-C2DD255425A6"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "InspectThis/ViewModels/QRData_ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "handleScan(result:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e96d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "InspectThis.QRData_ViewModel.handleScan(result: Swift.Result&lt;CodeScanner.ScanResult, CodeScanner.ScanError&gt;) -&gt; ()"
+                  moduleName = "InspectThis.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/robinobrien/Dev/Apps/InspectThis/InspectThis/ViewModels/QRData_ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57">
+               </Location>
+               <Location
+                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e96d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "InspectThis.QRData_ViewModel.handleScan(result: Swift.Result&lt;CodeScanner.ScanResult, CodeScanner.ScanError&gt;) -&gt; ()"
+                  moduleName = "InspectThis.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/robinobrien/Dev/Apps/InspectThis/InspectThis/ViewModels/QRData_ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57">
+               </Location>
+               <Location
+                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e96d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "InspectThis.QRData_ViewModel.handleScan(result: Swift.Result&lt;CodeScanner.ScanResult, CodeScanner.ScanError&gt;) -&gt; ()"
+                  moduleName = "InspectThis.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/robinobrien/Dev/Apps/InspectThis/InspectThis/ViewModels/QRData_ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
