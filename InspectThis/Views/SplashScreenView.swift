@@ -25,7 +25,7 @@ struct SplashScreenView: View {
             .font(.largeTitle)
         }
         .onAppear {
-            // rigger the SFSymbol effect st to start
+            // trigger the SFSymbol effect st to start
             animationsRunning.toggle()
             
             // wait 3 seconds to dismiss the screen
@@ -35,7 +35,7 @@ struct SplashScreenView: View {
                 }
             })
         }
-        // allow a tap to skip the 3 second wait
+        // allow a tap to skip the 3 second wait set in .onAppear
         .onTapGesture {
             isPresented = true
         }

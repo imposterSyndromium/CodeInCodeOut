@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainMenuButtonView: View {
+struct MainMenuButtons_View: View {
     @State private var viewModel = QRData_ViewModel()
     @State private var isShowing = false
     
@@ -28,7 +28,7 @@ struct MainMenuButtonView: View {
                     }
                     
                     NavigationLink {
-                        Text("Generate Code View")
+                        GenerateCodeView()
                     } label: {
                         Label("Generate code", systemImage: "barcode")
                     }
@@ -38,13 +38,10 @@ struct MainMenuButtonView: View {
                 .font(.title)
                 
             }
-            
-
-            
         }
     }
 }
 
 #Preview {
-    MainMenuButtonView()
+    MainMenuButtons_View()
 }
