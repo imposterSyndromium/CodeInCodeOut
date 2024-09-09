@@ -77,7 +77,23 @@ struct ScannedQRDataListView: View {
         NavigationLink {
             Text("Code Scan Details")
         } label: {
-            createRow(qrscan: qrscan)
+            VStack(alignment: .leading) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(qrscan.qrCodeStringData)
+                            .font(.headline)
+                        Text(qrscan.dateAdded.formatted(date: .abbreviated, time: .shortened))
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    if qrscan.isFavorite {
+                        Spacer()
+                        Image(systemName: "star.fill")
+                            .foregroundStyle(qrscan.isFavorite ? .yellow : .clear)
+                            .padding(.bottom, 10)
+                    }
+                }
+            }
         }
         .swipeActions {
             Button("Delete", systemImage: "trash", role: .destructive) {
@@ -107,26 +123,7 @@ struct ScannedQRDataListView: View {
     }
     
     
-    
-    private func createRow(qrscan: QRCodeData3) -> some View {
-        VStack(alignment: .leading) {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(qrscan.qrCodeStringData)
-                        .font(.headline)
-                    Text(qrscan.dateAdded.formatted(date: .abbreviated, time: .shortened))
-                        .foregroundStyle(.secondary)
-                }
-                
-                if qrscan.isFavorite {
-                    Spacer()
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(qrscan.isFavorite ? .yellow : .clear)
-                        .padding(.bottom, 10)
-                }
-            }
-        }
-    }
+
     
     
     

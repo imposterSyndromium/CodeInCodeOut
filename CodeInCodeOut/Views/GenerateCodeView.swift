@@ -17,7 +17,7 @@ struct GenerateCodeView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Please select the barcode type and enter your barcode data")
+            Text("Select the barcode type and enter your barcode data to generate a barcode image")
                 .font(.headline)
                 .padding(.bottom, 20)
             
