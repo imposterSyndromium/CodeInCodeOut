@@ -15,7 +15,7 @@ struct GenerateCodeView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Please select the barcode type and enter your data")
+            Text("Please select the barcode type and enter your barcode data")
                 .font(.headline)
                 .padding(.bottom, 20)
             
@@ -24,27 +24,47 @@ struct GenerateCodeView: View {
                     Text(type.rawValue).tag(type)
                 }
             }
-            .pickerStyle(MenuPickerStyle())
+            .pickerStyle(.menu)
             .padding(.bottom, 10)
             
             TextField("Enter code data", text: $inputText)
+                .autocorrectionDisabled()
+                .autocapitalization(.none)
                 .padding()
                 .font(.title)
                 .background(Color(.systemGray6))
             
             Spacer()
             
-            Text("Press and hold the barcode for more options")
+            Text(!inputText.isEmpty ? "Press and hold the barcode for more options" : "")
                 .font(.headline)
                 .padding(.bottom, 20)
             
             VStack(spacing: 0) {
                 let image = barcodeGenerator.generateBarcode(text: inputText, type: selectedBarcodeType)
-                image
+                Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
+                    .contextMenu {
+                        ShareLink(item: Image(uiImage: image), preview: SharePreview("Scanned code: \(inputText)", image: Image(uiImage: image)))
+                        
+                        Button("Save") {
+                            // TODO - save tp photos
+                        }
+                    }
+                    .disabled(inputText.isEmpty ? true : false)
                 
-                Text(inputText.isEmpty ? "Unknown data" : inputText)
+                Text(inputText)
+                
+                Button { } label: {
+                    ShareLink(item: Image(uiImage: image), preview: SharePreview("Scanned code: \(inputText)", image: Image(uiImage: image))) {
+                        Label("Share code", systemImage: "square.and.arrow.up")
+                            
+                    }
+                }
+                .padding(.top, 10)
+                .disabled(inputText.isEmpty ? true : false)
+                
             }
             .padding()
         }

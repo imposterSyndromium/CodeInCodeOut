@@ -5,7 +5,6 @@
 //  Created by Robin O'Brien on 2024-09-05.
 //  ¬∞
 import CodeScanner
-import SwiftData
 import SwiftUI
 
 struct ScannedQRDataListView: View {
@@ -15,15 +14,21 @@ struct ScannedQRDataListView: View {
     
     var body: some View {
         VStack {
+            // Only show a list of scans if there are some
             if !viewModel.qrScans.isEmpty {
                 List(selection: $selectedRow) {
-                    Section(header: Text("Pinned")) {
-                        ForEach(viewModel.qrScans.filter { $0.isFavorite }, id: \.id) { qrscan in
-                            qrScanRow(for: qrscan)
+                    
+                    //only make a pined section if there are qrScans marked .isFavorite = true
+                    if viewModel.qrScans.contains(where: { $0.isFavorite }) {
+                        Section(header: Text("Pinned")) {
+                            ForEach(viewModel.qrScans.filter { $0.isFavorite }, id: \.id) { qrscan in
+                                qrScanRow(for: qrscan)
+                            }
                         }
                     }
                     
-                    Section(header: Text("")) {
+                    // the non-favoriote / non-pinned list
+                    Section() {
                         ForEach(viewModel.qrScans.filter { !$0.isFavorite }, id: \.id) { qrscan in
                             qrScanRow(for: qrscan)
                         }
@@ -73,18 +78,24 @@ struct ScannedQRDataListView: View {
         .swipeActions {
             Button("Delete", systemImage: "trash", role: .destructive) {
                 if let index = viewModel.qrScans.firstIndex(where: { $0.id == qrscan.id }) {
-                    viewModel.removeItem(index)
+                    withAnimation {
+                        viewModel.removeItem(index)
+                    }
                 }
             }
             
             if qrscan.isFavorite {
                 Button("Remove favorite", systemImage: "star.slash") {
-                    toggleFavorite(for: qrscan)
+                    withAnimation {
+                        toggleFavorite(for: qrscan)
+                    }
                 }
                 .tint(.gray)
             } else {
                 Button("Add favorite", systemImage: "star.fill") {
-                    toggleFavorite(for: qrscan)
+                    withAnimation {
+                        toggleFavorite(for: qrscan)
+                    }
                 }
                 .tint(.orange)
             }
@@ -100,10 +111,14 @@ struct ScannedQRDataListView: View {
                     Text(qrscan.dateAdded.formatted(date: .abbreviated, time: .shortened))
                         .foregroundStyle(.secondary)
                 }
-                Spacer()
-                Image(systemName: "star.fill")
-                    .foregroundStyle(qrscan.isFavorite ? .yellow : .clear)
-                    .padding(.bottom, 10)
+                
+                if qrscan.isFavorite {
+                    Spacer()
+                    Image(systemName: "star.fill")
+                        .foregroundStyle(qrscan.isFavorite ? .yellow : .clear)
+                        .padding(.bottom, 10)
+                }
+                
             }
         }
     }
@@ -113,6 +128,9 @@ struct ScannedQRDataListView: View {
             viewModel.qrScans[index].isFavorite.toggle()
         }
     }
+    
+    
+
 }
 
 #Preview {
