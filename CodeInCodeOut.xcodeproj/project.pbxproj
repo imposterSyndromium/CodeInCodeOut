@@ -15,9 +15,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		687977752C8A29D300A69AFE /* InspectThis */ = {
+		687977752C8A29D300A69AFE /* CodeInCodeOut */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = InspectThis;
+			path = CodeInCodeOut;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -37,7 +37,7 @@
 		6879776A2C8A29D300A69AFE = {
 			isa = PBXGroup;
 			children = (
-				687977752C8A29D300A69AFE /* InspectThis */,
+				687977752C8A29D300A69AFE /* CodeInCodeOut */,
 				687977742C8A29D300A69AFE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,7 +66,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				687977752C8A29D300A69AFE /* InspectThis */,
+				687977752C8A29D300A69AFE /* CodeInCodeOut */,
 			);
 			name = InspectThis;
 			packageProductDependencies = (
@@ -91,7 +91,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6879776E2C8A29D300A69AFE /* Build configuration list for PBXProject "InspectThis" */;
+			buildConfigurationList = 6879776E2C8A29D300A69AFE /* Build configuration list for PBXProject "CodeInCodeOut" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -260,10 +260,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"InspectThis/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CodeInCodeOut/Preview Content\"";
+				DEVELOPMENT_TEAM = X4N47N3Y9H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Ask permission to save images of barcodes to user library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -289,10 +291,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"InspectThis/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CodeInCodeOut/Preview Content\"";
+				DEVELOPMENT_TEAM = X4N47N3Y9H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Ask permission to save images of barcodes to user library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -314,7 +318,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6879776E2C8A29D300A69AFE /* Build configuration list for PBXProject "InspectThis" */ = {
+		6879776E2C8A29D300A69AFE /* Build configuration list for PBXProject "CodeInCodeOut" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6879777F2C8A29D400A69AFE /* Debug */,

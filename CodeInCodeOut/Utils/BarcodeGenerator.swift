@@ -8,6 +8,7 @@ import CoreImage.CIFilterBuiltins
 import Foundation
 import SwiftUI
 
+// the enums to be used in BarcodeGenerator for a CoreImage.Filter
 enum BarcodeType: String, CaseIterable, Identifiable {
     case code128 = "Code 128"
     case qr = "QR Code"
@@ -16,6 +17,7 @@ enum BarcodeType: String, CaseIterable, Identifiable {
     
     var id: String { self.rawValue }
 }
+
 
 struct BarcodeGenerator {
     let context = CIContext()
@@ -57,6 +59,7 @@ struct BarcodeGenerator {
             }
         }
         
-        return UIImage(systemName: "xmark.circle") ?? UIImage()
+        // There is no barcode or image to decode, so return an empty image
+        return UIImage()
     }
 }

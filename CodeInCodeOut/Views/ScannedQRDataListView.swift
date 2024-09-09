@@ -33,7 +33,9 @@ struct ScannedQRDataListView: View {
                             qrScanRow(for: qrscan)
                         }
                     }
+                    
                 }
+                
             } else {
                 Text("No scans yet")
                     .padding(.top, 30)
@@ -68,7 +70,9 @@ struct ScannedQRDataListView: View {
         }
     }
     
-    @ViewBuilder
+    
+    
+    //@ViewBuilder
     private func qrScanRow(for qrscan: QRCodeData3) -> some View {
         NavigationLink {
             Text("Code Scan Details")
@@ -102,6 +106,8 @@ struct ScannedQRDataListView: View {
         }
     }
     
+    
+    
     private func createRow(qrscan: QRCodeData3) -> some View {
         VStack(alignment: .leading) {
             HStack {
@@ -118,10 +124,11 @@ struct ScannedQRDataListView: View {
                         .foregroundStyle(qrscan.isFavorite ? .yellow : .clear)
                         .padding(.bottom, 10)
                 }
-                
             }
         }
     }
+    
+    
     
     private func toggleFavorite(for qrscan: QRCodeData3) {
         if let index = viewModel.qrScans.firstIndex(where: { $0.id == qrscan.id }) {

@@ -1,13 +1,14 @@
 //
-//  SwiftImageToUIImage.swift
+//  UIImage_Extension.swift
 //  InspectThis
 //
-//  Created by Robin O'Brien on 2024-09-08.
+//  Created by Robin O'Brien on 2024-09-09.
 //
 
 import SwiftUI
 
 
+/// NOTE: - This is not tested properly or used in this application.
 extension Image {
     func asUIImage() -> UIImage? {
         let controller = UIHostingController(rootView: self)

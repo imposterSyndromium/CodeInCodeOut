@@ -20,7 +20,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e96d"
+                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e9ab"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -30,11 +30,11 @@
                   urlString = "file:///Users/robinobrien/Dev/Apps/InspectThis/InspectThis/ViewModels/QRData_ViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "57"
-                  endingLineNumber = "57">
+                  startingLineNumber = "63"
+                  endingLineNumber = "63">
                </Location>
                <Location
-                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e96d"
+                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e9ab"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -44,11 +44,11 @@
                   urlString = "file:///Users/robinobrien/Dev/Apps/InspectThis/InspectThis/ViewModels/QRData_ViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "57"
-                  endingLineNumber = "57">
+                  startingLineNumber = "63"
+                  endingLineNumber = "63">
                </Location>
                <Location
-                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e96d"
+                  uuid = "4D580BD0-5021-465C-AC3C-1F59CFC18B38 - fb2dde825507e9ab"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -58,8 +58,8 @@
                   urlString = "file:///Users/robinobrien/Dev/Apps/InspectThis/InspectThis/ViewModels/QRData_ViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "57"
-                  endingLineNumber = "57">
+                  startingLineNumber = "63"
+                  endingLineNumber = "63">
                </Location>
             </Locations>
          </BreakpointContent>
