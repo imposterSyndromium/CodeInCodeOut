@@ -9,14 +9,17 @@ import SwiftUI
 
 struct ScannedQRDataListView: View {
     @State var viewModel: QRData_ViewModel
-    @State private var selectedRow = Set<QRCodeData3>()
+    //@State private var selectedRow = Set<QRCodeData3>()
     @State var startWithScanner: Bool
+    
+    @State private var showQRImageView = false
+    @State private var currentImageData: Data?
     
     var body: some View {
         VStack {
             // Only show a list of scans if there are some
             if !viewModel.qrScans.isEmpty {
-                List(selection: $selectedRow) {
+                List() {
                     
                     //only make a pined section if there are qrScans marked .isFavorite = true
                     if viewModel.qrScans.contains(where: { $0.isFavorite }) {
@@ -27,7 +30,7 @@ struct ScannedQRDataListView: View {
                         }
                     }
                     
-                    // the non-favoriote / non-pinned list
+                    // the non-favorite / non-pinned list
                     Section() {
                         ForEach(viewModel.qrScans.filter { !$0.isFavorite }, id: \.id) { qrscan in
                             qrScanRow(for: qrscan)
@@ -61,6 +64,11 @@ struct ScannedQRDataListView: View {
                             requiresPhotoOutput: true,
                             simulatedData: "This is a string of test String data.",
                             completion: viewModel.handleScan)
+        }        
+        .sheet(isPresented: $showQRImageView) {
+            if let imageData = currentImageData {
+                QRImageView(imageData: imageData)
+            }
         }
         .onAppear {
             if startWithScanner {
@@ -71,11 +79,11 @@ struct ScannedQRDataListView: View {
     }
     
     
-    
-    //@ViewBuilder
+
     private func qrScanRow(for qrscan: QRCodeData3) -> some View {
         NavigationLink {
             Text("Code Scan Details")
+            
         } label: {
             VStack(alignment: .leading) {
                 HStack {
@@ -89,13 +97,13 @@ struct ScannedQRDataListView: View {
                     if qrscan.isFavorite {
                         Spacer()
                         Image(systemName: "star.fill")
-                            .foregroundStyle(qrscan.isFavorite ? .yellow : .clear)
+                            .foregroundStyle(.yellow)
                             .padding(.bottom, 10)
                     }
                 }
             }
         }
-        .swipeActions {
+        .swipeActions(edge: .trailing) {
             Button("Delete", systemImage: "trash", role: .destructive) {
                 if let index = viewModel.qrScans.firstIndex(where: { $0.id == qrscan.id }) {
                     withAnimation {
@@ -120,7 +128,17 @@ struct ScannedQRDataListView: View {
                 .tint(.orange)
             }
         }
+        .swipeActions(edge: .leading) {
+            Button("View Image", systemImage: "photo") {
+                showQRImageView = true
+            }
+            .tint(.blue)
+        }
     }
+
+    
+
+    
     
     
 
