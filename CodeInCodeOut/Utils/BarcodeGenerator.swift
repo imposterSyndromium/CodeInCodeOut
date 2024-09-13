@@ -62,4 +62,7 @@ struct BarcodeGenerator {
         // There is no barcode or image to decode, so return an empty image
         return UIImage()
     }
+    
+    
+    
 }

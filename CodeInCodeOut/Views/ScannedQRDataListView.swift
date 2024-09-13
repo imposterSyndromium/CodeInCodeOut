@@ -4,6 +4,11 @@
 //
 //  Created by Robin O'Brien on 2024-09-05.
 //  ¬∞
+
+
+/// TODO - Image viewer sheet requires switching rows once to actually see the images.  Probably something to do with the optional Data? and how I am checking for it.
+///
+
 import CodeScanner
 import SwiftUI
 
@@ -59,7 +64,7 @@ struct ScannedQRDataListView: View {
             }
         }
         .sheet(isPresented: $viewModel.isShowingScanner) {
-            CodeScannerView(codeTypes: [.qr, .aztec, .catBody, .code128, .code39, .code39Mod43, .code93, .dataMatrix, .dogBody, .ean13, .ean8],
+            CodeScannerView(codeTypes: [.qr, .aztec, .catBody, .code128, .code39, .code39Mod43, .code93, .dataMatrix, .dogBody, .ean13, .ean8, .pdf417, .upce, .ean8, .ean13],
                             showViewfinder: true,
                             requiresPhotoOutput: true,
                             simulatedData: "This is a string of test String data.",
@@ -130,7 +135,11 @@ struct ScannedQRDataListView: View {
         }
         .swipeActions(edge: .leading) {
             Button("View Image", systemImage: "photo") {
-                showQRImageView = true
+                if let imageData = qrscan.image {
+                    currentImageData = imageData
+                    showQRImageView = true
+                }
+                
             }
             .tint(.blue)
         }

@@ -11,12 +11,14 @@ struct MainMenuButtons_View: View {
     @State private var viewModel = QRData_ViewModel()
     @State private var isShowing = false
     
+    
     var body: some View {
         NavigationStack {
             VStack {
                 Group{
                     NavigationLink {
-                        ScannedQRDataListView(viewModel: viewModel, startWithScanner: true)
+                        //ScannedQRDataListView(viewModel: viewModel, startWithScanner: true)
+                        CodeScannerCamera_View(viewModel: viewModel)
                     } label: {
                         Label("Scan Code", systemImage: "qrcode.viewfinder")
                     }

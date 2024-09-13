@@ -81,11 +81,7 @@ class QRData_ViewModel {
 
 
     
-extension UIImage {
-    func toData() -> Data? {
-        return self.pngData()
-    }
-}
+
 
 
 

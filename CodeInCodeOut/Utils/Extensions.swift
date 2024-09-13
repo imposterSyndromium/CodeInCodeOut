@@ -4,8 +4,17 @@
 //
 //  Created by Robin O'Brien on 2024-09-09.
 //
-
+import Foundation
 import SwiftUI
+
+
+
+// Convert a UIImage to Data? for storage
+extension UIImage {
+    func toData() -> Data? {
+        return self.pngData()
+    }
+}
 
 
 /// NOTE: - This is not tested properly or used in this application.
@@ -34,3 +43,5 @@ extension UIView {
         }
     }
 }
+
+

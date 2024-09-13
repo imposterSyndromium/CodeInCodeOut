@@ -6,46 +6,46 @@
 //
 
 import SwiftUI
-import CoreImage.CIFilterBuiltins
+//import CoreImage.CIFilterBuiltins
 
 struct GenerateCodeView: View {
     @State private var inputText = ""
     @State private var selectedBarcodeType: BarcodeType = .code128
     @State private var barcodeImage: UIImage? = UIImage()
-    var barcodeGenerator = BarcodeGenerator()
+    private var barcodeGenerator = BarcodeGenerator()
     
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("Select the barcode type and enter your barcode data to generate a barcode image")
-                .font(.headline)
+                .foregroundStyle(.secondary)
                 .padding(.bottom, 20)
+
             
-            Picker("Barcode Type", selection: $selectedBarcodeType) {
-                ForEach(BarcodeType.allCases) { type in
-                    Text(type.rawValue).tag(type)
-                }
-            }
-            .pickerStyle(.menu)
-            .padding(.bottom, 10)
+            barcodeImageView
+            
+            // Show the press and hold message only if a barcode is showing
+            Text(!inputText.isEmpty ? "Press and hold the barcode for more options" : "")
+                .font(.headline)
+                .foregroundStyle(.secondary)
+            
+            Spacer()
+            
+
             
             TextField("Enter code data", text: $inputText)
                 .autocorrectionDisabled()
                 .autocapitalization(.none)
                 .padding()
-                .font(.title)
-                .background(Color(.systemGray6))
-            
-            Spacer()
-            
-            Text(!inputText.isEmpty ? "Press and hold the barcode for more options" : "")
-                .font(.headline)
-                .padding(.bottom, 20)
-            
-            barcodeImageView
+                // Make the text field have a border
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.orange)
+                )
+        
         }
         .navigationTitle("Barcode Generator")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .padding()
         // Generate the barcode image and assign it to barcodeImage using onChange/onAppear
         .onAppear {
@@ -61,16 +61,31 @@ struct GenerateCodeView: View {
                 generateBarcodeImage(from: inputText, codeType: selectedBarcodeType)
             }
         }
+        .toolbar {
+            ToolbarItem {
+                Menu(content: {
+                    Picker("Barcode Type", selection: $selectedBarcodeType) {
+                        ForEach(BarcodeType.allCases) { type in
+                            Text(type.rawValue).tag(type)
+                        }
+                    }
+                    
+                }, label: { Label ("Barcode Type", systemImage: "qrcode") })
+            }
+        }
+        
         
     }
     
     
+    /// Image of barcode
     var barcodeImageView: some View {
         VStack(spacing: 0) {
             if let barcodeImage = barcodeImage {
                 Image(uiImage: barcodeImage)
                     .resizable()
                     .scaledToFit()
+                    // The menu that appears when press + hold Image
                     .contextMenu {
                         ShareLink(item: Image(uiImage: barcodeImage), preview: SharePreview("Scanned data: \(inputText)", image: Image(uiImage: barcodeImage))) {
                             Label("Share code", systemImage: "square.and.arrow.up")
@@ -81,17 +96,10 @@ struct GenerateCodeView: View {
                             imageSaver.writeToPhotoAlbum(image: barcodeImage)
                         }
                     }
+                    // disable the entire image of the barcode if the barcode data entry text field is empty
                     .disabled(inputText.isEmpty)
                 
                 Text(inputText)
-                
-                Button { } label: {
-                    ShareLink(item: Image(uiImage: barcodeImage), preview: SharePreview("Scanned data: \(inputText)", image: Image(uiImage: barcodeImage))) {
-                        Label("Share code", systemImage: "square.and.arrow.up")
-                    }
-                }
-                .padding(.top, 10)
-                .disabled(inputText.isEmpty)
             }
         }
         .padding()
@@ -104,5 +112,6 @@ struct GenerateCodeView: View {
 }
 
 #Preview {
-    GenerateCodeView()
+    //GenerateCodeView()
+    MainMenuButtons_View()
 }
