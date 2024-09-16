@@ -265,6 +265,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Use location to tag where barcode scans happened";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Ask permission to save images of barcodes to user library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -296,6 +297,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Use location to tag where barcode scans happened";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Ask permission to save images of barcodes to user library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

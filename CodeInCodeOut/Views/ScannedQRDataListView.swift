@@ -28,7 +28,7 @@ struct ScannedQRDataListView: View {
                     
                     //only make a pined section if there are qrScans marked .isFavorite = true
                     if viewModel.qrScans.contains(where: { $0.isFavorite }) {
-                        Section(header: Text("Pinned")) {
+                        Section(header: Text("Pinned Codes")) {
                             ForEach(viewModel.qrScans.filter { $0.isFavorite }, id: \.id) { qrscan in
                                 qrScanRow(for: qrscan)
                             }
@@ -36,7 +36,7 @@ struct ScannedQRDataListView: View {
                     }
                     
                     // the non-favorite / non-pinned list
-                    Section() {
+                    Section(header: Text("Scanned Codes")) {
                         ForEach(viewModel.qrScans.filter { !$0.isFavorite }, id: \.id) { qrscan in
                             qrScanRow(for: qrscan)
                         }
@@ -45,12 +45,10 @@ struct ScannedQRDataListView: View {
                 }
                 
             } else {
-                Text("No scans yet")
-                    .padding(.top, 30)
-                    .foregroundStyle(.secondary)
-                    .font(.title)
                 
-                Spacer()
+                VStack {
+                    ContentUnavailableView("No scans yet!", systemImage: "qrcode", description: Text("Please scan a code with your camera to start"))
+                }
             }
         }
         .navigationTitle("Scanned Codes").navigationBarTitleDisplayMode(.inline)
@@ -64,15 +62,11 @@ struct ScannedQRDataListView: View {
             }
         }
         .sheet(isPresented: $viewModel.isShowingScanner) {
-            CodeScannerView(codeTypes: [.qr, .aztec, .catBody, .code128, .code39, .code39Mod43, .code93, .dataMatrix, .dogBody, .ean13, .ean8, .pdf417, .upce, .ean8, .ean13],
-                            showViewfinder: true,
-                            requiresPhotoOutput: true,
-                            simulatedData: "This is a string of test String data.",
-                            completion: viewModel.handleScan)
+            CodeScannerCamera_View(viewModel: viewModel)
         }        
         .sheet(isPresented: $showQRImageView) {
             if let imageData = currentImageData {
-                QRImageView(imageData: imageData)
+                ScannedImageView(imageData: imageData)                  
             }
         }
         .onAppear {
@@ -84,10 +78,12 @@ struct ScannedQRDataListView: View {
     }
     
     
+    
 
     private func qrScanRow(for qrscan: QRCodeData3) -> some View {
         NavigationLink {
-            Text("Code Scan Details")
+            //Text("Code Scan Details")
+            DetailView(qrScan: qrscan)
             
         } label: {
             VStack(alignment: .leading) {
@@ -117,6 +113,9 @@ struct ScannedQRDataListView: View {
                 }
             }
             
+            
+        }
+        .swipeActions(edge: .leading) {
             if qrscan.isFavorite {
                 Button("Remove favorite", systemImage: "star.slash") {
                     withAnimation {
@@ -132,16 +131,6 @@ struct ScannedQRDataListView: View {
                 }
                 .tint(.orange)
             }
-        }
-        .swipeActions(edge: .leading) {
-            Button("View Image", systemImage: "photo") {
-                if let imageData = qrscan.image {
-                    currentImageData = imageData
-                    showQRImageView = true
-                }
-                
-            }
-            .tint(.blue)
         }
     }
 

@@ -17,7 +17,7 @@ struct GenerateCodeView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Select the barcode type and enter your barcode data to generate a barcode image")
+            Text("Select the barcode type, then enter your barcode data to generate a barcode image")
                 .foregroundStyle(.secondary)
                 .padding(.bottom, 20)
 
@@ -106,9 +106,13 @@ struct GenerateCodeView: View {
     }
     
     
+    
     private func generateBarcodeImage(from text: String, codeType type: BarcodeType) {
         barcodeImage = barcodeGenerator.generateBarcode(text: text, type: type)
     }
+    
+    
+    
 }
 
 #Preview {

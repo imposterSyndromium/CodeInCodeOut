@@ -7,14 +7,16 @@
 
 import SwiftUI
 
-struct QRImageView: View {
+struct ScannedImageView: View {
     var imageData: Data
     
     var body: some View {
         VStack{
             Image(uiImage: UIImage(data: imageData)!)
+                .resizable()
+                .scaledToFit()
         }
-        .navigationTitle("QR Scans")
+        
     }
 }
 

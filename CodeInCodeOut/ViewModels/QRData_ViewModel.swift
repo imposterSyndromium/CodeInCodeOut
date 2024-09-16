@@ -16,6 +16,8 @@ class QRData_ViewModel {
     @ObservationIgnored
     private var dataSource: DataSource<QRCodeData3>?
     
+
+    
     var qrScans: [QRCodeData3] = []
     var sortNewestFirst = true
     var isShowingScanner = false {
@@ -58,22 +60,26 @@ class QRData_ViewModel {
     }
     
     
-    func handleScan(result: Result<ScanResult, ScanError>) {
-        switch result {
-        case .success(let result):
-            //let image = result.image
-            let image = result.image?.toData()
-            let qrCode = QRCodeData3(id: UUID(), qrCodeStringData: result.string, emailAddress: "myEmail@emailMe.com", isFavorite: false, dateAdded: Date(), notes: "This is some data that belongs in notes", image: image)
-            
-            Task { @MainActor in
-                self.appendItem(qrCode)
-            }
-        case .failure(let error):
-            print("Scanning Failed: \(error.localizedDescription)")
-        }
-        
-        isShowingScanner = false
-    }
+//    func handleScan(result: Result<ScanResult, ScanError>) {
+//        switch result {
+//        case .success(let result):
+//            //let image = result.image
+//            let image = result.image?.toData()
+//            let qrCode = QRCodeData3(id: UUID(), qrCodeStringData: result.string, emailAddress: "myEmail@emailMe.com", isFavorite: false, dateAdded: Date(), notes: "This is some data that belongs in notes", image: image)
+//            
+//            if let locationData = locationFetcher.getLocation() {
+//                qrCode.location = locationData
+//            }
+//            
+//            Task { @MainActor in
+//                self.appendItem(qrCode)
+//            }
+//        case .failure(let error):
+//            print("Scanning Failed: \(error.localizedDescription)")
+//        }
+//        
+//        isShowingScanner = false
+//    }
     
     
 
