@@ -18,6 +18,7 @@ struct DetailView: View {
                     Text(qrScan.qrCodeStringData)
                     
                 }
+                
                 Section("Date Scanned") {
                     Text(qrScan.dateAdded.formatted(date: .abbreviated, time: .shortened))
                 }
@@ -25,6 +26,12 @@ struct DetailView: View {
                 Section("Original Scan Image") {
                     if let qrImage = qrScan.image {
                         ScannedImageView(imageData: qrImage)
+                    }
+                }
+                                
+                Section("Scan Location") {
+                    if let location = qrScan.location {
+                        MapView(locationData: location)
                     }
                 }
             }

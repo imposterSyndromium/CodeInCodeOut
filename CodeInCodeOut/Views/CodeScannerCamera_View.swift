@@ -30,12 +30,7 @@ struct CodeScannerCamera_View: View {
         }
         .navigationTitle("Code Scanner").navigationBarTitleDisplayMode(.inline)
         
-        
-        
     }
-    
-    
-    
     
     
     
@@ -48,6 +43,8 @@ struct CodeScannerCamera_View: View {
             
             if let locationData = locationFetcher.getLocation() {
                 qrCode.location = locationData
+            } else {
+                print("Location data not available")
             }
             
             Task { @MainActor in

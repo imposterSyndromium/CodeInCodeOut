@@ -24,13 +24,17 @@ class LocationFetcher: NSObject, CLLocationManagerDelegate {
     }
     
     func start() {
+        // request user permission
         manager.requestWhenInUseAuthorization()
+        // continually update location for the life of this class
         manager.startUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         lastKnownLocation = locations.first?.coordinate
-        print("from locationFetcher: got location coordinates! \(String(describing: lastKnownLocation))")
+        // will continually print location over and over
+        print("Location updated: \(lastKnownLocation?.latitude ?? 0), \(lastKnownLocation?.longitude ?? 0)")
+        print("Location updated: \(String(describing: lastKnownLocation))")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -39,10 +43,8 @@ class LocationFetcher: NSObject, CLLocationManagerDelegate {
     }
     
     func getLocation() -> Data? {
-        //locationFetcher.start()
         start()
-        
-        if let fetchedLocation = lastKnownLocation { //locationFetcher.lastKnownLocation {
+        if let fetchedLocation = lastKnownLocation {
             
             let coordinateData = CoordinateData(latitude: fetchedLocation.latitude, longitude: fetchedLocation.longitude)
             
