@@ -9,51 +9,66 @@ import CoreLocation
 
 // This struct is a solution to make CLLocationCoorinate2D able to be saved as Data (must conform to Codable), so it can be converted to JSON and saved in SwiftData.
 struct CoordinateData: Codable {
-    var latitude: CLLocationDegrees
-    var longitude: CLLocationDegrees
+    let latitude: CLLocationDegrees
+    let longitude: CLLocationDegrees
 }
 
-
 class LocationFetcher: NSObject, CLLocationManagerDelegate {
-    let manager = CLLocationManager()
-    var lastKnownLocation: CLLocationCoordinate2D?
+    private let manager = CLLocationManager()
+    private var locationCompletion: ((Data?) -> Void)?
+    private var timeoutTimer: Timer?
     
     override init() {
         super.init()
         manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
     func start() {
-        // request user permission
         manager.requestWhenInUseAuthorization()
-        // continually update location for the life of this class
+    }
+    
+    func getLocation(timeout: TimeInterval = 10, completion: @escaping (Data?) -> Void) {
+        locationCompletion = completion
         manager.startUpdatingLocation()
+        
+        // Set a timeout
+        timeoutTimer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] _ in
+            self?.timeoutLocation()
+        }
+    }
+    
+    private func timeoutLocation() {
+        manager.stopUpdatingLocation()
+        locationCompletion?(nil)
+        locationCompletion = nil
+        timeoutTimer?.invalidate()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        lastKnownLocation = locations.first?.coordinate
-        // will continually print location over and over
-        print("Location updated: \(lastKnownLocation?.latitude ?? 0), \(lastKnownLocation?.longitude ?? 0)")
-        print("Location updated: \(String(describing: lastKnownLocation))")
+        guard let location = locations.last else { return }
+        
+        let coordinateData = CoordinateData(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        
+        do {
+            let data = try JSONEncoder().encode(coordinateData)
+            print("Location updated: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+            manager.stopUpdatingLocation()
+            locationCompletion?(data)
+        } catch {
+            print("Failed to encode location: \(error.localizedDescription)")
+            locationCompletion?(nil)
+        }
+        
+        locationCompletion = nil
+        timeoutTimer?.invalidate()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // Handle location manager errors here
-        print("from locationFetcher - Location manager error: \(error.localizedDescription)")
-    }
-    
-    func getLocation() -> Data? {
-        start()
-        if let fetchedLocation = lastKnownLocation {
-            
-            let coordinateData = CoordinateData(latitude: fetchedLocation.latitude, longitude: fetchedLocation.longitude)
-            
-            if let data = try? JSONEncoder().encode(coordinateData) {
-                print("location: \(data)")
-                return data
-            }
-        }
-        return nil
+        print("Location manager error: \(error.localizedDescription)")
+        locationCompletion?(nil)
+        locationCompletion = nil
+        timeoutTimer?.invalidate()
     }
 }
 

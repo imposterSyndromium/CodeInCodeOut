@@ -41,21 +41,27 @@ struct CodeScannerCamera_View: View {
             let image = result.image?.toData()
             let qrCode = QRCodeData3(id: UUID(), qrCodeStringData: result.string, emailAddress: "myEmail@emailMe.com", isFavorite: false, dateAdded: Date(), notes: "This is some data that belongs in notes", image: image)
             
-            if let locationData = locationFetcher.getLocation() {
-                qrCode.location = locationData
-            } else {
-                print("Location data not available")
+            locationFetcher.getLocation(timeout: 5) { locationData in
+                if let locationData = locationData {
+                    qrCode.location = locationData
+                } else {
+                    print("Location data not available")
+                }
+                
+                Task { @MainActor in
+                    self.viewModel.appendItem(qrCode)
+                }
+                print("Success scanning barcode: \(qrCode.qrCodeStringData)")
+                
+                DispatchQueue.main.async {
+                    self.dismiss()
+                }
             }
             
-            Task { @MainActor in
-                viewModel.appendItem(qrCode)
-            }
-            print("Success scanning barcode: \(qrCode.qrCodeStringData)")
         case .failure(let error):
             print("Scanning Failed: \(error.localizedDescription)")
+            dismiss()
         }
-        
-        dismiss()
     }
     
 }

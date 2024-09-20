@@ -23,19 +23,24 @@ struct DetailView: View {
                     Text(qrScan.dateAdded.formatted(date: .abbreviated, time: .shortened))
                 }
                 
-                Section("Original Scan Image") {
-                    if let qrImage = qrScan.image {
-                        ScannedImageView(imageData: qrImage)
-                    }
-                }
-                                
-                Section("Scan Location") {
-                    if let location = qrScan.location {
-                        MapView(locationData: location)
-                    }
+            }
+            
+            Section("Original Scan Image") {
+                if let qrImage = qrScan.image {
+                    ScannedImageView(imageData: qrImage)
                 }
             }
+            .padding()
+                            
+            Section("Scan Location") {
+                if let location = qrScan.location {
+                    MapView(locationData: location)
+                }
+            }
+            .padding()
+            
         }
+        
     }
 }
 

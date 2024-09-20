@@ -2,26 +2,26 @@
 //  MapView.swift
 //  iRemember
 //
-//  Created by Robin O'Brien on 2024-02-29.
+//  Created by Robin O'Brien on 2024-09-19
 //
 import MapKit
 import SwiftUI
 
 
 struct MapView: View {
-    
-    @State private var mapCameraPosition: MapCameraPosition = MapCameraPosition.region(
-        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 1.0, longitude: 1.0), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
-    
     @State var locationData: Data?
     @State var locationCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    
+    // initial map position - this gets updated in .onAppear
+    @State private var mapCameraPosition: MapCameraPosition = MapCameraPosition.region(
+        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 1.0, longitude: 1.0),
+                           span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
     
     
     var body: some View {
         VStack {
-            
             Map(position: $mapCameraPosition) {
-                Annotation("Scanned Here1", coordinate: locationCoordinate) {
+                Annotation("Scanned Here", coordinate: locationCoordinate) {
 
                     Image(systemName: "star.circle")
                         .resizable()
@@ -30,7 +30,7 @@ struct MapView: View {
                         .background(.white)
                         .clipShape(.circle)
                     
-                    Text("Scanned Here2")
+                    Text("Scanned Here")
                         .padding(.horizontal)
                         .background(.red.gradient)
                         .foregroundColor(.white)
@@ -41,14 +41,8 @@ struct MapView: View {
             .mapStyle(.hybrid)
                 
         }
-        .toolbar {
-            ToolbarItem {
-                Button("Back") {
-                    
-                }
-            }
-        }
         .onAppear {
+            // get and decode the location data (from JSON -> Data? ->  CLLocationCoordinate2D)
             if let location = locationData {
                 if let decodedLocation = decodeMapLocation(mapLocationData: location) {
                     locationCoordinate = decodedLocation
@@ -60,6 +54,8 @@ struct MapView: View {
     
     
     
+    
+    
     func updateMapPosition(location: CLLocationCoordinate2D) {
         mapCameraPosition = MapCameraPosition.region(
             MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
@@ -67,15 +63,16 @@ struct MapView: View {
     }
     
     
+    
     func decodeMapLocation(mapLocationData: Data) -> CLLocationCoordinate2D? {
         if let decodedCoordinateData = try? JSONDecoder().decode(CoordinateData.self, from: mapLocationData) {
             let coordinate = CLLocationCoordinate2D(latitude: decodedCoordinateData.latitude, longitude: decodedCoordinateData.longitude)
-            print("Decoded Coordinate: \(coordinate)")
+            print("JSON Decoded Coordinate: \(coordinate)")
             
             return coordinate
         }
         
-        print("unable to decode map location")
+        print("unable to decode map location fron JSON")
         return nil
     }
 }
@@ -83,6 +80,5 @@ struct MapView: View {
 
 
 #Preview {
-
     return MapView()
 }
