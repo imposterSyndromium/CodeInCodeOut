@@ -72,7 +72,7 @@ struct MapView: View {
             return coordinate
         }
         
-        print("unable to decode map location fron JSON")
+        print("unable to decode map location from JSON")
         return nil
     }
 }

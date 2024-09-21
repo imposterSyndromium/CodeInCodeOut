@@ -31,8 +31,6 @@ struct GenerateCodeView: View {
             
             Spacer()
             
-
-            
             TextField("Enter code data", text: $inputText)
                 .autocorrectionDisabled()
                 .autocapitalization(.none)
@@ -42,7 +40,6 @@ struct GenerateCodeView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(Color.orange)
                 )
-        
         }
         .navigationTitle("Barcode Generator")
         .navigationBarTitleDisplayMode(.inline)

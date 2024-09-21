@@ -64,11 +64,6 @@ struct ScannedQRDataListView: View {
         .sheet(isPresented: $viewModel.isShowingScanner) {
             CodeScannerCamera_View(viewModel: viewModel)
         }        
-        .sheet(isPresented: $showQRImageView) {
-            if let imageData = currentImageData {
-                ScannedImageView(imageData: imageData)                  
-            }
-        }
         .onAppear {
             if startWithScanner {
                 startWithScanner = false

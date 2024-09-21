@@ -9,40 +9,53 @@ import SwiftUI
 
 struct DetailView: View {
     @State var qrScan: QRCodeData3
+    @State private var isShowingZoomableImage = false
     
     
     var body: some View {
-        VStack(alignment: .leading) {
-            List {
-                Section("Scanned Code Data") {
-                    Text(qrScan.qrCodeStringData)
-                    
-                }
-                
-                Section("Date Scanned") {
-                    Text(qrScan.dateAdded.formatted(date: .abbreviated, time: .shortened))
-                }
-                
+        List {
+            
+            Section("Scanned Code Data") {
+                Text(qrScan.qrCodeStringData)
+            }
+            
+            Section("Date Scanned") {
+                Text(qrScan.dateAdded.formatted(date: .abbreviated, time: .shortened))
             }
             
             Section("Original Scan Image") {
                 if let qrImage = qrScan.image {
-                    ScannedImageView(imageData: qrImage)
+                    
+                    Button {
+                       isShowingZoomableImage.toggle()
+                    } label: {
+                        // force unwrap the image data because we already know it has data
+                        Image(uiImage: UIImage(data: qrImage)!)
+                            .resizable()
+                            .scaledToFit()
+                    }
+                } else {
+                    ContentUnavailableView("Image not available", systemImage: "photo", description: Text("There is no image history for this scan"))
                 }
             }
-            .padding()
-                            
+            
             Section("Scan Location") {
                 if let location = qrScan.location {
                     MapView(locationData: location)
+                        .frame(height: 400)
+                        .padding()
+                } else {
+                    ContentUnavailableView("Location not available", systemImage: "location.slash", description: Text("There is no location history for this scan"))
                 }
             }
-            .padding()
-            
         }
-        
+        .sheet(isPresented: $isShowingZoomableImage) {
+            ZoomableScrollableImage_View(uiImage: UIImage(data: qrScan.image!)!)
+        }
+ 
     }
 }
+
 
 #Preview {
     MainMenuButtons_View()

@@ -8,7 +8,7 @@ import SwiftData
 import SwiftUI
 
 @main
-struct InspectThisApp: App {
+struct CodeInCodeOut_App: App {
     var body: some Scene {
         WindowGroup {
             StartContainerView()

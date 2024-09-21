@@ -5,7 +5,7 @@
 //  Created by Robin O'Brien on 2024-09-08.
 //
 import CoreImage.CIFilterBuiltins
-import Foundation
+//import Foundation
 import SwiftUI
 
 // the enums to be used in BarcodeGenerator for a CoreImage.Filter
