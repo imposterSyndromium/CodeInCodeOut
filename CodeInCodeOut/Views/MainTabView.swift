@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct MainTabvView: View {
+struct MainTabView: View {
     @State private var viewModel = QRData_ViewModel()
-    @State private var isShowing = false
     
     
     var body: some View {
@@ -36,5 +35,5 @@ struct MainTabvView: View {
 }
 
 #Preview {
-    MainTabvView()
+    MainTabView()
 }

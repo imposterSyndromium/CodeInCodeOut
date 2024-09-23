@@ -147,5 +147,5 @@ struct ScannedQRDataListView: View {
 }
 
 #Preview {
-    MainTabvView()
+    MainTabView()
 }

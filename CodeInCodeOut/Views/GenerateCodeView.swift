@@ -126,5 +126,5 @@ struct GenerateCodeView: View {
 
 #Preview {
     //GenerateCodeView()
-    MainTabvView()
+    MainTabView()
 }

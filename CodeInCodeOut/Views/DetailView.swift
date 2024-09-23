@@ -81,5 +81,5 @@ struct DetailView: View {
 
 
 #Preview {
-    MainTabvView()
+    MainTabView()
 }
