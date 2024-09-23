@@ -8,10 +8,18 @@
 import SwiftUI
 
 @main
-struct CodeInCodeOutApp: App {
+struct CodeInCodeOut_App: App {
+    @StateObject private var appStateManager = AppStateManager()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            StartContainerView()
+            .environmentObject(appStateManager)
+            .onAppear {
+                appStateManager.requestLocationPermission()
+            }
         }
+        
     }
+  
 }
