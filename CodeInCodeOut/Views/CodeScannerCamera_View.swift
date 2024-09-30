@@ -15,11 +15,8 @@ struct CodeScannerCamera_View: View {
     @Environment(\.dismiss) var dismiss
     
     let locationFetcher = LocationFetcher()
-
-    let codeScanTypes: [AVMetadataObject.ObjectType] = [.code39, .code93, .code128, .code39Mod43, .qr, .microQR, .upce,.ean8, .ean13, .dataMatrix, .pdf417, .microPDF417, .aztec]
     let simulatedData: String = "This is a string of simulated code data 1234567890"
-    
-    
+    let codeScanTypes: [AVMetadataObject.ObjectType] = [.code39, .code93, .code128, .code39Mod43, .qr, .microQR, .upce,.ean8, .ean13, .dataMatrix, .pdf417, .microPDF417, .aztec]
     
     
     var body: some View {
@@ -33,7 +30,13 @@ struct CodeScannerCamera_View: View {
     }
     
     
-    
+}
+
+
+
+
+
+extension CodeScannerCamera_View {
     
     @MainActor
     func handleScan(result: Result<ScanResult, ScanError>) {
@@ -41,7 +44,7 @@ struct CodeScannerCamera_View: View {
         case .success(let result):
             let image = result.image?.toData()
             
-            let scannedCode = CodeScanData(id: UUID(), codeStringData: result.string, emailAddress: "myEmail@emailMe.com", isFavorite: false, dateAdded: Date.now, notes: "This is some data that belongs in notes", image: image)
+            let scannedCode = CodeScanData(id: UUID(), codeStringData: result.string,  isFavorite: false, dateAdded: Date.now, notes: "This is some data that belongs in notes", image: image)
             
             if appStateManager.locationAuthorizationStatus == .authorizedAlways || appStateManager.locationAuthorizationStatus == .authorizedWhenInUse {
                 // get location if the user has approved location tracking (approval happen at app start using appStateManager)
@@ -65,7 +68,6 @@ struct CodeScannerCamera_View: View {
             dismiss()
         }
     }
-    
 }
 
 

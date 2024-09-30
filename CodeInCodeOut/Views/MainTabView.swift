@@ -15,7 +15,7 @@ struct MainTabView: View {
         TabView {
             
             NavigationStack {
-                ScannedQRDataListView()
+                ScannedCodeDataListView()
             }
             .tabItem {
                 Label("Scans", systemImage: "qrcode")
@@ -34,6 +34,11 @@ struct MainTabView: View {
     }
 }
 
+
 #Preview {
-    MainTabView()
+    let preview = Preview()
+    preview.addExampleData(CodeScanData.sampleScans)
+    return MainTabView()
+        .modelContainer(preview.container)
+    
 }

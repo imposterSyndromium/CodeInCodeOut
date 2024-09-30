@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
-    @State var qrScan: CodeScanData
+    @State var codeScan: CodeScanData
     @State private var isShowingZoomableImage = false
     
     
@@ -16,16 +16,16 @@ struct DetailView: View {
         List {
             
             Section("Scanned Code Data") {
-                Text(qrScan.codeStingData)
+                Text(codeScan.codeStingData)
                     .textSelection(.enabled)
                     .contextMenu {
                         Button(action: {
-                            UIPasteboard.general.string = qrScan.codeStingData
+                            UIPasteboard.general.string = codeScan.codeStingData
                         }) {
                             Label("Copy to Clipboard", systemImage: "doc.on.doc")
                         }
                         
-                        if let url = URL(string: qrScan.codeStingData), UIApplication.shared.canOpenURL(url) {
+                        if let url = URL(string: codeScan.codeStingData), UIApplication.shared.canOpenURL(url) {
                             Button(action: {
                                 UIApplication.shared.open(url)
                             }) {
@@ -36,15 +36,15 @@ struct DetailView: View {
             }
             
             Section("Date Scanned") {
-                Text(qrScan.dateAdded.formatted(date: .abbreviated, time: .shortened))
+                Text(codeScan.dateAdded.formatted(date: .abbreviated, time: .shortened))
             }
             
             Section("Notes") {
-                Text(qrScan.notes)
+                Text(codeScan.notes)
             }
             
             Section("Original Scan Image") {
-                if let qrImage = qrScan.image {
+                if let qrImage = codeScan.image {
                     
                     Button {
                        isShowingZoomableImage.toggle()
@@ -61,9 +61,9 @@ struct DetailView: View {
             }
             
             Section("Scan Location") {
-                if let location = qrScan.location {
+                if let location = codeScan.location {
                     
-                    MapView(locationData: location)
+                    SinglePinMapView(locationData: location)
                         .frame(height: 400)
                         .padding()
                     
@@ -73,7 +73,7 @@ struct DetailView: View {
             }
         }
         .sheet(isPresented: $isShowingZoomableImage) {
-            ZoomableScrollableImage_View(uiImage: UIImage(data: qrScan.image!)!)
+            ZoomableScrollableImage_View(uiImage: UIImage(data: codeScan.image!)!)
         }
  
     }

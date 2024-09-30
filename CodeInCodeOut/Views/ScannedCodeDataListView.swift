@@ -11,9 +11,7 @@ import CodeScanner
 import SwiftData
 import SwiftUI
 
-struct ScannedQRDataListView: View {
-    //@State var viewModel: QRData_ViewModel
-    //@State private var selectedRow = Set<QRCodeData3>()
+struct ScannedCodeDataListView: View {
     @Environment(\.modelContext) var modelContext
     @Query private var codeScans: [CodeScanData]
     
@@ -104,7 +102,7 @@ struct ScannedQRDataListView: View {
     private func codeScanRow(for codescan: CodeScanData) -> some View {
         NavigationLink {
             //Text("Code Scan Details")
-            DetailView(qrScan: codescan)
+            DetailView(codeScan: codescan)
             
         } label: {
             VStack(alignment: .leading) {
@@ -169,5 +167,9 @@ struct ScannedQRDataListView: View {
 }
 
 #Preview {
-    MainTabView()
+    let preview = Preview()
+    preview.addExampleData(CodeScanData.sampleScans)
+    return ScannedCodeDataListView()
+        .modelContainer(preview.container)
+    
 }

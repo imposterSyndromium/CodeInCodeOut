@@ -13,17 +13,15 @@ import SwiftData
 final class CodeScanData {
     var id: UUID
     var codeStingData: String
-    var emailAddress: String
     var isFavorite: Bool
     var dateAdded: Date
     var notes: String
     var location: Data?
     @Attribute(.externalStorage) var image: Data?
     
-    init(id: UUID, codeStringData: String, emailAddress: String, isFavorite: Bool, dateAdded: Date, notes: String, location: Data? = nil, image: Data? = nil) {
+    init(id: UUID, codeStringData: String, isFavorite: Bool, dateAdded: Date, notes: String, location: Data? = nil, image: Data? = nil) {
         self.id = id
         self.codeStingData = codeStringData
-        self.emailAddress = emailAddress
         self.isFavorite = isFavorite
         self.dateAdded = dateAdded
         self.notes = notes

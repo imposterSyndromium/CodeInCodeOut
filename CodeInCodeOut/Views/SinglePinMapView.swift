@@ -8,7 +8,7 @@ import MapKit
 import SwiftUI
 
 
-struct MapView: View {
+struct SinglePinMapView: View {
     @State var locationData: Data?
     @State var locationCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     
@@ -80,5 +80,5 @@ struct MapView: View {
 
 
 #Preview {
-    return MapView()
+    return SinglePinMapView()
 }
