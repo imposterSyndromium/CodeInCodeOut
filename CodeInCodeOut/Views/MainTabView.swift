@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @State private var viewModel = QRData_ViewModel()
+    //@State private var viewModel = QRData_ViewModel()
     
     
     var body: some View {
         TabView {
             
             NavigationStack {
-                ScannedQRDataListView(viewModel: viewModel, startWithScanner: false)
+                ScannedQRDataListView()
             }
             .tabItem {
                 Label("Scans", systemImage: "qrcode")

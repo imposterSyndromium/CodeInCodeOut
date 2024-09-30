@@ -8,12 +8,16 @@
 
 
 import CodeScanner
+import SwiftData
 import SwiftUI
 
 struct ScannedQRDataListView: View {
-    @State var viewModel: QRData_ViewModel
+    //@State var viewModel: QRData_ViewModel
     //@State private var selectedRow = Set<QRCodeData3>()
-    @State var startWithScanner: Bool
+    @Environment(\.modelContext) var modelContext
+    @Query private var codeScans: [CodeScanData]
+    
+    @State private var isShowingScanner: Bool = false
     
     @State private var showQRImageView = false
     @State private var currentImageData: Data?
@@ -23,33 +27,34 @@ struct ScannedQRDataListView: View {
         case oldestFirst = "Oldest to newest"
         var id: String { self.rawValue }
     }
-    @State private var sorting: sortOrder = .newestFirst {
-        didSet {
-            viewModel.sortNewestFirst = (sorting == .newestFirst)
-        }
-    }
+    @State private var sorting: sortOrder = .newestFirst
+//    {
+//        didSet {
+//            viewModel.sortNewestFirst = (sorting == .newestFirst)
+//        }
+//    }
     
     
     
     var body: some View {
         VStack {
             // Only show a list of scans if there are some
-            if !viewModel.qrScans.isEmpty {
+            if !codeScans.isEmpty {
                 List() {
                     
                     //only make a pined section if there are qrScans marked .isFavorite = true
-                    if viewModel.qrScans.contains(where: { $0.isFavorite }) {
+                    if codeScans.contains(where: { $0.isFavorite }) {
                         Section(header: Text("Pinned Codes")) {
-                            ForEach(viewModel.qrScans.filter { $0.isFavorite }, id: \.id) { qrscan in
-                                qrScanRow(for: qrscan)
+                            ForEach(codeScans.filter { $0.isFavorite }, id: \.id) { codescan in
+                                codeScanRow(for: codescan)
                             }
                         }
                     }
                     
                     // the non-favorite / non-pinned list
                     Section(header: Text("Scanned Codes")) {
-                        ForEach(viewModel.qrScans.filter { !$0.isFavorite }, id: \.id) { qrscan in
-                            qrScanRow(for: qrscan)
+                        ForEach(codeScans.filter { !$0.isFavorite }, id: \.id) { codescan in
+                            codeScanRow(for: codescan)
                         }
                     }
                     
@@ -59,7 +64,7 @@ struct ScannedQRDataListView: View {
                 
                 VStack {
                     Button {
-                        viewModel.isShowingScanner = true
+                        isShowingScanner = true
                     } label: {
                         ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet.  Press to scan a code with your camera to start"))
                     }
@@ -72,7 +77,7 @@ struct ScannedQRDataListView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.isShowingScanner = true
+                    isShowingScanner = true
                 } label: {
                     Image(systemName: "qrcode.viewfinder")
                 }
@@ -88,41 +93,30 @@ struct ScannedQRDataListView: View {
                 }, label: { Image(systemName: "barcode")})
             }
         }
-        .sheet(isPresented: $viewModel.isShowingScanner) {
-            CodeScannerCamera_View(viewModel: viewModel)
+        .sheet(isPresented: $isShowingScanner) {
+            CodeScannerCamera_View()
         }        
-        .onAppear {
-            if startWithScanner {
-                startWithScanner = false
-                viewModel.isShowingScanner = true
-            }
-        }
-        .onChange(of: viewModel.qrScans) {
-            // This will force the view to update when qrScans changes
-            // You might not need this if you're using @Observable correctly
-            viewModel.fetchItems()
-        }
     }
     
     
     
 
-    private func qrScanRow(for qrscan: QRCodeData3) -> some View {
+    private func codeScanRow(for codescan: CodeScanData) -> some View {
         NavigationLink {
             //Text("Code Scan Details")
-            DetailView(qrScan: qrscan)
+            DetailView(qrScan: codescan)
             
         } label: {
             VStack(alignment: .leading) {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(qrscan.qrCodeStringData)
+                        Text(codescan.codeStingData)
                             .font(.headline)
-                        Text(qrscan.dateAdded.formatted(date: .abbreviated, time: .shortened))
+                        Text(codescan.dateAdded.formatted(date: .abbreviated, time: .shortened))
                             .foregroundStyle(.secondary)
                     }
                     
-                    if qrscan.isFavorite {
+                    if codescan.isFavorite {
                         Spacer()
                         Image(systemName: "star.fill")
                             .foregroundStyle(.yellow)
@@ -133,27 +127,23 @@ struct ScannedQRDataListView: View {
         }
         .swipeActions(edge: .trailing) {
             Button("Delete", systemImage: "trash", role: .destructive) {
-                if let index = viewModel.qrScans.firstIndex(where: { $0.id == qrscan.id }) {
-                    withAnimation {
-                        viewModel.removeItem(index)
-                    }
+                withAnimation {
+                    modelContext.delete(codescan)
                 }
             }
-            
-            
         }
         .swipeActions(edge: .leading) {
-            if qrscan.isFavorite {
+            if codescan.isFavorite {
                 Button("Remove favorite", systemImage: "star.slash") {
                     withAnimation {
-                        toggleFavorite(for: qrscan)
+                        toggleFavorite(for: codescan)
                     }
                 }
                 .tint(.gray)
             } else {
                 Button("Add favorite", systemImage: "star.fill") {
                     withAnimation {
-                        toggleFavorite(for: qrscan)
+                        toggleFavorite(for: codescan)
                     }
                 }
                 .tint(.orange)
@@ -170,10 +160,8 @@ struct ScannedQRDataListView: View {
     
     
     
-    private func toggleFavorite(for qrscan: QRCodeData3) {
-        if let index = viewModel.qrScans.firstIndex(where: { $0.id == qrscan.id }) {
-            viewModel.qrScans[index].isFavorite.toggle()
-        }
+    private func toggleFavorite(for codescan: CodeScanData) {
+        codescan.isFavorite.toggle()
     }
     
     

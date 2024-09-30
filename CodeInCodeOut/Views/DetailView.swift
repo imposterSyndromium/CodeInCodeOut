@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
-    @State var qrScan: QRCodeData3
+    @State var qrScan: CodeScanData
     @State private var isShowingZoomableImage = false
     
     
@@ -16,16 +16,16 @@ struct DetailView: View {
         List {
             
             Section("Scanned Code Data") {
-                Text(qrScan.qrCodeStringData)
+                Text(qrScan.codeStingData)
                     .textSelection(.enabled)
                     .contextMenu {
                         Button(action: {
-                            UIPasteboard.general.string = qrScan.qrCodeStringData
+                            UIPasteboard.general.string = qrScan.codeStingData
                         }) {
                             Label("Copy to Clipboard", systemImage: "doc.on.doc")
                         }
                         
-                        if let url = URL(string: qrScan.qrCodeStringData), UIApplication.shared.canOpenURL(url) {
+                        if let url = URL(string: qrScan.codeStingData), UIApplication.shared.canOpenURL(url) {
                             Button(action: {
                                 UIApplication.shared.open(url)
                             }) {

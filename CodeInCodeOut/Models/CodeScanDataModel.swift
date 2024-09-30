@@ -10,9 +10,9 @@ import Foundation
 import SwiftData
 
 @Model
-final class QRCodeData3 {
+final class CodeScanData {
     var id: UUID
-    var qrCodeStringData: String
+    var codeStingData: String
     var emailAddress: String
     var isFavorite: Bool
     var dateAdded: Date
@@ -20,9 +20,9 @@ final class QRCodeData3 {
     var location: Data?
     @Attribute(.externalStorage) var image: Data?
     
-    init(id: UUID, qrCodeStringData: String, emailAddress: String, isFavorite: Bool, dateAdded: Date, notes: String, location: Data? = nil, image: Data? = nil) {
+    init(id: UUID, codeStringData: String, emailAddress: String, isFavorite: Bool, dateAdded: Date, notes: String, location: Data? = nil, image: Data? = nil) {
         self.id = id
-        self.qrCodeStringData = qrCodeStringData
+        self.codeStingData = codeStringData
         self.emailAddress = emailAddress
         self.isFavorite = isFavorite
         self.dateAdded = dateAdded

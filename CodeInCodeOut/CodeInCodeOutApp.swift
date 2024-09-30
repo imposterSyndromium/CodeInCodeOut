@@ -4,7 +4,9 @@
 //
 //  Created by Robin O'Brien on 2024-09-22.
 //
+//
 
+import SwiftData
 import SwiftUI
 
 @main
@@ -19,6 +21,7 @@ struct CodeInCodeOut_App: App {
                 appStateManager.requestLocationPermission()
             }
         }
+        .modelContainer(for: CodeScanData.self)
         
     }
   

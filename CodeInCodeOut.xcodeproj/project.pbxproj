@@ -16,10 +16,8 @@
 		684743A62CA0823500EA3B49 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743822CA080E600EA3B49 /* ImageSaver.swift */; };
 		684743A72CA0823500EA3B49 /* LocationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743832CA080E600EA3B49 /* LocationFetcher.swift */; };
 		684743A82CA0823500EA3B49 /* ZoomableScrollableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743842CA080E600EA3B49 /* ZoomableScrollableImage.swift */; };
-		684743AA2CA0823500EA3B49 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743792CA080DC00EA3B49 /* DataSource.swift */; };
-		684743AB2CA0823500EA3B49 /* QRDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847437A2CA080DC00EA3B49 /* QRDataModel.swift */; };
+		684743AB2CA0823500EA3B49 /* CodeScanDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847437A2CA080DC00EA3B49 /* CodeScanDataModel.swift */; };
 		684743AC2CA0823500EA3B49 /* CodeInCodeOutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743662CA0809000EA3B49 /* CodeInCodeOutApp.swift */; };
-		684743AD2CA0823500EA3B49 /* QRData_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847439F2CA0811700EA3B49 /* QRData_ViewModel.swift */; };
 		684743AE2CA0823500EA3B49 /* CodeScannerCamera_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847438C2CA080F900EA3B49 /* CodeScannerCamera_View.swift */; };
 		684743AF2CA0823500EA3B49 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847438D2CA080F900EA3B49 /* DetailView.swift */; };
 		684743B02CA0823500EA3B49 /* GenerateCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847438E2CA080F900EA3B49 /* GenerateCodeView.swift */; };
@@ -37,8 +35,7 @@
 		684743662CA0809000EA3B49 /* CodeInCodeOutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInCodeOutApp.swift; sourceTree = "<group>"; };
 		6847436A2CA0809100EA3B49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6847436D2CA0809100EA3B49 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		684743792CA080DC00EA3B49 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
-		6847437A2CA080DC00EA3B49 /* QRDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRDataModel.swift; sourceTree = "<group>"; };
+		6847437A2CA080DC00EA3B49 /* CodeScanDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeScanDataModel.swift; sourceTree = "<group>"; };
 		6847437F2CA080E600EA3B49 /* AddTextToImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTextToImage.swift; sourceTree = "<group>"; };
 		684743802CA080E600EA3B49 /* BarcodeGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarcodeGenerator.swift; sourceTree = "<group>"; };
 		684743812CA080E600EA3B49 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -54,7 +51,6 @@
 		684743922CA080F900EA3B49 /* SplashScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		684743932CA080F900EA3B49 /* StartContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartContainerView.swift; sourceTree = "<group>"; };
 		684743942CA080F900EA3B49 /* ZoomableScrollableImage_View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomableScrollableImage_View.swift; sourceTree = "<group>"; };
-		6847439F2CA0811700EA3B49 /* QRData_ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRData_ViewModel.swift; sourceTree = "<group>"; };
 		684743B92CA0AD7D00EA3B49 /* AppStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,9 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				684743662CA0809000EA3B49 /* CodeInCodeOutApp.swift */,
-				684743852CA080E600EA3B49 /* Utils */,
 				6847437B2CA080DC00EA3B49 /* Models */,
-				684743A02CA0811700EA3B49 /* ViewModels */,
+				684743852CA080E600EA3B49 /* Utils */,
 				684743952CA080F900EA3B49 /* Views */,
 				6847436A2CA0809100EA3B49 /* Assets.xcassets */,
 				6847436C2CA0809100EA3B49 /* Preview Content */,
@@ -111,8 +106,7 @@
 		6847437B2CA080DC00EA3B49 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				684743792CA080DC00EA3B49 /* DataSource.swift */,
-				6847437A2CA080DC00EA3B49 /* QRDataModel.swift */,
+				6847437A2CA080DC00EA3B49 /* CodeScanDataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -145,14 +139,6 @@
 				684743942CA080F900EA3B49 /* ZoomableScrollableImage_View.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		684743A02CA0811700EA3B49 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				6847439F2CA0811700EA3B49 /* QRData_ViewModel.swift */,
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,11 +223,9 @@
 				684743A62CA0823500EA3B49 /* ImageSaver.swift in Sources */,
 				684743A72CA0823500EA3B49 /* LocationFetcher.swift in Sources */,
 				684743A82CA0823500EA3B49 /* ZoomableScrollableImage.swift in Sources */,
-				684743AA2CA0823500EA3B49 /* DataSource.swift in Sources */,
-				684743AB2CA0823500EA3B49 /* QRDataModel.swift in Sources */,
+				684743AB2CA0823500EA3B49 /* CodeScanDataModel.swift in Sources */,
 				684743AC2CA0823500EA3B49 /* CodeInCodeOutApp.swift in Sources */,
 				684743BA2CA0AD7D00EA3B49 /* AppStateManager.swift in Sources */,
-				684743AD2CA0823500EA3B49 /* QRData_ViewModel.swift in Sources */,
 				684743AE2CA0823500EA3B49 /* CodeScannerCamera_View.swift in Sources */,
 				684743AF2CA0823500EA3B49 /* DetailView.swift in Sources */,
 				684743B02CA0823500EA3B49 /* GenerateCodeView.swift in Sources */,
