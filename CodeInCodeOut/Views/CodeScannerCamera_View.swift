@@ -15,10 +15,8 @@ struct CodeScannerCamera_View: View {
     @State var viewModel: QRData_ViewModel
     @State private var showViewFinderSquare = false
     let locationFetcher = LocationFetcher()
-    //var locationData: Data? = nil
-    
-    //var complete = false
-    let codeTypes: [AVMetadataObject.ObjectType] = [.code39, .code93, .code128, .code39Mod43, .qr, .microQR, .upce,.ean8, .ean13, .dataMatrix, .pdf417, .microPDF417]
+
+    let codeTypes: [AVMetadataObject.ObjectType] = [.code39, .code93, .code128, .code39Mod43, .qr, .microQR, .upce,.ean8, .ean13, .dataMatrix, .pdf417, .microPDF417, .aztec]
     
     
     var body: some View {

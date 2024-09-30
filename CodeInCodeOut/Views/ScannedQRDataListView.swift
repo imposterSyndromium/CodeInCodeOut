@@ -18,6 +18,19 @@ struct ScannedQRDataListView: View {
     @State private var showQRImageView = false
     @State private var currentImageData: Data?
     
+    private enum sortOrder: String, CaseIterable, Identifiable {
+        case newestFirst = "Newest to oldest"
+        case oldestFirst = "Oldest to newest"
+        var id: String { self.rawValue }
+    }
+    @State private var sorting: sortOrder = .newestFirst {
+        didSet {
+            viewModel.sortNewestFirst = (sorting == .newestFirst)
+        }
+    }
+    
+    
+    
     var body: some View {
         VStack {
             // Only show a list of scans if there are some
@@ -45,7 +58,13 @@ struct ScannedQRDataListView: View {
             } else {
                 
                 VStack {
-                    ContentUnavailableView("No scans yet!", systemImage: "qrcode", description: Text("Please scan a code with your camera to start"))
+                    Button {
+                        viewModel.isShowingScanner = true
+                    } label: {
+                        ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet.  Press to scan a code with your camera to start"))
+                    }
+                    .foregroundStyle(.gray)
+                    
                 }
             }
         }
@@ -58,6 +77,16 @@ struct ScannedQRDataListView: View {
                     Image(systemName: "qrcode.viewfinder")
                 }
             }
+            ToolbarItem(placement: .topBarLeading) {
+                Menu(content: {
+                    Picker("Sort Order", selection: $sorting) {
+                        ForEach(sortOrder.allCases) { sort in
+                            Text(sort.rawValue).tag(sort)
+                        }
+                    }
+                    
+                }, label: { Image(systemName: "barcode")})
+            }
         }
         .sheet(isPresented: $viewModel.isShowingScanner) {
             CodeScannerCamera_View(viewModel: viewModel)
@@ -67,6 +96,11 @@ struct ScannedQRDataListView: View {
                 startWithScanner = false
                 viewModel.isShowingScanner = true
             }
+        }
+        .onChange(of: viewModel.qrScans) {
+            // This will force the view to update when qrScans changes
+            // You might not need this if you're using @Observable correctly
+            viewModel.fetchItems()
         }
     }
     

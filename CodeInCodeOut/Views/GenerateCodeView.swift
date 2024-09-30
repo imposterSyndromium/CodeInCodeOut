@@ -12,7 +12,10 @@ struct GenerateCodeView: View {
     @State private var inputText = ""
     @State private var selectedBarcodeType: BarcodeType = .code128
     @State private var barcodeImage: UIImage? = UIImage()
+    
     private var barcodeGenerator = BarcodeGenerator()
+    
+
     
 
     var body: some View {

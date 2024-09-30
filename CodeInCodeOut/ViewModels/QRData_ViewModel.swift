@@ -19,7 +19,12 @@ class QRData_ViewModel {
 
     
     var qrScans: [QRCodeData3] = []
-    var sortNewestFirst = true
+    var sortNewestFirst = true {
+        didSet {
+            fetchItems()
+        }
+    }
+    
     var isShowingScanner = false {
         didSet {
             if !isShowingScanner {
@@ -52,11 +57,11 @@ class QRData_ViewModel {
     
     func fetchItems() {
         qrScans = dataSource?.fetchItems() ?? []
-        if sortNewestFirst {
-            qrScans.sort { $0.dateAdded > $1.dateAdded }
-        } else {
-            qrScans.sort { $0.dateAdded < $1.dateAdded }
-        }
+        qrScans.sort { sortNewestFirst ? $0.dateAdded > $1.dateAdded : $0.dateAdded < $1.dateAdded}
+        
+        print("Fetched items. Sort order: \(sortNewestFirst ? "Newest first" : "Oldest first")")
+        print("First item date: \(qrScans.first?.dateAdded ?? Date())")
+        print("Last item date: \(qrScans.last?.dateAdded ?? Date())")
     }
     
 

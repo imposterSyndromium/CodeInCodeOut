@@ -29,7 +29,7 @@ struct BarcodeGenerator {
         switch type {
         case .pdf417:
             filter = CIFilter.pdf417BarcodeGenerator()
-            targetSize = CGSize(width: 500, height: 250)
+            targetSize = CGSize(width: 500, height: 300)
         case .aztec:
             filter = CIFilter.aztecCodeGenerator()
             targetSize = CGSize(width: 500, height: 500)
