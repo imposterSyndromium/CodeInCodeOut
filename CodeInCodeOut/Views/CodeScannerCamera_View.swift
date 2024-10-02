@@ -44,7 +44,7 @@ extension CodeScannerCamera_View {
         case .success(let result):
             let image = result.image?.toData()
             
-            let scannedCode = CodeScanData(id: UUID(), codeStringData: result.string,  isFavorite: false, dateAdded: Date.now, notes: "This is some data that belongs in notes", image: image)
+            let scannedCode = CodeScanData(id: UUID(), codeStringData: result.string,  isFavorite: false, dateAdded: Date.now, notes: "", image: image)
             
             if appStateManager.locationAuthorizationStatus == .authorizedAlways || appStateManager.locationAuthorizationStatus == .authorizedWhenInUse {
                 // get location if the user has approved location tracking (approval happen at app start using appStateManager)

@@ -24,7 +24,7 @@ struct CodeInCodeOut_App: App {
                 appStateManager.requestLocationPermission()
             }
         }
-        .modelContainer(container)
+        .modelContainer(container) //<-- note that we are not using for: because we already defined the container vs. letting swiftData define the container
     }
     
     

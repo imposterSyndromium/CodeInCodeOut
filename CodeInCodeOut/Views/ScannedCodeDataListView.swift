@@ -26,13 +26,7 @@ struct ScannedCodeDataListView: View {
         var id: String { self.rawValue }
     }
     @State private var sorting: sortOrder = .newestFirst
-//    {
-//        didSet {
-//            viewModel.sortNewestFirst = (sorting == .newestFirst)
-//        }
-//    }
-    
-    
+
     
     var body: some View {
         VStack {
@@ -47,15 +41,18 @@ struct ScannedCodeDataListView: View {
                                 codeScanRow(for: codescan)
                             }
                         }
+                        .listRowBackground(Color.listRowColor)
                     }
                     
-                    // the non-favorite / non-pinned list
-                    Section(header: Text("Scanned Codes")) {
-                        ForEach(codeScans.filter { !$0.isFavorite }, id: \.id) { codescan in
-                            codeScanRow(for: codescan)
+                    if codeScans.contains(where: { !$0.isFavorite }) {
+                        // the non-favorite / non-pinned list
+                        Section(header: Text("Scanned Codes")) {
+                            ForEach(codeScans.filter { !$0.isFavorite }, id: \.id) { codescan in
+                                codeScanRow(for: codescan)
+                            }
                         }
+                        .listRowBackground(Color.listRowColor)
                     }
-                    
                 }
                 
             } else {
@@ -169,7 +166,7 @@ struct ScannedCodeDataListView: View {
 #Preview {
     let preview = Preview()
     preview.addExampleData(CodeScanData.sampleScans)
-    return ScannedCodeDataListView()
+    return MainTabView()
         .modelContainer(preview.container)
     
 }

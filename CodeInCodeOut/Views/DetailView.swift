@@ -8,46 +8,74 @@
 import SwiftUI
 
 struct DetailView: View {
-    @State var codeScan: CodeScanData
+    @Bindable var codeScan: CodeScanData  //<-- this Bindable property is what keeps the notes field attached to SwiftData
     @State private var isShowingZoomableImage = false
+    @FocusState private var isNotesFocused: Bool
+    
+   
     
     
     var body: some View {
         List {
-            
             Section("Scanned Code Data") {
-                Text(codeScan.codeStingData)
-                    .textSelection(.enabled)
-                    .contextMenu {
-                        Button(action: {
-                            UIPasteboard.general.string = codeScan.codeStingData
-                        }) {
-                            Label("Copy to Clipboard", systemImage: "doc.on.doc")
-                        }
-                        
-                        if let url = URL(string: codeScan.codeStingData), UIApplication.shared.canOpenURL(url) {
+                VStack(alignment: .leading) {
+                    Text(codeScan.codeStingData)
+                        .textSelection(.enabled)
+                        .contextMenu {
+                            // copy to clip board
                             Button(action: {
-                                UIApplication.shared.open(url)
+                                UIPasteboard.general.string = codeScan.codeStingData
                             }) {
-                                Label("Open in Browser", systemImage: "safari")
+                                Label("Copy to Clipboard", systemImage: "doc.on.doc")
                             }
+                            
+                            // open in browser if the scan was a URL, otherwise do not show
+                            if let url = URL(string: codeScan.codeStingData), UIApplication.shared.canOpenURL(url) {
+                                Button(action: {
+                                    UIApplication.shared.open(url)
+                                }) {
+                                    Label("Open in Browser", systemImage: "safari")
+                                }
+                            }
+                            
                         }
-                    }
+                                        
+                    Text("(Press and hold for more options)")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
             }
+            .listRowBackground(Color.listRowColor)
+           
             
             Section("Date Scanned") {
                 Text(codeScan.dateAdded.formatted(date: .abbreviated, time: .shortened))
             }
+            .listRowBackground(Color.listRowColor)
             
-            Section("Notes") {
-                Text(codeScan.notes)
+            // Section("Notes")
+            Section {
+                TextEditorWithPlaceholderText(text: $codeScan.notes, placeholder: "Enter notes here...")
+                    .frame(height: 100) // Adjust this value to show the desired number of lines
+                    .focused($isNotesFocused)
+            } header: {
+                HStack {
+                    Text("Notes")
+                    Spacer()
+                    if isNotesFocused {
+                        Button("Done") {
+                            isNotesFocused = false
+                        }
+                    }
+                }
             }
-            
+            .listRowBackground(Color.listRowColor)
+                        
             Section("Original Scan Image") {
                 if let qrImage = codeScan.image {
                     
                     Button {
-                       isShowingZoomableImage.toggle()
+                        isShowingZoomableImage.toggle()
                     } label: {
                         // force unwrap the image data because we already know it has data
                         Image(uiImage: UIImage(data: qrImage)!)
@@ -59,6 +87,7 @@ struct DetailView: View {
                     ContentUnavailableView("Image not available", systemImage: "photo", description: Text("There is no image history for this scan"))
                 }
             }
+            .listRowBackground(Color.listRowColor)
             
             Section("Scan Location") {
                 if let location = codeScan.location {
@@ -68,18 +97,48 @@ struct DetailView: View {
                         .padding()
                     
                 } else {
-                    ContentUnavailableView("Location not available", systemImage: "location.slash", description: Text("There is no location history for this scan.  To enable, go to Settings > Privacy & Security > Location Services > CodeInCodeOut"))
+                    ContentUnavailableView("Location not available", systemImage: "location.slash", description: Text("There is no location history for this scan.  To enable future scan location availability, go to Settings > Privacy & Security > Location Services > CodeInCodeOut"))
                 }
             }
+            .listRowBackground(Color.listRowColor)
         }
+        
+       
+        
         .sheet(isPresented: $isShowingZoomableImage) {
             ZoomableScrollableImage_View(uiImage: UIImage(data: codeScan.image!)!)
         }
- 
+        
+        
     }
+    
+    
+    // uses a ZStack to contain a TextEditor field with placeholder text on top (to mimic a regular TextField)
+    struct TextEditorWithPlaceholderText: View {
+        @Binding var text: String
+        let placeholder: String
+        
+        var body: some View {
+            ZStack(alignment: .topLeading) {
+                if text.isEmpty {
+                    Text(placeholder)
+                        .foregroundColor(Color(.placeholderText))
+                        .padding(.horizontal, 4)
+                        .padding(.vertical, 8)
+                }
+                TextEditor(text: $text)
+                    .padding(.horizontal, -4)
+            }
+        }
+    }
+    
+    
 }
 
 
 #Preview {
-    MainTabView()
+    let preview = Preview()
+    preview.addExampleData(CodeScanData.sampleScans)
+    return MainTabView()
+        .modelContainer(preview.container)
 }
