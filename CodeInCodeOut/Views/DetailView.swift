@@ -17,6 +17,22 @@ struct DetailView: View {
             
             Section("Scanned Code Data") {
                 Text(qrScan.qrCodeStringData)
+                    .textSelection(.enabled)
+                    .contextMenu {
+                        Button(action: {
+                            UIPasteboard.general.string = qrScan.qrCodeStringData
+                        }) {
+                            Label("Copy to Clipboard", systemImage: "doc.on.doc")
+                        }
+                        
+                        if let url = URL(string: qrScan.qrCodeStringData), UIApplication.shared.canOpenURL(url) {
+                            Button(action: {
+                                UIApplication.shared.open(url)
+                            }) {
+                                Label("Open in Browser", systemImage: "safari")
+                            }
+                        }
+                    }
             }
             
             Section("Date Scanned") {
@@ -34,6 +50,7 @@ struct DetailView: View {
                             .resizable()
                             .scaledToFit()
                     }
+                    
                 } else {
                     ContentUnavailableView("Image not available", systemImage: "photo", description: Text("There is no image history for this scan"))
                 }
@@ -41,9 +58,11 @@ struct DetailView: View {
             
             Section("Scan Location") {
                 if let location = qrScan.location {
+                    
                     MapView(locationData: location)
                         .frame(height: 400)
                         .padding()
+                    
                 } else {
                     ContentUnavailableView("Location not available", systemImage: "location.slash", description: Text("There is no location history for this scan"))
                 }

@@ -29,7 +29,7 @@ struct SplashScreenView: View {
             animationsRunning.toggle()
             
             // wait 3 seconds to dismiss the screen
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                 withAnimation {
                     isPresented = true
                 }

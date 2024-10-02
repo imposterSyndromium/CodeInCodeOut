@@ -6,8 +6,6 @@
 //  ¬∞
 
 
-/// TODO - Image viewer sheet requires switching rows once to actually see the images.  Probably something to do with the optional Data? and how I am checking for it.
-///
 
 import CodeScanner
 import SwiftUI
