@@ -11,6 +11,7 @@ import CodeScanner
 import SwiftData
 import SwiftUI
 
+
 struct ScannedCodeDataListView: View {
     @Environment(\.modelContext) var modelContext
     @Query private var codeScans: [CodeScanData]
@@ -22,17 +23,18 @@ struct ScannedCodeDataListView: View {
     private var sortedCodeScans: [CodeScanData] {
         return codeScans.sorted(using: sortingOrder)
     }
-   
-    private enum SortOrder: String, CaseIterable, Identifiable {
+    
+    private enum sortedBy: String, CaseIterable, Identifiable {
         case newestFirst = "Newest to oldest"
         case oldestFirst = "Oldest to newest"
         var id: String { self.rawValue }
     }
-    @State private var sorting: SortOrder = .newestFirst
-
+    @State private var sorting: sortedBy = .newestFirst
+    
     var body: some View {
         VStack {
             if !codeScans.isEmpty {
+                
                 List {
                     // pinned codes: only show this section if we have pinned codes to show
                     if codeScans.contains(where: { $0.isFavorite }) {
@@ -56,6 +58,7 @@ struct ScannedCodeDataListView: View {
                 }
                 
             } else {
+                
                 Button {
                     isShowingScanner = true
                 } label: {
@@ -76,7 +79,7 @@ struct ScannedCodeDataListView: View {
             ToolbarItem(placement: .topBarLeading) {
                 Menu(content: {
                     Picker("Sort Order", selection: $sorting) {
-                        ForEach(SortOrder.allCases) { sort in
+                        ForEach(sortedBy.allCases) { sort in
                             Text(sort.rawValue).tag(sort)
                         }
                     }
@@ -93,7 +96,7 @@ struct ScannedCodeDataListView: View {
     
     
     
-    private func updateSortingOrder(_ order: SortOrder) {
+    private func updateSortingOrder(_ order: sortedBy) {
         switch order {
         case .newestFirst:
             sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .reverse)
@@ -103,10 +106,9 @@ struct ScannedCodeDataListView: View {
     }
     
     
-
+    
     private func codeScanRow(for codescan: CodeScanData) -> some View {
         NavigationLink {
-            //Text("Code Scan Details")
             DetailView(codeScan: codescan)
             
         } label: {
@@ -153,9 +155,9 @@ struct ScannedCodeDataListView: View {
             }
         }
     }
-   
     
-
+    
+    
 }
 
 

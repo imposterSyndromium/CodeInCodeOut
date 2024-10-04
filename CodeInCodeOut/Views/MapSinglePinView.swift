@@ -8,7 +8,7 @@ import MapKit
 import SwiftUI
 
 
-struct SinglePinMapView: View {
+struct MapSinglePinView: View {
     @State var locationData: Data?
     @State var locationCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     
@@ -64,21 +64,21 @@ struct SinglePinMapView: View {
     
     
     
-    func decodeMapLocation(mapLocationData: Data) -> CLLocationCoordinate2D? {
-        if let decodedCoordinateData = try? JSONDecoder().decode(CoordinateData.self, from: mapLocationData) {
-            let coordinate = CLLocationCoordinate2D(latitude: decodedCoordinateData.latitude, longitude: decodedCoordinateData.longitude)
-            print("Mapview - JSON Decoded Coordinate: \(coordinate)")
-            
-            return coordinate
-        }
-        
-        print("unable to decode map location from JSON")
-        return nil
-    }
+//    func decodeMapLocation(mapLocationData: Data) -> CLLocationCoordinate2D? {
+//        if let decodedCoordinateData = try? JSONDecoder().decode(CoordinateData.self, from: mapLocationData) {
+//            let coordinate = CLLocationCoordinate2D(latitude: decodedCoordinateData.latitude, longitude: decodedCoordinateData.longitude)
+//            print("Mapview - JSON Decoded Coordinate: \(coordinate)")
+//            
+//            return coordinate
+//        }
+//        
+//        print("unable to decode map location from JSON")
+//        return nil
+//    }
 }
 
 
 
 #Preview {
-    return SinglePinMapView()
+    return MapSinglePinView()
 }

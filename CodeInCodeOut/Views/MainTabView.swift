@@ -20,12 +20,18 @@ struct MainTabView: View {
                 Label("Scans", systemImage: "qrcode")
             }
          
+            NavigationStack {
+                MapMultiPinArrayView()
+            }
+            .tabItem {
+                Label("Scan Locations", systemImage: "map")
+            }
             
             NavigationStack {
                 GenerateCodeView()
             }
             .tabItem {
-                Label("Generate code", systemImage: "barcode")
+                Label("Generate Code", systemImage: "barcode")
             }
             
             

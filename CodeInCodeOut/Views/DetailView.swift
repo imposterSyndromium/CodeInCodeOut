@@ -22,11 +22,14 @@ struct DetailView: View {
                     Text(codeScan.codeStingData)
                         .textSelection(.enabled)
                         .contextMenu {
+                            // ShareLink
+                            ShareLink(item: codeScan.codeStingData, preview: SharePreview(codeScan.codeStingData))
+                            
                             // copy to clip board
                             Button(action: {
                                 UIPasteboard.general.string = codeScan.codeStingData
                             }) {
-                                Label("Copy to Clipboard", systemImage: "doc.on.doc")
+                                Label("Copy to Clipboard", systemImage: "document.on.document")
                             }
                             
                             // open in browser if the scan was a URL, otherwise do not show
@@ -43,14 +46,12 @@ struct DetailView: View {
             }
             .listRowBackground(Color.listRowColor)
             
-           
-            
             Section("Date Scanned") {
                 Text(codeScan.dateAdded.formatted(date: .abbreviated, time: .shortened))
             }
             .listRowBackground(Color.listRowColor)
             
-            // Section("Notes")
+            // Section("Notes") .. code layout is different because of the Done button
             Section {
                 TextEditorWithPlaceholderText(text: $codeScan.notes, placeholder: "Enter notes here...")
                     .frame(height: 100) // Adjust this value to show the desired number of lines
@@ -90,7 +91,7 @@ struct DetailView: View {
             Section("Scan Location") {
                 if let location = codeScan.location {
                     
-                    SinglePinMapView(locationData: location)
+                    MapSinglePinView(locationData: location)
                         .frame(height: 400)
                         .padding()
                     
@@ -100,9 +101,6 @@ struct DetailView: View {
             }
             .listRowBackground(Color.listRowColor)
         }
-        
-       
-        
         .sheet(isPresented: $isShowingZoomableImage) {
             ZoomableScrollableImage_View(uiImage: UIImage(data: codeScan.image!)!)
         }

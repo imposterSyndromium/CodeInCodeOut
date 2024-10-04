@@ -22,12 +22,14 @@
 		684743AF2CA0823500EA3B49 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847438D2CA080F900EA3B49 /* DetailView.swift */; };
 		684743B02CA0823500EA3B49 /* GenerateCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847438E2CA080F900EA3B49 /* GenerateCodeView.swift */; };
 		684743B12CA0823500EA3B49 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6847438F2CA080F900EA3B49 /* MainTabView.swift */; };
-		684743B22CA0823500EA3B49 /* SinglePinMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743902CA080F900EA3B49 /* SinglePinMapView.swift */; };
+		684743B22CA0823500EA3B49 /* MapSinglePinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743902CA080F900EA3B49 /* MapSinglePinView.swift */; };
 		684743B32CA0823500EA3B49 /* ScannedCodeDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743912CA080F900EA3B49 /* ScannedCodeDataListView.swift */; };
 		684743B42CA0823500EA3B49 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743922CA080F900EA3B49 /* SplashScreenView.swift */; };
 		684743B52CA0823500EA3B49 /* StartContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743932CA080F900EA3B49 /* StartContainerView.swift */; };
 		684743B62CA0823500EA3B49 /* ZoomableScrollableImage_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743942CA080F900EA3B49 /* ZoomableScrollableImage_View.swift */; };
 		684743BA2CA0AD7D00EA3B49 /* AppStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684743B92CA0AD7D00EA3B49 /* AppStateManager.swift */; };
+		686D98542CB05AD400F8598B /* MapMultiPinArrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686D98532CB05AD400F8598B /* MapMultiPinArrayView.swift */; };
+		686D98562CB05FA400F8598B /* MapTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686D98552CB05FA400F8598B /* MapTools.swift */; };
 		687719E72CAB26C60039F8E1 /* CodeScanSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687719E62CAB26C60039F8E1 /* CodeScanSamples.swift */; };
 		687719E92CAB29620039F8E1 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687719E82CAB29620039F8E1 /* Preview.swift */; };
 /* End PBXBuildFile section */
@@ -48,12 +50,14 @@
 		6847438D2CA080F900EA3B49 /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		6847438E2CA080F900EA3B49 /* GenerateCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateCodeView.swift; sourceTree = "<group>"; };
 		6847438F2CA080F900EA3B49 /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		684743902CA080F900EA3B49 /* SinglePinMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePinMapView.swift; sourceTree = "<group>"; };
+		684743902CA080F900EA3B49 /* MapSinglePinView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSinglePinView.swift; sourceTree = "<group>"; };
 		684743912CA080F900EA3B49 /* ScannedCodeDataListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannedCodeDataListView.swift; sourceTree = "<group>"; };
 		684743922CA080F900EA3B49 /* SplashScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		684743932CA080F900EA3B49 /* StartContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartContainerView.swift; sourceTree = "<group>"; };
 		684743942CA080F900EA3B49 /* ZoomableScrollableImage_View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomableScrollableImage_View.swift; sourceTree = "<group>"; };
 		684743B92CA0AD7D00EA3B49 /* AppStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateManager.swift; sourceTree = "<group>"; };
+		686D98532CB05AD400F8598B /* MapMultiPinArrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMultiPinArrayView.swift; sourceTree = "<group>"; };
+		686D98552CB05FA400F8598B /* MapTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTools.swift; sourceTree = "<group>"; };
 		687719E62CAB26C60039F8E1 /* CodeScanSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanSamples.swift; sourceTree = "<group>"; };
 		687719E82CAB29620039F8E1 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +131,7 @@
 				684743832CA080E600EA3B49 /* LocationFetcher.swift */,
 				684743842CA080E600EA3B49 /* ZoomableScrollableImage.swift */,
 				684743B92CA0AD7D00EA3B49 /* AppStateManager.swift */,
+				686D98552CB05FA400F8598B /* MapTools.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -138,7 +143,8 @@
 				6847438D2CA080F900EA3B49 /* DetailView.swift */,
 				6847438E2CA080F900EA3B49 /* GenerateCodeView.swift */,
 				6847438F2CA080F900EA3B49 /* MainTabView.swift */,
-				684743902CA080F900EA3B49 /* SinglePinMapView.swift */,
+				684743902CA080F900EA3B49 /* MapSinglePinView.swift */,
+				686D98532CB05AD400F8598B /* MapMultiPinArrayView.swift */,
 				684743912CA080F900EA3B49 /* ScannedCodeDataListView.swift */,
 				684743922CA080F900EA3B49 /* SplashScreenView.swift */,
 				684743932CA080F900EA3B49 /* StartContainerView.swift */,
@@ -229,16 +235,18 @@
 				684743A52CA0823500EA3B49 /* Extensions.swift in Sources */,
 				684743A62CA0823500EA3B49 /* ImageSaver.swift in Sources */,
 				684743A72CA0823500EA3B49 /* LocationFetcher.swift in Sources */,
+				686D98542CB05AD400F8598B /* MapMultiPinArrayView.swift in Sources */,
 				684743A82CA0823500EA3B49 /* ZoomableScrollableImage.swift in Sources */,
 				684743AB2CA0823500EA3B49 /* CodeScanDataModel.swift in Sources */,
 				684743AC2CA0823500EA3B49 /* CodeInCodeOutApp.swift in Sources */,
+				686D98562CB05FA400F8598B /* MapTools.swift in Sources */,
 				687719E72CAB26C60039F8E1 /* CodeScanSamples.swift in Sources */,
 				684743BA2CA0AD7D00EA3B49 /* AppStateManager.swift in Sources */,
 				684743AE2CA0823500EA3B49 /* CodeScannerCamera_View.swift in Sources */,
 				684743AF2CA0823500EA3B49 /* DetailView.swift in Sources */,
 				684743B02CA0823500EA3B49 /* GenerateCodeView.swift in Sources */,
 				684743B12CA0823500EA3B49 /* MainTabView.swift in Sources */,
-				684743B22CA0823500EA3B49 /* SinglePinMapView.swift in Sources */,
+				684743B22CA0823500EA3B49 /* MapSinglePinView.swift in Sources */,
 				684743B32CA0823500EA3B49 /* ScannedCodeDataListView.swift in Sources */,
 				684743B42CA0823500EA3B49 /* SplashScreenView.swift in Sources */,
 				684743B52CA0823500EA3B49 /* StartContainerView.swift in Sources */,
