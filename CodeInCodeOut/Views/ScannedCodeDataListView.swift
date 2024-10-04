@@ -16,38 +16,38 @@ struct ScannedCodeDataListView: View {
     @Query private var codeScans: [CodeScanData]
     
     @State private var isShowingScanner: Bool = false
-    
-    @State private var showQRImageView = false
     @State private var currentImageData: Data?
+    @State private var sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .reverse)
     
-    private enum sortOrder: String, CaseIterable, Identifiable {
+    private var sortedCodeScans: [CodeScanData] {
+        return codeScans.sorted(using: sortingOrder)
+    }
+   
+    private enum SortOrder: String, CaseIterable, Identifiable {
         case newestFirst = "Newest to oldest"
         case oldestFirst = "Oldest to newest"
         var id: String { self.rawValue }
     }
-    @State private var sorting: sortOrder = .newestFirst
+    @State private var sorting: SortOrder = .newestFirst
 
-    
     var body: some View {
         VStack {
-            // Only show a list of scans if there are some
             if !codeScans.isEmpty {
-                List() {
-                    
-                    //only make a pined section if there are qrScans marked .isFavorite = true
+                List {
+                    // pinned codes: only show this section if we have pinned codes to show
                     if codeScans.contains(where: { $0.isFavorite }) {
                         Section(header: Text("Pinned Codes")) {
-                            ForEach(codeScans.filter { $0.isFavorite }, id: \.id) { codescan in
+                            ForEach(sortedCodeScans.filter { $0.isFavorite }, id: \.id) { codescan in
                                 codeScanRow(for: codescan)
                             }
                         }
                         .listRowBackground(Color.listRowColor)
                     }
                     
+                    // non-pinned codes: only show this section if we have non-pinned codes to show
                     if codeScans.contains(where: { !$0.isFavorite }) {
-                        // the non-favorite / non-pinned list
                         Section(header: Text("Scanned Codes")) {
-                            ForEach(codeScans.filter { !$0.isFavorite }, id: \.id) { codescan in
+                            ForEach(sortedCodeScans.filter { !$0.isFavorite }, id: \.id) { codescan in
                                 codeScanRow(for: codescan)
                             }
                         }
@@ -56,16 +56,12 @@ struct ScannedCodeDataListView: View {
                 }
                 
             } else {
-                
-                VStack {
-                    Button {
-                        isShowingScanner = true
-                    } label: {
-                        ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet.  Press to scan a code with your camera to start"))
-                    }
-                    .foregroundStyle(.gray)
-                    
+                Button {
+                    isShowingScanner = true
+                } label: {
+                    ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
                 }
+                .foregroundStyle(.gray)
             }
         }
         .navigationTitle("Scanned Codes").navigationBarTitleDisplayMode(.inline)
@@ -80,19 +76,31 @@ struct ScannedCodeDataListView: View {
             ToolbarItem(placement: .topBarLeading) {
                 Menu(content: {
                     Picker("Sort Order", selection: $sorting) {
-                        ForEach(sortOrder.allCases) { sort in
+                        ForEach(SortOrder.allCases) { sort in
                             Text(sort.rawValue).tag(sort)
                         }
                     }
-                    
-                }, label: { Image(systemName: "barcode")})
+                }, label: { Image(systemName: "arrow.up.arrow.down") })
             }
         }
         .sheet(isPresented: $isShowingScanner) {
             CodeScannerCamera_View()
-        }        
+        }
+        .onChange(of: sorting) { _, newValue in
+            updateSortingOrder(newValue)
+        }
     }
     
+    
+    
+    private func updateSortingOrder(_ order: SortOrder) {
+        switch order {
+        case .newestFirst:
+            sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .reverse)
+        case .oldestFirst:
+            sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .forward)
+        }
+    }
     
     
 
@@ -131,37 +139,26 @@ struct ScannedCodeDataListView: View {
             if codescan.isFavorite {
                 Button("Remove favorite", systemImage: "star.slash") {
                     withAnimation {
-                        toggleFavorite(for: codescan)
+                        codescan.isFavorite.toggle()
                     }
                 }
                 .tint(.gray)
             } else {
                 Button("Add favorite", systemImage: "star.fill") {
                     withAnimation {
-                        toggleFavorite(for: codescan)
+                        codescan.isFavorite.toggle()
                     }
                 }
                 .tint(.orange)
             }
         }
     }
-
-    
-
-    
-    
-    
-
-    
-    
-    
-    private func toggleFavorite(for codescan: CodeScanData) {
-        codescan.isFavorite.toggle()
-    }
-    
+   
     
 
 }
+
+
 
 #Preview {
     let preview = Preview()

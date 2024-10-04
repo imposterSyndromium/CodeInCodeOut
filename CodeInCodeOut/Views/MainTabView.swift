@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    //@State private var viewModel = QRData_ViewModel()
-    
+
     
     var body: some View {
         TabView {

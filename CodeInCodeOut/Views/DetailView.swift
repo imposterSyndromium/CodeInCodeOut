@@ -17,7 +17,7 @@ struct DetailView: View {
     
     var body: some View {
         List {
-            Section("Scanned Code Data") {
+            Section(header: Text("Scanned Code Data"), footer: Text("(Press and hold for more options)")) {
                 VStack(alignment: .leading) {
                     Text(codeScan.codeStingData)
                         .textSelection(.enabled)
@@ -39,13 +39,10 @@ struct DetailView: View {
                             }
                             
                         }
-                                        
-                    Text("(Press and hold for more options)")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
                 }
             }
             .listRowBackground(Color.listRowColor)
+            
            
             
             Section("Date Scanned") {
@@ -60,7 +57,7 @@ struct DetailView: View {
                     .focused($isNotesFocused)
             } header: {
                 HStack {
-                    Text("Notes")
+                    Text("Notes (tap to edit)")
                     Spacer()
                     if isNotesFocused {
                         Button("Done") {
@@ -70,6 +67,7 @@ struct DetailView: View {
                 }
             }
             .listRowBackground(Color.listRowColor)
+            
                         
             Section("Original Scan Image") {
                 if let qrImage = codeScan.image {
