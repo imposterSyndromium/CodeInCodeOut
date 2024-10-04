@@ -12,7 +12,7 @@ import SwiftUI
 struct MapMultiPinArrayView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var scans: [CodeScanData]
-    
+    @State private var selectedScan: CodeScanData?
     
     var body: some View {
         VStack {
@@ -20,15 +20,21 @@ struct MapMultiPinArrayView: View {
                 ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
                 
             } else if hasValidLocations() {
-                Map {
+                Map(selection: $selectedScan) {
                     ForEach(scans) { scan in
                         if let location = scan.location,
                            let coordinate = decodeMapLocation(mapLocationData: location) {
                             Marker(scan.codeStingData, coordinate: coordinate)
+                                .tag(scan)
                         }
                     }
                 }
-                
+                .onChange(of: selectedScan) { oldValue, newValue in
+                    if let selected = newValue {
+                        print("Selected scan: \(selected.codeStingData)")
+                        // Here you can trigger your detail view presentation
+                    }
+                }
             } else {
                 ContentUnavailableView("Locations not available", systemImage: "location.slash", description: Text("There is no location history for any scans.  To enable future scan location availability, go to Settings > Privacy & Security > Location Services > CodeInCodeOut"))
             }

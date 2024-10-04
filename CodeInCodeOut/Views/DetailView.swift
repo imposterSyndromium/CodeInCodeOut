@@ -12,8 +12,7 @@ struct DetailView: View {
     @State private var isShowingZoomableImage = false
     @FocusState private var isNotesFocused: Bool
     
-   
-    
+
     
     var body: some View {
         List {
