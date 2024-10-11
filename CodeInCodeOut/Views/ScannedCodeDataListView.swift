@@ -31,6 +31,8 @@ struct ScannedCodeDataListView: View {
     }
     @State private var sorting: sortedBy = .newestFirst
     
+    
+    
     var body: some View {
         VStack {
             if !codeScans.isEmpty {

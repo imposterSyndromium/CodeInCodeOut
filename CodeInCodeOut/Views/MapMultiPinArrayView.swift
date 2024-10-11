@@ -19,7 +19,7 @@ import SwiftUI
 /// This view uses SwiftData to fetch and display `CodeScanData` objects on a map.
 /// It clusters nearby scans and allows users to interact with these clusters.
 struct MapMultiPinArrayView: View {
-    /// The model context for SwiftData operations.
+        /// The model context for SwiftData operations.
     @Environment(\.modelContext) private var modelContext
     
     /// A query fetching all `CodeScanData` objects from SwiftData.
@@ -38,8 +38,25 @@ struct MapMultiPinArrayView: View {
     )
     
     /// An array of clustered scan data.
-    @State private var clusters: [ScanCluster] = []
+    //@State private var clusters: [ScanCluster] = []
+    var clusters: [ScanCluster]
+     
+    init(clusters: [ScanCluster]) {
+        self.clusters = clusters
+        if let lastScanLocation = clusters.last?.coordinate {
+            self._region = State(initialValue: regionForLastLocation(lastScanLocation))
+        } else {
+            // Fallback to a default region if there are no scans
+            self._region = State(
+                initialValue:
+                    MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+                                       span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
+            )
+        }
+    }
 
+    
+    
     var body: some View {
         VStack {
             if scans.isEmpty {
@@ -47,7 +64,8 @@ struct MapMultiPinArrayView: View {
                                        systemImage: "qrcode.viewfinder",
                                        description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
             } else if hasValidLocations() {
-                Map(coordinateRegion: $region, annotationItems: clusters) { cluster in
+                Map(coordinateRegion: $region,
+                    annotationItems: clusters) { cluster in
                     MapAnnotation(coordinate: cluster.coordinate) {
                         PinWithMenu(cluster: cluster, selectedCluster: $selectedCluster, onScanSelected: { scan in
                             selectedScan = scan
@@ -58,14 +76,17 @@ struct MapMultiPinArrayView: View {
             } else {
                 ContentUnavailableView("Locations not available",
                                        systemImage: "location.slash",
-                                       description: Text("There is no location history for any scans. To enable future scan location availability, go to Settings > Privacy & Security > Location Services > CodeInCodeOut"))
+                                       description: Text("There is no location history for any scans. To enable future scan locations, go to Settings > Privacy & Security > Location Services > CodeInCodeOut"))
             }
         }
         .onAppear(perform: updateClusters)
-        .onChange(of: scans) { _ in
+        .onChange(of: scans) {
             updateClusters()
         }
     }
+    
+    
+    
     
     /// Checks if there are any scans with valid locations.
     ///
@@ -115,7 +136,7 @@ struct MapMultiPinArrayView: View {
         }
         
         var clusters: [ScanCluster] = []
-        let clusteringDistance: CLLocationDistance = 1000 // 1 kilometer
+        let clusteringDistance: CLLocationDistance = 1000 // 1 kilometre
         
         for (scan, coordinate) in validScans {
             if let existingClusterIndex = clusters.firstIndex(where: { $0.coordinate.distance(to: coordinate) <= clusteringDistance }) {
@@ -128,6 +149,8 @@ struct MapMultiPinArrayView: View {
         return clusters
     }
 }
+
+
 
 /// Represents a cluster of scans on the map.
 ///

@@ -14,7 +14,7 @@ struct ZoomableScrollableImage_View: View {
     var body: some View {
         VStack {
             HStack {
-                Button("Back") {
+                Button("Close") {
                     dismiss()
                 }
                 Spacer()

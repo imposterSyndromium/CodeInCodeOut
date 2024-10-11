@@ -94,3 +94,10 @@ extension Color {
 }
 
 
+extension String {
+    var isReallyEmpty: Bool {
+        self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}
+
+
