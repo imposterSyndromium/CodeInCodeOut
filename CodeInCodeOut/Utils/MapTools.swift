@@ -22,32 +22,3 @@ func decodeMapLocation(mapLocationData: Data) -> CLLocationCoordinate2D? {
     return nil
 }
 
-
-
-
-func calculateRegion(for locations: [CLLocationCoordinate2D], withPadding padding: Double = 1.1) -> MKCoordinateRegion {
-    guard !locations.isEmpty else {
-        // Default to a region centered on a neutral location if no pins exist
-        return MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
-                                  span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
-    }
-    
-    let minLat = locations.map { $0.latitude }.min()!
-    let maxLat = locations.map { $0.latitude }.max()!
-    let minLon = locations.map { $0.longitude }.min()!
-    let maxLon = locations.map { $0.longitude }.max()!
-    
-    let center = CLLocationCoordinate2D(latitude: (minLat + maxLat) / 2,
-                                        longitude: (minLon + maxLon) / 2)
-    
-    let span = MKCoordinateSpan(latitudeDelta: (maxLat - minLat) * padding,
-                                longitudeDelta: (maxLon - minLon) * padding)
-    
-    return MKCoordinateRegion(center: center, span: span)
-}
-
-
-func regionForLastLocation(_ coordinate: CLLocationCoordinate2D, latitudeDelta: CLLocationDegrees = 0.05, longitudeDelta: CLLocationDegrees = 0.05) -> MKCoordinateRegion {
-    MKCoordinateRegion(center: coordinate,
-                       span: MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta))
-}
