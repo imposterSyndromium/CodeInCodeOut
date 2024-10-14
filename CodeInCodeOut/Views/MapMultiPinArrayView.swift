@@ -23,7 +23,6 @@ struct MapMultiPinArrayView: View {
     @State private var selectedScan: CodeScanData?
     
     @State private var mapCameraPosition: MapCameraPosition = .automatic
-    @State private var popupPosition: CGPoint?
     @State private var showMenu: Bool = false
     
     @State private var showDebugText: Bool = false
@@ -45,19 +44,25 @@ struct MapMultiPinArrayView: View {
                             Annotation(cluster.title, coordinate: cluster.coordinate) {
                                 Image(systemName: "mappin.circle.fill")
                                     .foregroundColor(.red)
-                                    .font(.title)
+                                    .frame(width: 34, height: 34)
+                                    .background(.white)
+                                    .clipShape(.circle)
                                     .onTapGesture {
                                         selectedCluster = cluster
-                                        showMenu = true // show the menu when a cluster is tapped
+                                        withAnimation(.snappy) {
+                                            showMenu = true // show the menu when a cluster is tapped
+                                        }
                                     }
                             }
                             .tag(cluster)
+                            
                         }
                     }
+                    .mapStyle(.hybrid)
                     .onAppear(perform: setInitialCameraPosition)
                 }
-
-
+                
+                
                 // Debug overlay
                 if showDebugText {
                     VStack {
@@ -76,40 +81,50 @@ struct MapMultiPinArrayView: View {
                 
             }
             
-          //  if let _ = selectedCluster, let position = popupPosition {
-                CardContextMenu(isPresented: $showMenu) {
-                    VStack(spacing: 20) {
-                        Text("Pin Actions")
-                            .font(.headline)
-                        
-                        List(selectedCluster!.scans) { scan in
-                            Text("\(scan.codeStingData)")
-                        }
-                        
-                        Button("Show Details") {
-                            print("Details tapped")
-                        }
-                        
-                        Button("Get Directions") {
-                            print("Directions tapped")
-                        }
-                        
-                        Button("Close") {
-                            withAnimation {
-                                showMenu = false
-                                selectedCluster = nil  // Reset selected cluster when closing
-                                popupPosition = nil    // Reset popup position when closing
+            
+            CardContextMenu(isPresented: $showMenu) {
+                VStack(spacing: 20) {
+                    Text("Scans at this location")
+                        .font(.headline)
+                    
+                    ForEach(selectedCluster!.scans) { scan in
+                        NavigationLink(destination: DetailView(codeScan: scan)) {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(scan.codeStingData)
+                                            .font(.headline)
+                                        Text(scan.dateAdded.formatted(date: .abbreviated, time: .shortened))
+                                    }
+                                    
+                                    if scan.isFavorite {
+                                        Spacer()
+                                        Image(systemName: "star.fill")
+                                            .foregroundStyle(.yellow)
+                                            .padding(.bottom, 10)
+                                    }
+                                }
                             }
+                            
                         }
                     }
-                    .foregroundColor(.primary)
+                    
+                    Button("Close") {
+                        withAnimation(.easeOut(duration: 0.2)) {
+                            showMenu = false
+                            selectedCluster = nil  // Reset selected cluster when closing
+                        }
+                    }
+                    .foregroundStyle(.red).bold()
                 }
-           // }
-
+                
+            }
+            
         } //ZStack
-
-    }
         
+        
+
+    }        
 }
 
 
@@ -117,12 +132,14 @@ struct MapMultiPinArrayView: View {
 
 extension MapMultiPinArrayView {
     
+    
     private func hasValidLocations() -> Bool {
         scans.contains { scan in
             guard let location = scan.location else { return false }
             return decodeMapLocation(mapLocationData: location) != nil
         }
     }
+    
     
     private func createClusters() -> [ScanCluster] {
         let validScans = scans.compactMap { scan -> (CodeScanData, CLLocationCoordinate2D)? in
@@ -146,6 +163,7 @@ extension MapMultiPinArrayView {
         
         return clusters
     }
+    
     
     private func setInitialCameraPosition() {
         // get last scan, and second last scan coordinates

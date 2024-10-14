@@ -22,21 +22,10 @@ struct MapSinglePinView: View {
         VStack {
             Map(position: $mapCameraPosition) {
                 Annotation("Scanned Here", coordinate: locationCoordinate) {
-
-                    Image(systemName: "star.circle")
-                        .resizable()
+                    Image(systemName: "mappin")
                         .foregroundStyle(.red)
-                        .frame(width: 44, height: 44)
-                        .background(.white)
-                        .clipShape(.circle)
-                    
-                    Text("Scanned Here")
-                        .padding(.horizontal)
-                        .background(.red.gradient)
-                        .foregroundColor(.white)
-                        .clipShape(.capsule)
                 }
-                .annotationTitles(.hidden)
+                .foregroundStyle(.red)
             }
             .mapStyle(.hybrid)
                 
