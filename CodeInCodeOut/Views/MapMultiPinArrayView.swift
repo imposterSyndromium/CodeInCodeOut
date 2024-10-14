@@ -84,7 +84,7 @@ struct MapMultiPinArrayView: View {
             
             CardContextMenu(isPresented: $showMenu) {
                 VStack(spacing: 20) {
-                    Text("Scans at this location")
+                    Text("Scans at this location:")
                         .font(.headline)
                     
                     ForEach(selectedCluster!.scans) { scan in
@@ -121,7 +121,7 @@ struct MapMultiPinArrayView: View {
             }
             
         } //ZStack
-        
+        .navigationTitle("Scan Locations").navigationBarTitleDisplayMode(.inline)
         
 
     }        

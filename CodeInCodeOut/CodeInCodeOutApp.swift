@@ -29,7 +29,7 @@ struct CodeInCodeOut_App: App {
         .modelContainer(container) //<-- note that we are not using for: because we already defined the container vs. letting swiftData define the container
     }
     
-    
+    // This init configures a SwiftData ModelContainer manually, and names it something other than "default"
     init() {
         let schema = Schema([CodeScanData.self])
         let config = ModelConfiguration("MyCodeScans", schema: schema)

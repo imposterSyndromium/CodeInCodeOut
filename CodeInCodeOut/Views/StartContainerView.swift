@@ -6,17 +6,31 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct StartContainerView: View {
+    @Environment(\.scenePhase) var scenePhase
     @State private var isSplashScreenViewPresented = false
     
     var body: some View {
-        if isSplashScreenViewPresented {
-            MainTabView()
-        } else {
-            SplashScreenView(isPresented: $isSplashScreenViewPresented)
-        }
+        
+            if isSplashScreenViewPresented {
+                MainTabView()
+                    .onChange(of: scenePhase) { _, newValue in
+                        if newValue == .inactive {
+                            isSplashScreenViewPresented = false
+                        }
+                    }
+                
+            } else {
+                SplashScreenView(isPresented: $isSplashScreenViewPresented)
+            }
+       
+        
+        
     }
+    
+
 }
 
 #Preview {

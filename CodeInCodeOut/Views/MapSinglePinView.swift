@@ -9,34 +9,52 @@ import SwiftUI
 
 
 struct MapSinglePinView: View {
+    
     @State var locationData: Data?
-    @State var locationCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    let isInteractionDisabled: Bool
+    @State private var locationCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     
     // initial map position - this gets updated in .onAppear
     @State private var mapCameraPosition: MapCameraPosition = MapCameraPosition.region(
-        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 1.0, longitude: 1.0),
+        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 43.728, longitude: -80.950),
                            span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
     
     
     var body: some View {
         VStack {
-            Map(position: $mapCameraPosition) {
+            
+            Map(position: $mapCameraPosition, interactionModes: isInteractionDisabled ? [] : .all) {
                 Annotation("Scanned Here", coordinate: locationCoordinate) {
-                    Image(systemName: "mappin")
-                        .foregroundStyle(.red)
+                    VStack {
+                        Image(systemName: "mappin")
+                            .padding(4)
+                            .background(Color.white.opacity(0.75))
+                            .clipShape(Circle())
+                            .foregroundStyle(.red)
+                        
+                        Text("Scanned Here")
+                            .font(.callout)
+                            .foregroundColor(.red)
+                            .padding(6)
+                            .background(Color.white.opacity(0.75))
+                            //.cornerRadius(4)
+                            .clipShape(.capsule)
+                    }
                 }
-                .foregroundStyle(.red)
+                .annotationTitles(.hidden)
+                
+                
             }
             .mapStyle(.hybrid)
-                
+            
         }
         .onAppear {
             // get and decode the location data (from JSON -> Data? ->  CLLocationCoordinate2D)
-            if let location = locationData {
-                if let decodedLocation = decodeMapLocation(mapLocationData: location) {
-                    locationCoordinate = decodedLocation
-                    updateMapPosition(location: decodedLocation)
-                }
+            if let location = locationData,
+               let decodedLocation = decodeMapLocation(mapLocationData: location) {
+                locationCoordinate = decodedLocation
+                updateMapPosition(location: decodedLocation)
+                
             }
         }
     }
@@ -57,5 +75,5 @@ struct MapSinglePinView: View {
 
 
 #Preview {
-    return MapSinglePinView()
+    MapSinglePinView(isInteractionDisabled: false)
 }

@@ -17,7 +17,7 @@ struct MainTabView: View {
                 ScannedCodeDataListView()
             }
             .tabItem {
-                Label("Scans", systemImage: "qrcode")
+                Label("Scan List", systemImage: "list.bullet.clipboard")
             }
          
             NavigationStack {
@@ -31,7 +31,7 @@ struct MainTabView: View {
                 GenerateCodeView()
             }
             .tabItem {
-                Label("Generate Code", systemImage: "barcode")
+                Label("Generate Code", systemImage: "qrcode")
             }
             
             

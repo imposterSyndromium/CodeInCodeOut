@@ -90,7 +90,8 @@ struct DetailView: View {
             Section("Scan Location") {
                 if let location = codeScan.location {
                     
-                    MapSinglePinView(locationData: location)
+                    
+                    MapSinglePinView(locationData: location, isInteractionDisabled: false)
                         .frame(height: 400)
                         .padding()
                     

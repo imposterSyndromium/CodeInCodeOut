@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6834E7712CBC974C006E3D08 /* CardContextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834E7702CBC974C006E3D08 /* CardContextView.swift */; };
 		6837B46A2CBCA9BB000344B5 /* ScanCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6837B4692CBCA9BB000344B5 /* ScanCluster.swift */; };
 		6847436B2CA0809100EA3B49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6847436A2CA0809100EA3B49 /* Assets.xcassets */; };
 		6847436E2CA0809100EA3B49 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6847436D2CA0809100EA3B49 /* Preview Assets.xcassets */; };
@@ -37,7 +36,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6834E7702CBC974C006E3D08 /* CardContextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContextView.swift; sourceTree = "<group>"; };
 		6837B4692CBCA9BB000344B5 /* ScanCluster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanCluster.swift; sourceTree = "<group>"; };
 		684743632CA0809000EA3B49 /* CodeInCodeOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeInCodeOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		684743662CA0809000EA3B49 /* CodeInCodeOutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInCodeOutApp.swift; sourceTree = "<group>"; };
@@ -65,6 +63,10 @@
 		687719E62CAB26C60039F8E1 /* CodeScanSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanSamples.swift; sourceTree = "<group>"; };
 		687719E82CAB29620039F8E1 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6837B4792CBD8393000344B5 /* ViewComponents */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewComponents; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		684743602CA0809000EA3B49 /* Frameworks */ = {
@@ -144,7 +146,7 @@
 		684743952CA080F900EA3B49 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6834E7702CBC974C006E3D08 /* CardContextView.swift */,
+				6837B4792CBD8393000344B5 /* ViewComponents */,
 				6847438C2CA080F900EA3B49 /* CodeScannerCamera_View.swift */,
 				6847438D2CA080F900EA3B49 /* DetailView.swift */,
 				6847438E2CA080F900EA3B49 /* GenerateCodeView.swift */,
@@ -173,6 +175,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6837B4792CBD8393000344B5 /* ViewComponents */,
 			);
 			name = CodeInCodeOut;
 			packageProductDependencies = (
@@ -241,7 +246,6 @@
 				6837B46A2CBCA9BB000344B5 /* ScanCluster.swift in Sources */,
 				684743A52CA0823500EA3B49 /* Extensions.swift in Sources */,
 				684743A62CA0823500EA3B49 /* ImageSaver.swift in Sources */,
-				6834E7712CBC974C006E3D08 /* CardContextView.swift in Sources */,
 				684743A72CA0823500EA3B49 /* LocationFetcher.swift in Sources */,
 				686D98542CB05AD400F8598B /* MapMultiPinArrayView.swift in Sources */,
 				684743A82CA0823500EA3B49 /* ZoomableScrollableImage.swift in Sources */,

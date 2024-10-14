@@ -12,19 +12,29 @@ struct ZoomableScrollableImage_View: View {
     var uiImage: UIImage
     
     var body: some View {
-        VStack {
-            HStack {
-                Button("Close") {
-                    dismiss()
-                }
-                Spacer()
-            }
-            .padding()
-            
+        ZStack {
             ZoomableScrollableImage {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFit()
+            }
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.white)
+                            .padding(8)
+                            .background(Color.blue.opacity(0.75))
+                            .clipShape(Circle())
+                    }
+                }
+                .padding()
+                Spacer()
             }
         }
     }
