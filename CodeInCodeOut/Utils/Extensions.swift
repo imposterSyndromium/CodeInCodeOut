@@ -5,6 +5,7 @@
 //  Created by Robin O'Brien on 2024-09-09.
 //
 import Foundation
+import MapKit
 import SwiftUI
 
 
@@ -97,6 +98,15 @@ extension Color {
 extension String {
     var isReallyEmpty: Bool {
         self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}
+
+
+extension CLLocationCoordinate2D {
+    func distance(to other: CLLocationCoordinate2D) -> CLLocationDistance {
+        let thisLocation = CLLocation(latitude: self.latitude, longitude: self.longitude)
+        let otherLocation = CLLocation(latitude: other.latitude, longitude: other.longitude)
+        return thisLocation.distance(from: otherLocation)
     }
 }
 

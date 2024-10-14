@@ -7,9 +7,13 @@
 
 
 /// This code is a combination of me writing a view, and asking AI to enhance its capabilities.  AI did the clusters, initial location, popup menu.
+///
+/// still a work in progress, but manual now.  Ai made it way too complex, but I kept some features (scan clusters)
+///
 import MapKit
 import SwiftData
 import SwiftUI
+
 
 struct MapMultiPinArrayView: View {
     @Environment(\.modelContext) private var modelContext
@@ -20,15 +24,21 @@ struct MapMultiPinArrayView: View {
     
     @State private var mapCameraPosition: MapCameraPosition = .automatic
     @State private var popupPosition: CGPoint?
+    @State private var showMenu: Bool = false
     
     @State private var showDebugText: Bool = false
     @State private var debugText: String = ""
+    
+    
 
     var body: some View {
         ZStack {
             if scans.isEmpty {
+                
                 ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
+                
             } else if hasValidLocations() {
+                
                 MapReader { proxy in
                     Map(position: $mapCameraPosition, selection: $selectedCluster) {
                         ForEach(createClusters()) { cluster in
@@ -38,7 +48,7 @@ struct MapMultiPinArrayView: View {
                                     .font(.title)
                                     .onTapGesture {
                                         selectedCluster = cluster
-                                        updatePopupPosition(for: cluster, using: proxy)
+                                        showMenu = true // show the menu when a cluster is tapped
                                     }
                             }
                             .tag(cluster)
@@ -46,15 +56,7 @@ struct MapMultiPinArrayView: View {
                     }
                     .onAppear(perform: setInitialCameraPosition)
                 }
-                
-                if let _ = selectedCluster, let position = popupPosition {
-                    ClusterPopupView(cluster: selectedCluster!, selectedScan: $selectedScan, onClose: {
-                        selectedCluster = nil
-                        popupPosition = nil
-                    })
-                    .position(position)
-                    .transition(.scale)
-                }
+
 
                 // Debug overlay
                 if showDebugText {
@@ -69,10 +71,51 @@ struct MapMultiPinArrayView: View {
                 }
                 
             } else {
+                
                 ContentUnavailableView("Locations not available", systemImage: "location.slash", description: Text("There is no location history for any scans. To enable future scan location availability, go to Settings > Privacy & Security > Location Services > CodeInCodeOut"))
+                
             }
-        }
+            
+          //  if let _ = selectedCluster, let position = popupPosition {
+                CardContextMenu(isPresented: $showMenu) {
+                    VStack(spacing: 20) {
+                        Text("Pin Actions")
+                            .font(.headline)
+                        
+                        List(selectedCluster!.scans) { scan in
+                            Text("\(scan.codeStingData)")
+                        }
+                        
+                        Button("Show Details") {
+                            print("Details tapped")
+                        }
+                        
+                        Button("Get Directions") {
+                            print("Directions tapped")
+                        }
+                        
+                        Button("Close") {
+                            withAnimation {
+                                showMenu = false
+                                selectedCluster = nil  // Reset selected cluster when closing
+                                popupPosition = nil    // Reset popup position when closing
+                            }
+                        }
+                    }
+                    .foregroundColor(.primary)
+                }
+           // }
+
+        } //ZStack
+
     }
+        
+}
+
+
+
+
+extension MapMultiPinArrayView {
     
     private func hasValidLocations() -> Bool {
         scans.contains { scan in
@@ -91,7 +134,7 @@ struct MapMultiPinArrayView: View {
         }
         
         var clusters: [ScanCluster] = []
-        let clusteringDistance: CLLocationDistance = 250 // 250 meters
+        let clusteringDistance: CLLocationDistance = 200 // meters
         
         for (scan, coordinate) in validScans {
             if let existingClusterIndex = clusters.firstIndex(where: { $0.coordinate.distance(to: coordinate) <= clusteringDistance }) {
@@ -134,106 +177,28 @@ struct MapMultiPinArrayView: View {
             longitudinalMeters: zoom * 1000
         ))
     }
+    
 //    private func setInitialCameraPosition() {
 //        guard let lastScanLocation = scans.first?.location,
 //              let lastCoordinate = decodeMapLocation(mapLocationData: lastScanLocation) else {
 //            return
 //        }
-//        
+//
 //        let zoom = 0.05 // Adjust this value to change the initial zoom level
-//        
+//
 //        mapCameraPosition = .region(MKCoordinateRegion(
 //            center: lastCoordinate,
 //            span: MKCoordinateSpan(latitudeDelta: zoom, longitudeDelta: zoom)
 //        ))
 //    }
-    
-    private func updatePopupPosition(for cluster: ScanCluster, using proxy: MapProxy) {
-        let annotationPoint = proxy.convert(cluster.coordinate, to: .local)
-        
-        let popupSize = CGSize(width: 200, height: 150)
-        let screenSize = UIScreen.main.bounds.size
-        
-        let x = min(max(annotationPoint?.x ?? 0, popupSize.width / 2), screenSize.width - popupSize.width / 2)
-        let y = min(max((annotationPoint?.y ?? 0) - popupSize.height, popupSize.height / 2), screenSize.height - popupSize.height / 2)
-        
-        popupPosition = CGPoint(x: x, y: y)
-        debugText += "\nPopup position set to \(popupPosition!)"
-    }
 
+    
 }
 
-struct ClusterPopupView: View {
-    let cluster: ScanCluster
-    @Binding var selectedScan: CodeScanData?
-    let onClose: () -> Void
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text(cluster.title)
-                    .font(.headline)
-                Spacer()
-                Button(action: onClose) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.gray)
-                }
-            }
-            .padding(.bottom, 5)
-            
-            ScrollView {
-                VStack(alignment: .leading, spacing: 5) {
-                    ForEach(cluster.scans, id: \.self) { scan in
-                        Button(action: {
-                            selectedScan = scan
-                            // TODO: Launch detail view here
-                        }) {
-                            Text(scan.codeStingData)
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                        }
-                    }
-                }
-            }
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 5)
-        .frame(width: 200, height: 150)
-    }
-}
 
-class ScanCluster: Identifiable, Hashable {
-    let id = UUID()
-    let coordinate: CLLocationCoordinate2D
-    var scans: [CodeScanData]
-    
-    var title: String {
-        scans.count > 1 ? "\(scans.count) scans" : "\(scans.count) scan"
-    }
-    
-    init(coordinate: CLLocationCoordinate2D, scans: [CodeScanData]) {
-        self.coordinate = coordinate
-        self.scans = scans
-    }
-    
-    static func == (lhs: ScanCluster, rhs: ScanCluster) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
 
-extension CLLocationCoordinate2D {
-    func distance(to other: CLLocationCoordinate2D) -> CLLocationDistance {
-        let thisLocation = CLLocation(latitude: self.latitude, longitude: self.longitude)
-        let otherLocation = CLLocation(latitude: other.latitude, longitude: other.longitude)
-        return thisLocation.distance(from: otherLocation)
-    }
-}
+
+
 
 
 #Preview {
