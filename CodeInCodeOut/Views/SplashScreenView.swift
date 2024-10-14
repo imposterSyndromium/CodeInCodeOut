@@ -10,36 +10,68 @@ import SwiftUI
 struct SplashScreenView: View {
     @Binding var isPresented: Bool
     @State private var animationsRunning = false
+    @State private var showWord = false
+    @State private var topWordOffset: CGFloat = 500
+    @State private var bottomWordOffset: CGFloat = -500
+
     
     var body: some View {
-        ZStack {
-            Color.black
-                .ignoresSafeArea()
-            
-            VStack {
-                Image(systemName: "qrcode.viewfinder")
-                    .symbolEffect(.bounce, value: animationsRunning)
-                    .font(.system(size: 250))
-                    .foregroundStyle(.white)
-            }
-            .font(.largeTitle)
-        }
-        .onAppear {
-            // trigger the SFSymbol effect st to start
-            animationsRunning.toggle()
-            
-            // wait 3 seconds to dismiss the screen
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                withAnimation {
-                    isPresented = true
+            ZStack {
+                Color.black
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 0) {
+                    HStack {
+                        // The word that will slide in
+                        Text("CODE IN")
+                            .font(Font.custom("Monas", size: 60))
+                            .foregroundColor(.white)
+                            .offset(x: showWord ? 0 : topWordOffset)
+                            .opacity(showWord ? 1 : 0)
+                            .animation(.easeOut(duration: 0.5), value: showWord)
+                                                
+                    }
+                    .padding()
+                    
+                    TextShimmerView(content: .symbol("qrcode.viewfinder"), speed: 1.7, fontSize: 300, rotationAngle: 90, shimmerColor: .red)
+                        .symbolEffect(.bounce, value: animationsRunning)
+                    
+                    HStack {
+                        // The word that will slide in
+                        Text("CODE OUT")
+                            .font(Font.custom("Monas", size: 60))
+                            .foregroundColor(.white)
+                            .offset(x: showWord ? 0 : bottomWordOffset)
+                            .opacity(showWord ? 1 : 0)
+                            .animation(.easeOut(duration: 0.5), value: showWord)
+                    }
+                    .padding()
                 }
-            })
+                .preferredColorScheme(.dark)
+            }
+            .onAppear {
+                // trigger the SFSymbol effect to start
+                animationsRunning.toggle()
+                
+                // wait 0.5 seconds to show the sliding word
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation {
+                        showWord = true
+                    }
+                }
+                
+                // wait 3 seconds to dismiss the screen
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
+                    withAnimation {
+                        isPresented = true
+                    }
+                }
+            }
+            // allow a tap to skip the 3 second wait set in .onAppear
+            .onTapGesture {
+                isPresented = true
+            }
         }
-        // allow a tap to skip the 3 second wait set in .onAppear
-        .onTapGesture {
-            isPresented = true
-        }
-    }
 }
 
 #Preview {

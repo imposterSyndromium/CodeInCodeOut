@@ -36,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		680B21DB2CBDC4A9009EF9FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6837B4692CBCA9BB000344B5 /* ScanCluster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanCluster.swift; sourceTree = "<group>"; };
 		684743632CA0809000EA3B49 /* CodeInCodeOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeInCodeOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		684743662CA0809000EA3B49 /* CodeInCodeOutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInCodeOutApp.swift; sourceTree = "<group>"; };
@@ -65,6 +66,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		680B21D82CBDC379009EF9FC /* Font */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Font; sourceTree = "<group>"; };
 		6837B4792CBD8393000344B5 /* ViewComponents */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewComponents; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -99,6 +101,8 @@
 		684743652CA0809000EA3B49 /* CodeInCodeOut */ = {
 			isa = PBXGroup;
 			children = (
+				680B21DB2CBDC4A9009EF9FC /* Info.plist */,
+				680B21D82CBDC379009EF9FC /* Font */,
 				684743662CA0809000EA3B49 /* CodeInCodeOutApp.swift */,
 				6847437B2CA080DC00EA3B49 /* Models */,
 				684743852CA080E600EA3B49 /* Utils */,
@@ -177,6 +181,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				680B21D82CBDC379009EF9FC /* Font */,
 				6837B4792CBD8393000344B5 /* ViewComponents */,
 			);
 			name = CodeInCodeOut;
@@ -401,6 +406,7 @@
 				DEVELOPMENT_TEAM = X4N47N3Y9H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CodeInCodeOut/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is needed to scan barcodes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is needed to store locaion of barcode scans";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo library access is needed to store generated barcode images";
@@ -433,6 +439,7 @@
 				DEVELOPMENT_TEAM = X4N47N3Y9H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CodeInCodeOut/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is needed to scan barcodes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is needed to store locaion of barcode scans";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo library access is needed to store generated barcode images";

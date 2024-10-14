@@ -23,6 +23,7 @@ struct TextShimmerView: View {
     var fontSize: CGFloat = 75
     var rotationAngle: Double = 70
     var shimmerColor: Color = .white
+    var repeatShimmer: Bool = false
     
     @ViewBuilder
     private var contentView: some View {
@@ -38,7 +39,7 @@ struct TextShimmerView: View {
         ZStack {
             contentView
                 .font(.system(size: fontSize, weight: .bold))
-                .foregroundColor(Color.primary.opacity(0.5))
+                .foregroundColor(Color.white.opacity(1))
           
             HStack(spacing: 0) {
                 switch content {
@@ -68,8 +69,9 @@ struct TextShimmerView: View {
                     .offset(x: animation ? 500 : 0)
             )
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                    withAnimation(Animation.linear(duration: speed).repeatForever(autoreverses: false)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    
+                    withAnimation(repeatShimmer ? Animation.linear(duration: speed).repeatForever(autoreverses: false) : Animation.linear(duration: speed)) {
                         animation.toggle()
                     }
                 }
