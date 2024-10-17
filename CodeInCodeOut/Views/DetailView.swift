@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DetailView: View {
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dismiss) private var dismiss
     @Bindable var codeScan: CodeScanData  //<-- this Bindable property is what keeps the notes field attached to SwiftData
     @State private var isShowingZoomableImage = false
     @FocusState private var isNotesFocused: Bool
@@ -90,7 +92,6 @@ struct DetailView: View {
             Section("Scan Location") {
                 if let location = codeScan.location {
                     
-                    
                     MapSinglePinView(locationData: location, isInteractionDisabled: false)
                         .frame(height: 400)
                         .padding()
@@ -104,9 +105,15 @@ struct DetailView: View {
         .sheet(isPresented: $isShowingZoomableImage) {
             ZoomableScrollableImage_View(uiImage: UIImage(data: codeScan.image!)!)
         }
+        .onChange(of: scenePhase) {
+            if scenePhase == .background {
+                self.dismiss()
+            }
+        }
         
         
     }
+    
     
     
     // uses a ZStack to contain a TextEditor field with placeholder text on top (to mimic a regular TextField)
@@ -132,9 +139,9 @@ struct DetailView: View {
 }
 
 
-#Preview {
-    let preview = Preview()
-    preview.addExampleData(CodeScanData.sampleScans)
-    return MainTabView()
-        .modelContainer(preview.container)
-}
+//#Preview {
+//    let preview = Preview()
+//    preview.addExampleData(CodeScanData.sampleScans)
+//    return MainTabView()
+//        .modelContainer(preview.container)
+//}

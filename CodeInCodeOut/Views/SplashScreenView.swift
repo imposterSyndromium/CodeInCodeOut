@@ -24,22 +24,21 @@ struct SplashScreenView: View {
                     HStack {
                         // The word that will slide in
                         Text("CODE IN")
-                            .font(Font.custom("Monas", size: 60))
+                            .font(Font.custom("CrackedMirrorRegular", size: 90))
                             .foregroundColor(.white)
                             .offset(x: showWord ? 0 : topWordOffset)
                             .opacity(showWord ? 1 : 0)
-                            .animation(.easeOut(duration: 0.5), value: showWord)
-                                                
+                            .animation(.easeOut(duration: 0.5), value: showWord)                  
                     }
                     .padding()
                     
-                    TextShimmerView(content: .symbol("qrcode.viewfinder"), speed: 1.7, fontSize: 300, rotationAngle: 90, shimmerColor: .red)
+                    TextShimmerView(content: .symbol("qrcode.viewfinder"), speed: 1.3, fontSize: 250, rotationAngle: 90, shimmerColor: .red, delay: 0.7, autoReverse: true, repeatCount: 2)
                         .symbolEffect(.bounce, value: animationsRunning)
                     
                     HStack {
                         // The word that will slide in
                         Text("CODE OUT")
-                            .font(Font.custom("Monas", size: 60))
+                            .font(Font.custom("CrackedMirrorRegular", size: 90))
                             .foregroundColor(.white)
                             .offset(x: showWord ? 0 : bottomWordOffset)
                             .opacity(showWord ? 1 : 0)
@@ -61,7 +60,7 @@ struct SplashScreenView: View {
                 }
                 
                 // wait 3 seconds to dismiss the screen
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     withAnimation {
                         isPresented = true
                     }

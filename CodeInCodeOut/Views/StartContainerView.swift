@@ -14,23 +14,14 @@ struct StartContainerView: View {
     
     var body: some View {
         
+        
             if isSplashScreenViewPresented {
-                MainTabView()
-                    .onChange(of: scenePhase) { _, newValue in
-                        if newValue == .inactive {
-                            isSplashScreenViewPresented = false
-                        }
-                    }
-                
+                MainTabView()    
             } else {
                 SplashScreenView(isPresented: $isSplashScreenViewPresented)
             }
-       
-        
-        
+                
     }
-    
-
 }
 
 #Preview {

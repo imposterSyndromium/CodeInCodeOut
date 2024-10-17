@@ -24,6 +24,9 @@ struct TextShimmerView: View {
     var rotationAngle: Double = 70
     var shimmerColor: Color = .white
     var repeatShimmer: Bool = false
+    var delay: Double = 0.1
+    var autoReverse: Bool = false
+    var repeatCount: Int = 1
     
     @ViewBuilder
     private var contentView: some View {
@@ -46,7 +49,7 @@ struct TextShimmerView: View {
                 case .text(let text):
                     ForEach(0..<text.count, id: \.self) { index in
                         Text(String(text[text.index(text.startIndex, offsetBy: index)]))
-                            .font(.system(size: fontSize, weight: .bold))
+                            .font(.system(size: fontSize, weight: .light))
                             .foregroundColor(multiColors ? randomColor() : shimmerColor)
                     }
                 case .symbol(let symbolName):
@@ -69,9 +72,11 @@ struct TextShimmerView: View {
                     .offset(x: animation ? 500 : 0)
             )
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                    
-                    withAnimation(repeatShimmer ? Animation.linear(duration: speed).repeatForever(autoreverses: false) : Animation.linear(duration: speed)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) { //<-- Delay
+                    withAnimation(repeatShimmer ?
+                                  Animation.linear(duration: speed).repeatForever(autoreverses: autoReverse)
+                                  :
+                                  Animation.linear(duration: speed).repeatCount(repeatCount, autoreverses: autoReverse)) {
                         animation.toggle()
                     }
                 }

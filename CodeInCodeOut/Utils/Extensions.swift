@@ -75,6 +75,7 @@ extension UIView {
 }
 
 
+
 extension Color {
     init(hex: UInt, alpha: Double = 1) {
         self.init(
@@ -86,13 +87,11 @@ extension Color {
         )
     }
     
-}
-
-
-extension Color {
+    
     // a very light gray
     static let listRowColor: Color = Color(UIColor(red: 203/255, green: 203/255, blue: 203/255, alpha: 0.3))
 }
+
 
 
 extension String {

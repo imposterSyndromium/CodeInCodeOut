@@ -22,3 +22,6 @@ func decodeMapLocation(mapLocationData: Data) -> CLLocationCoordinate2D? {
     return nil
 }
 
+
+
+

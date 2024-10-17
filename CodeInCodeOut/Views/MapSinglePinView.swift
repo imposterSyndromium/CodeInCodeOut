@@ -16,8 +16,8 @@ struct MapSinglePinView: View {
     
     // initial map position - this gets updated in .onAppear
     @State private var mapCameraPosition: MapCameraPosition = MapCameraPosition.region(
-        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 43.728, longitude: -80.950),
-                           span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
+        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 43.731944, longitude: -80.953333),
+                           span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)))
     
     
     var body: some View {
@@ -29,15 +29,14 @@ struct MapSinglePinView: View {
                         Image(systemName: "mappin")
                             .padding(4)
                             .background(Color.white.opacity(0.75))
-                            .clipShape(Circle())
+                            .clipShape(.circle)
                             .foregroundStyle(.red)
                         
                         Text("Scanned Here")
                             .font(.callout)
                             .foregroundColor(.red)
-                            .padding(6)
+                            .padding(5)
                             .background(Color.white.opacity(0.75))
-                            //.cornerRadius(4)
                             .clipShape(.capsule)
                     }
                 }

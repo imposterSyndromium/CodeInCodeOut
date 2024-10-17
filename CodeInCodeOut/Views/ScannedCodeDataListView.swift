@@ -21,7 +21,7 @@ struct ScannedCodeDataListView: View {
     @State private var sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .reverse)
     
     private var sortedCodeScans: [CodeScanData] {
-        return codeScans.sorted(using: sortingOrder)
+        codeScans.sorted(using: sortingOrder)
     }
     
     private enum sortedBy: String, CaseIterable, Identifiable {
@@ -134,7 +134,7 @@ struct ScannedCodeDataListView: View {
         }
         .swipeActions(edge: .trailing) {
             Button("Delete", systemImage: "trash", role: .destructive) {
-                withAnimation {
+                withAnimation(.easeOut) {
                     modelContext.delete(codescan)
                 }
             }
@@ -142,14 +142,14 @@ struct ScannedCodeDataListView: View {
         .swipeActions(edge: .leading) {
             if codescan.isFavorite {
                 Button("Remove favorite", systemImage: "star.slash") {
-                    withAnimation {
+                    withAnimation(.easeInOut) {
                         codescan.isFavorite.toggle()
                     }
                 }
                 .tint(.gray)
             } else {
                 Button("Add favorite", systemImage: "star.fill") {
-                    withAnimation {
+                    withAnimation(.easeInOut) {
                         codescan.isFavorite.toggle()
                     }
                 }
@@ -164,10 +164,10 @@ struct ScannedCodeDataListView: View {
 
 
 
-#Preview {
-    let preview = Preview()
-    preview.addExampleData(CodeScanData.sampleScans)
-    return MainTabView()
-        .modelContainer(preview.container)
-    
-}
+//#Preview {
+//    let preview = Preview()
+//    preview.addExampleData(CodeScanData.sampleScans)
+//    return MainTabView()
+//        .modelContainer(preview.container)
+//    
+//}

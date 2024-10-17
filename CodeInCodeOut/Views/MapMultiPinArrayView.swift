@@ -35,6 +35,7 @@ struct MapMultiPinArrayView: View {
             if scans.isEmpty {
                 
                 ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
+                    .foregroundStyle(.gray)
                 
             } else if hasValidLocations() {
                 
@@ -105,12 +106,11 @@ struct MapMultiPinArrayView: View {
                                     }
                                 }
                             }
-                            
                         }
                     }
                     
                     Button("Close") {
-                        withAnimation(.easeOut(duration: 0.2)) {
+                        withAnimation(.easeOut(duration: 0.27)) {
                             showMenu = false
                             selectedCluster = nil  // Reset selected cluster when closing
                         }
@@ -151,7 +151,7 @@ extension MapMultiPinArrayView {
         }
         
         var clusters: [ScanCluster] = []
-        let clusteringDistance: CLLocationDistance = 200 // meters
+        let clusteringDistance: CLLocationDistance = 50 // meters
         
         for (scan, coordinate) in validScans {
             if let existingClusterIndex = clusters.firstIndex(where: { $0.coordinate.distance(to: coordinate) <= clusteringDistance }) {
@@ -170,23 +170,24 @@ extension MapMultiPinArrayView {
         guard let lastScanLocation = scans.first?.location,
               let lastCoordinate = decodeMapLocation(mapLocationData: lastScanLocation),
               let secondLastScanLocation = scans.dropFirst().first?.location,
-              let secondLastCoordinate = decodeMapLocation(mapLocationData: secondLastScanLocation) else {
+              let secondLastCoordinate = decodeMapLocation(mapLocationData: secondLastScanLocation)
+        else {
             return
         }
         
         // create a center coordinate from the last 2 scans
         let centerCoordinate = CLLocationCoordinate2D(
-            //latitude: (lastCoordinate.latitude + secondLastCoordinate.latitude) / 2,
-            //longitude: (lastCoordinate.longitude + secondLastCoordinate.longitude) / 2
+            latitude: (lastCoordinate.latitude + secondLastCoordinate.latitude) / 2,
+            longitude: (lastCoordinate.longitude + secondLastCoordinate.longitude) / 2
             
             // only use last scan
-            latitude: lastCoordinate.latitude,
-            longitude: lastCoordinate.longitude
+            //latitude: lastCoordinate.latitude,
+            //longitude: lastCoordinate.longitude
         )
         
         // set distance and zoom factors
         let distance = lastCoordinate.distance(to: secondLastCoordinate)
-        let zoom = Double(max(distance / 1000, 0.5)) // Adjust this factor to change the zoom level
+        let zoom = Double(max(distance / 750, 0.5)) // Adjust this factor to change the zoom level
         
         // set the mapCameraPostition using the center cordinate
         mapCameraPosition = .region(MKCoordinateRegion(
@@ -218,12 +219,12 @@ extension MapMultiPinArrayView {
 
 
 
-
-#Preview {
-    let preview = Preview()
-    preview.addExampleData(CodeScanData.sampleScans)
-    return MainTabView()
-        .modelContainer(preview.container)
-    
-}
+//
+//#Preview {
+//    let preview = Preview()
+//    preview.addExampleData(CodeScanData.sampleScans)
+//    return MainTabView()
+//        .modelContainer(preview.container)
+//    
+//}
 
