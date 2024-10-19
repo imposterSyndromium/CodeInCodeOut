@@ -111,62 +111,6 @@ extension CLLocationCoordinate2D {
 }
 
 
-extension Image {
-    func addText(_ text: String) -> some View {
-        GeometryReader { geometry in
-            VStack(spacing: 0) {
-                self
-                    .resizable()
-                    .scaledToFit()
-                
-                Text(text)
-                    .font(.system(size: 14))
-                    .padding(5)
-                    .frame(width: geometry.size.width, height: 30)
-                    .background(Color.white)
-                    .foregroundColor(.black)
-            }
-        }
-    }
-}
-
-
-extension UIImage {
-    func addingText(_ text: String,
-                    textColor: UIColor = .black,
-                    backgroundColor: UIColor = .white,
-                    font: UIFont = .systemFont(ofSize: 14),
-                    textHeight: CGFloat = 30) -> UIImage {
-        let scale = UIScreen.main.scale
-        let size = CGSize(width: self.size.width, height: self.size.height + textHeight)
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, scale)
-        defer { UIGraphicsEndImageContext() }
-        
-        // Draw original image
-        draw(in: CGRect(origin: .zero, size: self.size))
-        
-        // Draw background for text
-        backgroundColor.setFill()
-        let backgroundRect = CGRect(x: 0, y: self.size.height, width: size.width, height: textHeight)
-        UIRectFill(backgroundRect)
-        
-        // Setup text attributes
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .foregroundColor: textColor,
-            .paragraphStyle: paragraphStyle
-        ]
-        
-        // Draw text
-        let textRect = CGRect(x: 0, y: self.size.height, width: size.width, height: textHeight)
-        text.draw(in: textRect, withAttributes: attributes)
-        
-        return UIGraphicsGetImageFromCurrentImageContext() ?? self
-    }
-}
 
 
 

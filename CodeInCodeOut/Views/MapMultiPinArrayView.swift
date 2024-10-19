@@ -6,10 +6,6 @@
 //
 
 
-/// This code is a combination of me writing a view, and asking AI to enhance its capabilities.  AI did the clusters, initial location, popup menu.
-///
-/// still a work in progress, but manual now.  Ai made it way too complex, but I kept some features (scan clusters)
-///
 import MapKit
 import SwiftData
 import SwiftUI

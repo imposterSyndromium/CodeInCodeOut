@@ -60,13 +60,8 @@ struct ScannedCodeDataListView: View {
                 }
                 
             } else {
-                
-                Button {
-                    isShowingScanner = true
-                } label: {
-                    ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
-                }
-                .foregroundStyle(.gray)
+                ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
+                    .foregroundStyle(.gray)
             }
         }
         .navigationTitle("Scanned Codes").navigationBarTitleDisplayMode(.inline)
