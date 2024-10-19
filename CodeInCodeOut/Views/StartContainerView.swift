@@ -14,13 +14,11 @@ struct StartContainerView: View {
     
     var body: some View {
         
-        
-            if isSplashScreenViewPresented {
-                MainTabView()    
-            } else {
-                SplashScreenView(isPresented: $isSplashScreenViewPresented)
-            }
-                
+        if isSplashScreenViewPresented {
+            MainTabView()
+        } else {
+            SplashScreenView(isPresented: $isSplashScreenViewPresented)
+        }
     }
 }
 

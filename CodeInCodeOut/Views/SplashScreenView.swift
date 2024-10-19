@@ -22,7 +22,7 @@ struct SplashScreenView: View {
                 
                 VStack(spacing: 0) {
                     HStack {
-                        // The word that will slide in
+                        // The word that will slide in..
                         Text("CODE IN")
                             .font(Font.custom("CrackedMirrorRegular", size: 90))
                             .foregroundColor(.white)

@@ -16,7 +16,7 @@ struct ScannedCodeDataListView: View {
     @Environment(\.modelContext) var modelContext
     @Query private var codeScans: [CodeScanData]
     
-    @State private var isShowingScanner: Bool = false
+    @State var isShowingScanner: Bool = false
     @State private var currentImageData: Data?
     @State private var sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .reverse)
     
@@ -89,7 +89,7 @@ struct ScannedCodeDataListView: View {
             }
         }
         .sheet(isPresented: $isShowingScanner) {
-            CodeScannerCamera_View()
+            CodeScannerCameraView()
         }
         .onChange(of: sorting) { _, newValue in
             updateSortingOrder(newValue)

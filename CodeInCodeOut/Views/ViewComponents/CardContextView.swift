@@ -23,7 +23,7 @@ struct CardContextMenu<Content: View>: View {
                     }
                 
                 VStack {
-                    content() // <-- whatever view is pass in using trailing closure
+                    content() // <-- whatever view is passed in using trailing closure
                 }
                 .padding()
                 .background(

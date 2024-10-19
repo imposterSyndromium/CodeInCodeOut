@@ -9,7 +9,7 @@ import CodeScanner
 import SwiftData
 import SwiftUI
 
-struct CodeScannerCamera_View: View {
+struct CodeScannerCameraView: View {
     @EnvironmentObject var appStateManager: AppStateManager
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
@@ -36,7 +36,7 @@ struct CodeScannerCamera_View: View {
 
 
 
-extension CodeScannerCamera_View {
+extension CodeScannerCameraView {
     
     @MainActor
     func handleScan(result: Result<ScanResult, ScanError>) {
@@ -75,5 +75,5 @@ extension CodeScannerCamera_View {
 
 
 #Preview {
-    CodeScannerCamera_View()
+    CodeScannerCameraView()
 }

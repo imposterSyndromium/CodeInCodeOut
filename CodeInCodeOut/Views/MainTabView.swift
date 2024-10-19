@@ -9,18 +9,19 @@ import SwiftUI
 
 struct MainTabView: View {
     @Environment(\.scenePhase) private var scenePhase
-    @State private var selectedTab: Int = 0
+    @State private var selectedTab: String = "0"
+    @State private var isShowingScanner: Bool = false
     
     var body: some View {
         TabView(selection: $selectedTab) {
             
             NavigationStack {
-                ScannedCodeDataListView()
+                ScannedCodeDataListView(isShowingScanner: isShowingScanner)
             }
             .tabItem {
                 Label("Scan List", systemImage: "list.bullet.clipboard")
             }
-            .tag(0)
+            .tag("0")
          
             NavigationStack {
                 MapMultiPinArrayView()
@@ -28,7 +29,7 @@ struct MainTabView: View {
             .tabItem {
                 Label("Scan Locations", systemImage: "map")
             }
-            .tag(1)
+            .tag("1")
             
             NavigationStack {
                 GenerateCodeView()
@@ -36,16 +37,16 @@ struct MainTabView: View {
             .tabItem {
                 Label("Generate Code", systemImage: "qrcode")
             }
-            .tag(2)
+            .tag("2")
             
             
         }
         .preferredColorScheme(.dark)
-        .onChange(of: scenePhase) {
-            if scenePhase == .background {
-                 selectedTab = 0
-            }
-        }
+//        .onChange(of: scenePhase) {
+//            if scenePhase == .background {
+//                 selectedTab = 0
+//            }
+//        }
     }
 }
 

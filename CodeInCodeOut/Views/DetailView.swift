@@ -103,7 +103,7 @@ struct DetailView: View {
             .listRowBackground(Color.listRowColor)
         }
         .sheet(isPresented: $isShowingZoomableImage) {
-            ZoomableScrollableImage_View(uiImage: UIImage(data: codeScan.image!)!)
+            ZoomableScrollableImageView(uiImage: UIImage(data: codeScan.image!)!)
         }
         .onChange(of: scenePhase) {
             if scenePhase == .background {

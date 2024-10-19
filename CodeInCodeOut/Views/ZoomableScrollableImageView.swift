@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ZoomableScrollableImage_View: View {
+struct ZoomableScrollableImageView: View {
     @Environment(\.dismiss) var dismiss
     var uiImage: UIImage
     

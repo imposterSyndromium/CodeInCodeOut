@@ -95,6 +95,7 @@ struct GenerateCodeView: View {
                 Image(uiImage: barcodeImage)
                     .resizable()
                     .scaledToFit()
+                
                     // The menu that appears when press + hold Image
                     .contextMenu {
                         ShareLink(item: Image(uiImage: barcodeImage), preview: SharePreview("Scanned data: \(inputText)", image: Image(uiImage: barcodeImage))) {
