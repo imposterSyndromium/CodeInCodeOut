@@ -19,6 +19,7 @@ struct ScannedCodeDataListView: View {
     @State var isShowingScanner: Bool = false
     @State private var currentImageData: Data?
     @State private var sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .reverse)
+    @Binding var selectedTab: Int
     
     private var sortedCodeScans: [CodeScanData] {
         codeScans.sorted(using: sortingOrder)
@@ -60,7 +61,7 @@ struct ScannedCodeDataListView: View {
                 }
                 
             } else {
-                ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
+                ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet.  Scan a code with your camera to start"))
                     .foregroundStyle(.gray)
             }
         }
@@ -106,7 +107,7 @@ struct ScannedCodeDataListView: View {
     
     private func codeScanRow(for codescan: CodeScanData) -> some View {
         NavigationLink {
-            DetailView(codeScan: codescan)
+            DetailView(codeScan: codescan, selectedTab: $selectedTab)
             
         } label: {
             VStack(alignment: .leading) {
@@ -137,14 +138,14 @@ struct ScannedCodeDataListView: View {
         .swipeActions(edge: .leading) {
             if codescan.isFavorite {
                 Button("Remove favorite", systemImage: "star.slash") {
-                    withAnimation(.easeInOut) {
+                    withAnimation(.spring) {
                         codescan.isFavorite.toggle()
                     }
                 }
                 .tint(.gray)
             } else {
                 Button("Add favorite", systemImage: "star.fill") {
-                    withAnimation(.easeInOut) {
+                    withAnimation(.spring) {
                         codescan.isFavorite.toggle()
                     }
                 }

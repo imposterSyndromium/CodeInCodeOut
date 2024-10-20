@@ -60,30 +60,6 @@ struct BarcodeGenerator {
         return UIImage()
     }
     
-    private func addTextToImage(_ image: UIImage, text: String) -> UIImage {
-        let scale = UIScreen.main.scale
-        let newSize = CGSize(width: image.size.width, height: image.size.height + 40)
-        
-        UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
-        
-        image.draw(in: CGRect(origin: .zero, size: image.size))
-        
-        let rect = CGRect(x: 0, y: image.size.height, width: newSize.width, height: 40)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        
-        let attrs: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 16),
-            .paragraphStyle: paragraphStyle,
-            .foregroundColor: UIColor.black
-        ]
-        
-        text.draw(with: rect, options: .usesLineFragmentOrigin, attributes: attrs, context: nil)
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage ?? image
-    }
+    
 }
 

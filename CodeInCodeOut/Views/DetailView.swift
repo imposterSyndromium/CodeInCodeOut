@@ -13,6 +13,7 @@ struct DetailView: View {
     @Bindable var codeScan: CodeScanData  //<-- this Bindable property is what keeps the notes field attached to SwiftData
     @State private var isShowingZoomableImage = false
     @FocusState private var isNotesFocused: Bool
+    @Binding var selectedTab: Int
     
 
     
@@ -105,10 +106,11 @@ struct DetailView: View {
         .sheet(isPresented: $isShowingZoomableImage) {
             ZoomableScrollableImageView(uiImage: UIImage(data: codeScan.image!)!)
         }
-        .onChange(of: scenePhase) {
-            if scenePhase == .background {
+        .onChange(of: selectedTab) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.dismiss()
             }
+            
         }
         
         

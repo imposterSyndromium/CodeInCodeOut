@@ -9,14 +9,6 @@ import Foundation
 import SwiftUI
 
 
-// Usage:
-//var body: some View {
-//  ZoomableScrollableImage {
-//    Image("Your image here")
-//  }
-//}
-
-
 struct ZoomableScrollableImage<Content: View>: UIViewRepresentable {
   private var content: Content
 
@@ -52,7 +44,7 @@ struct ZoomableScrollableImage<Content: View>: UIViewRepresentable {
     assert(context.coordinator.hostingController.view.superview == uiView)
   }
 
-  // MARK: - Coordinator
+  //MARK: - Coordinator
 
   class Coordinator: NSObject, UIScrollViewDelegate {
     var hostingController: UIHostingController<Content>

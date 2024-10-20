@@ -7,16 +7,18 @@
 
 import SwiftUI
 
+
 struct MainTabView: View {
     @Environment(\.scenePhase) private var scenePhase
-    @State private var selectedTab: Int = 0
     @State private var isShowingScanner: Bool = false
+    @State var selectedTab = 0
+    
     
     var body: some View {
         TabView(selection: $selectedTab) {
             
             NavigationStack {
-                ScannedCodeDataListView(isShowingScanner: isShowingScanner)
+                ScannedCodeDataListView(isShowingScanner: isShowingScanner, selectedTab: $selectedTab)
             }
             .tabItem {
                 Label("Scan List", systemImage: "list.bullet.clipboard")
@@ -24,7 +26,7 @@ struct MainTabView: View {
             .tag(0)
          
             NavigationStack {
-                MapMultiPinArrayView()
+                MapMultiPinArrayView(selectedTab: $selectedTab)
             }
             .tabItem {
                 Label("Scan Locations", systemImage: "map")

@@ -14,6 +14,7 @@ import SwiftUI
 struct MapMultiPinArrayView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \CodeScanData.dateAdded, order: .reverse) private var scans: [CodeScanData]
+    @Binding var selectedTab: Int
     
     @State private var selectedCluster: ScanCluster?
     @State private var selectedScan: CodeScanData?
@@ -30,7 +31,7 @@ struct MapMultiPinArrayView: View {
         ZStack {
             if scans.isEmpty {
                 
-                ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Press to scan a code with your camera to start"))
+                ContentUnavailableView("No scans yet!", systemImage: "qrcode.viewfinder", description: Text("There are no scanned codes yet. Scan a code with your camera to start"))
                     .foregroundStyle(.gray)
                 
             } else if hasValidLocations() {
@@ -85,7 +86,7 @@ struct MapMultiPinArrayView: View {
                         .font(.headline)
                     
                     ForEach(selectedCluster!.scans) { scan in
-                        NavigationLink(destination: DetailView(codeScan: scan)) {
+                        NavigationLink(destination: DetailView(codeScan: scan, selectedTab: $selectedTab)) {
                             VStack(alignment: .leading) {
                                 HStack {
                                     VStack(alignment: .leading) {
@@ -116,11 +117,17 @@ struct MapMultiPinArrayView: View {
                 
             }
             
+            
         } //ZStack
         .navigationTitle("Scan Locations").navigationBarTitleDisplayMode(.inline)
-        
-
-    }        
+        .onChange(of: selectedTab) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                showMenu = false                
+            }
+        }
+    }
+    
+    
 }
 
 
@@ -162,28 +169,30 @@ extension MapMultiPinArrayView {
     
     
     private func setInitialCameraPosition() {
-        // get last scan, and second last scan coordinates
+        // make sure we can get last scan
         guard let lastScanLocation = scans.first?.location,
-              let lastCoordinate = decodeMapLocation(mapLocationData: lastScanLocation),
-              let secondLastScanLocation = scans.dropFirst().first?.location,
-              let secondLastCoordinate = decodeMapLocation(mapLocationData: secondLastScanLocation)
+              let lastCoordinate = decodeMapLocation(mapLocationData: lastScanLocation)
         else {
             return
+        }
+        
+        // if there is more than one scan, use second last scan.  Else use last scan instead
+        var secondLastCoordinate: CLLocationCoordinate2D
+        if let secondLastScanLocation = scans.dropFirst().first?.location {
+            secondLastCoordinate = decodeMapLocation(mapLocationData: secondLastScanLocation) ?? lastCoordinate
+        } else {
+            secondLastCoordinate = lastCoordinate
         }
         
         // create a center coordinate from the last 2 scans
         let centerCoordinate = CLLocationCoordinate2D(
             latitude: (lastCoordinate.latitude + secondLastCoordinate.latitude) / 2,
             longitude: (lastCoordinate.longitude + secondLastCoordinate.longitude) / 2
-            
-            // only use last scan
-            //latitude: lastCoordinate.latitude,
-            //longitude: lastCoordinate.longitude
         )
         
         // set distance and zoom factors
         let distance = lastCoordinate.distance(to: secondLastCoordinate)
-        let zoom = Double(max(distance / 750, 0.5)) // Adjust this factor to change the zoom level
+        let zoom = Double(max(distance / 750, 1.0)) // Adjust this factor to change the zoom level
         
         // set the mapCameraPostition using the center cordinate
         mapCameraPosition = .region(MKCoordinateRegion(
@@ -193,21 +202,7 @@ extension MapMultiPinArrayView {
         ))
     }
     
-//    private func setInitialCameraPosition() {
-//        guard let lastScanLocation = scans.first?.location,
-//              let lastCoordinate = decodeMapLocation(mapLocationData: lastScanLocation) else {
-//            return
-//        }
-//
-//        let zoom = 0.05 // Adjust this value to change the initial zoom level
-//
-//        mapCameraPosition = .region(MKCoordinateRegion(
-//            center: lastCoordinate,
-//            span: MKCoordinateSpan(latitudeDelta: zoom, longitudeDelta: zoom)
-//        ))
-//    }
-
-    
+   
 }
 
 
