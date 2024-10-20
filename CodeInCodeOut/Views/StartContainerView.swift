@@ -8,8 +8,7 @@
 import SwiftUI
 import Foundation
 
-struct StartContainerView: View {
-    @Environment(\.scenePhase) var scenePhase
+struct StartContainerView: View {    
     @State private var isSplashScreenViewPresented = false
     
     var body: some View {

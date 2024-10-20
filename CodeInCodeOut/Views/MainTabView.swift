@@ -8,10 +8,10 @@
 import SwiftUI
 
 
-struct MainTabView: View {
-    @Environment(\.scenePhase) private var scenePhase
+struct MainTabView: View {  
+    @EnvironmentObject var appStateManager: AppStateManager
     @State private var isShowingScanner: Bool = false
-    @State var selectedTab = 0
+    @State private var selectedTab = 0
     
     
     var body: some View {
@@ -44,11 +44,9 @@ struct MainTabView: View {
             
         }
         .preferredColorScheme(.dark)
-//        .onChange(of: scenePhase) {
-//            if scenePhase == .background {
-//                 selectedTab = 0
-//            }
-//        }
+        .onAppear {
+            appStateManager.requestLocationPermission()
+        }
     }
 }
 

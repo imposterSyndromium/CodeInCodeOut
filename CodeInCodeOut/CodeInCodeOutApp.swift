@@ -23,9 +23,6 @@ struct CodeInCodeOut_App: App {
         WindowGroup {
             StartContainerView()
             .environmentObject(appStateManager)
-            .onAppear {
-                appStateManager.requestLocationPermission()
-            }
         }
         .modelContainer(container) //<-- note that we are not using for: because we already defined the container vs. letting swiftData define the container
     }

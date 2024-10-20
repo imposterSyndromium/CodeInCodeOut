@@ -8,8 +8,7 @@ import MapKit
 import SwiftUI
 
 
-struct MapSinglePinView: View {
-    
+struct MapSinglePinView: View {    
     @State var locationData: Data?
     let isInteractionDisabled: Bool
     @State private var locationCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()

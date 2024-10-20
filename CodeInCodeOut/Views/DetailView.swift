@@ -13,7 +13,7 @@ struct DetailView: View {
     @Bindable var codeScan: CodeScanData  //<-- this Bindable property is what keeps the notes field attached to SwiftData
     @State private var isShowingZoomableImage = false
     @FocusState private var isNotesFocused: Bool
-    @Binding var selectedTab: Int
+    @Binding var selectedTab: Int //<-- this property will dismiss this view if the tab number changes
     
 
     
@@ -106,11 +106,11 @@ struct DetailView: View {
         .sheet(isPresented: $isShowingZoomableImage) {
             ZoomableScrollableImageView(uiImage: UIImage(data: codeScan.image!)!)
         }
+        // dismiss this view if the user changes tabs
         .onChange(of: selectedTab) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.dismiss()
             }
-            
         }
         
         
@@ -118,7 +118,7 @@ struct DetailView: View {
     
     
     
-    // uses a ZStack to contain a TextEditor field with placeholder text on top (to mimic a regular TextField)
+    
     struct TextEditorWithPlaceholderText: View {
         @Binding var text: String
         let placeholder: String
@@ -135,6 +135,10 @@ struct DetailView: View {
                     .padding(.horizontal, -4)
             }
         }
+        
+            //TextEditorWithPlaceholderText(text: $codeScan.notes, placeholder: "Enter notes here...")
+            //.frame(height: 100) // Adjust this value to show the desired number of lines
+            //.focused($isNotesFocused)
     }
     
     
