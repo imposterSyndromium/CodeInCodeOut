@@ -31,6 +31,9 @@ struct ScannedCodeListView: View {
     }
     @State private var sorting: sortedBy = .newestFirst
     
+    @State private var pinnedHeader: String = ""
+    @State private var nonPinnedHeader: String = ""
+    
     
     
     var body: some View {
@@ -46,6 +49,8 @@ struct ScannedCodeListView: View {
                             }
                         }
                         .listRowBackground(Color.listRowColor)
+                    } else {
+                        Section("") { }
                     }
                     
                     // non-pinned codes: only show this section if we have non-pinned codes to show
@@ -56,6 +61,8 @@ struct ScannedCodeListView: View {
                             }
                         }
                         .listRowBackground(Color.listRowColor)
+                    } else {
+                        Section("") { }
                     }
                 }
                 
@@ -68,9 +75,9 @@ struct ScannedCodeListView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    isShowingScanner = true
+                    selectedTab = 0
                 } label: {
-                    Image(systemName: "qrcode.viewfinder")
+                    Image(systemName: "camera")
                 }
             }
             ToolbarItem(placement: .topBarLeading) {
@@ -83,8 +90,11 @@ struct ScannedCodeListView: View {
                 }, label: { Image(systemName: "arrow.up.arrow.down") })
             }
         }
-        .sheet(isPresented: $isShowingScanner) {
-            CodeScannerCameraView()
+//        .sheet(isPresented: $isShowingScanner) {
+//            CodeScannerCameraView(selectedTab: $selectedTab)
+//        }
+        .onChange(of: isShowingScanner) {
+            selectedTab = 0
         }
         .onChange(of: sorting) { _, newValue in
             updateSortingOrder(newValue)

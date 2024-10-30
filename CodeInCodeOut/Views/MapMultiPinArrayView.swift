@@ -81,7 +81,9 @@ struct MapMultiPinArrayView: View {
             
             
             CardContextMenu(isPresented: $showMenu) {
+                
                 VStack(spacing: 20) {
+                    
                     Text("Scans at this location:")
                         .font(.headline)
                     
@@ -95,12 +97,12 @@ struct MapMultiPinArrayView: View {
                                         Text(scan.dateAdded.formatted(date: .abbreviated, time: .shortened))
                                     }
                                     
-                                    if scan.isFavorite {
-                                        Spacer()
-                                        Image(systemName: "star.fill")
-                                            .foregroundStyle(.yellow)
-                                            .padding(.bottom, 10)
-                                    }
+                                    
+                                    Spacer()
+                                    Image(systemName: "pin.fill")
+                                        .foregroundStyle(scan.isFavorite ? .yellow : .clear)
+                                        .padding(.bottom, 10)
+                                    
                                 }
                             }
                         }
@@ -120,15 +122,26 @@ struct MapMultiPinArrayView: View {
             
         } //ZStack
         .navigationTitle("Scan Locations").navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    selectedTab = 0
+                } label: {
+                    Image(systemName: "camera")
+                }
+            }
+        }
         .onChange(of: selectedTab) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                showMenu = false                
+                showMenu = false
             }
         }
     }
     
     
 }
+
+
 
 
 

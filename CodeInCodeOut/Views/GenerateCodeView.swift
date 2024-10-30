@@ -16,9 +16,11 @@ struct GenerateCodeView: View {
 
     var body: some View {
         VStack {
-            Text("Select the barcode type, then enter your barcode data to generate a barcode image")
-                .foregroundStyle(.secondary)
-                .padding(.bottom, 20)
+            HStack {
+                Text("Select the barcode type, then enter your barcode data to generate a barcode image")
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom, 20)
+            }
 
             barcodeImageView
             

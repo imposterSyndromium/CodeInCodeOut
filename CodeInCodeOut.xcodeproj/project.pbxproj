@@ -101,9 +101,9 @@
 		684743652CA0809000EA3B49 /* CodeInCodeOut */ = {
 			isa = PBXGroup;
 			children = (
+				684743662CA0809000EA3B49 /* CodeInCodeOutApp.swift */,
 				680B21DB2CBDC4A9009EF9FC /* Info.plist */,
 				680B21D82CBDC379009EF9FC /* Font */,
-				684743662CA0809000EA3B49 /* CodeInCodeOutApp.swift */,
 				6847437B2CA080DC00EA3B49 /* Models */,
 				684743852CA080E600EA3B49 /* Utils */,
 				684743952CA080F900EA3B49 /* Views */,

@@ -11,19 +11,28 @@ import SwiftUI
 struct MainTabView: View {  
     @EnvironmentObject var appStateManager: AppStateManager
     @State private var isShowingScanner: Bool = false
-    @State private var selectedTab = 0
+    @State private var selectedTab = 1
     
     
     var body: some View {
         TabView(selection: $selectedTab) {
             
+            
+            NavigationStack {
+                CodeScannerCameraView(selectedTab: $selectedTab)
+            }
+            .tabItem {
+                Label("Scan a Code", systemImage: "camera")
+            }
+            .tag(0)
+            
             NavigationStack {
                 ScannedCodeListView(isShowingScanner: isShowingScanner, selectedTab: $selectedTab)
             }
             .tabItem {
-                Label("Scan List", systemImage: "list.bullet.clipboard")
+                Label("Scans list", systemImage: "list.bullet.clipboard")
             }
-            .tag(0)
+            .tag(1)
          
             NavigationStack {
                 MapMultiPinArrayView(selectedTab: $selectedTab)
@@ -31,7 +40,7 @@ struct MainTabView: View {
             .tabItem {
                 Label("Scan Locations", systemImage: "map")
             }
-            .tag(1)
+            .tag(2)
             
             NavigationStack {
                 GenerateCodeView()
@@ -39,11 +48,10 @@ struct MainTabView: View {
             .tabItem {
                 Label("Generate Code", systemImage: "qrcode")
             }
-            .tag(2)
+            .tag(3)
             
             
         }
-        .preferredColorScheme(.dark)
         .onAppear {
             appStateManager.requestLocationPermission()
         }

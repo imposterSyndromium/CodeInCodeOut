@@ -37,6 +37,8 @@ struct ZoomableScrollableImageView: View {
                 Spacer()
             }
         }
+        .ignoresSafeArea()
     }
+        
 }
 

@@ -12,7 +12,9 @@ import SwiftUI
 struct CodeScannerCameraView: View {
     @EnvironmentObject var appStateManager: AppStateManager
     @Environment(\.modelContext) var modelContext
-    @Environment(\.dismiss) var dismiss
+    //@Environment(\.dismiss) var dismiss
+    @State private var dismissCamera: Bool = false
+    @Binding var selectedTab: Int //<-- this property will dismiss this view if the tab number changes
     
     let locationFetcher = LocationFetcher()
     let simulatedData: String = "This is a string of simulated code data 1234567890"
@@ -20,13 +22,25 @@ struct CodeScannerCameraView: View {
     
     
     var body: some View {
-        VStack {
+        ZStack {
             CodeScannerView(codeTypes: codeScanTypes,
                             requiresPhotoOutput: true,
                             simulatedData: simulatedData,
                             completion: handleScan)
         }
         .navigationTitle("Code Scanner").navigationBarTitleDisplayMode(.inline)
+        .onChange(of: dismissCamera) {
+            selectedTab = 1
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button("Cancel") {
+                    selectedTab = 1
+                }
+            }
+
+        }
+        
     }
     
     
@@ -61,11 +75,11 @@ extension CodeScannerCameraView {
             
             self.modelContext.insert(scannedCode)
             print("Success scanning barcode: \(scannedCode.codeStingData)")
-            dismiss()
+            dismissCamera.toggle()
             
         case .failure(let error):
             print("Scanning Failed: \(error.localizedDescription)")
-            dismiss()
+            dismissCamera.toggle()
         }
     }
 }
@@ -74,6 +88,6 @@ extension CodeScannerCameraView {
 
 
 
-#Preview {
-    CodeScannerCameraView()
-}
+//#Preview {
+//    CodeScannerCameraView(appStateManager:)
+//}
