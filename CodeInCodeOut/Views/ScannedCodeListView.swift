@@ -12,19 +12,18 @@ import SwiftData
 import SwiftUI
 
 
-struct ScannedCodeDataListView: View {
+struct ScannedCodeListView: View {
     @Environment(\.modelContext) var modelContext
     @Query private var codeScans: [CodeScanData]
     
     @State var isShowingScanner: Bool = false
     @State private var currentImageData: Data?
-    @State private var sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .reverse)
-    @Binding var selectedTab: Int
+    @Binding var selectedTab: Int //<-- TODO: fix this stuff with the map resets when the detail view opens (on another view, this is just a reminder)
     
+    @State private var sortingOrder = SortDescriptor(\CodeScanData.dateAdded, order: .reverse)
     private var sortedCodeScans: [CodeScanData] {
         codeScans.sorted(using: sortingOrder)
     }
-    
     private enum sortedBy: String, CaseIterable, Identifiable {
         case newestFirst = "Newest to oldest"
         case oldestFirst = "Oldest to newest"
@@ -119,9 +118,10 @@ struct ScannedCodeDataListView: View {
                             .foregroundStyle(.secondary)
                     }
                     
+                    Spacer()
+                    
                     if codescan.isFavorite {
-                        Spacer()
-                        Image(systemName: "star.fill")
+                        Image(systemName: "pin.fill")
                             .foregroundStyle(.yellow)
                             .padding(.bottom, 10)
                     }
@@ -137,14 +137,14 @@ struct ScannedCodeDataListView: View {
         }
         .swipeActions(edge: .leading) {
             if codescan.isFavorite {
-                Button("Remove favorite", systemImage: "star.slash") {
+                Button("Remove favorite", systemImage: "pin.slash") {
                     withAnimation(.spring) {
                         codescan.isFavorite.toggle()
                     }
                 }
                 .tint(.gray)
             } else {
-                Button("Add favorite", systemImage: "star.fill") {
+                Button("Add favorite", systemImage: "pin.fill") {
                     withAnimation(.spring) {
                         codescan.isFavorite.toggle()
                     }
@@ -153,9 +153,7 @@ struct ScannedCodeDataListView: View {
             }
         }
     }
-    
-    
-    
+
 }
 
 

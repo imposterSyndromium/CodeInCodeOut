@@ -18,7 +18,7 @@ struct MainTabView: View {
         TabView(selection: $selectedTab) {
             
             NavigationStack {
-                ScannedCodeDataListView(isShowingScanner: isShowingScanner, selectedTab: $selectedTab)
+                ScannedCodeListView(isShowingScanner: isShowingScanner, selectedTab: $selectedTab)
             }
             .tabItem {
                 Label("Scan List", systemImage: "list.bullet.clipboard")

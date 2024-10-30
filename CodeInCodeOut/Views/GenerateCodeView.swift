@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GenerateCodeView: View {
     @State private var inputText = ""
-    @State private var selectedBarcodeType: BarcodeType = .code128
+    @State private var selectedBarcodeType: BarcodeType = .qr
     @State private var barcodeImage: UIImage? = nil
     
     private var barcodeGenerator = BarcodeGenerator()
@@ -71,6 +71,9 @@ struct GenerateCodeView: View {
         }
     }
     
+    
+    
+    
     var barcodeImageView: some View {
         Group {
             if let barcodeImage = barcodeImage {
@@ -82,7 +85,7 @@ struct GenerateCodeView: View {
                         ShareLink(item: Image(uiImage: barcodeImage), preview: SharePreview("Barcode: \(inputText)", image: Image(uiImage: barcodeImage))) {
                             Label("Share code", systemImage: "square.and.arrow.up")
                         }
-                        
+ 
                         Button("Save to photos") {
                             let imageSaver = ImageSaver()
                             imageSaver.writeToPhotoAlbum(image: barcodeImage)
@@ -101,6 +104,7 @@ struct GenerateCodeView: View {
         } else {
             barcodeImage = nil
         }
+        
     }
 }
 
