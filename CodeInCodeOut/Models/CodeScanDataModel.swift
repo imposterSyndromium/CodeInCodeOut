@@ -12,7 +12,7 @@ import SwiftData
 @Model
 final class CodeScanData {
     var id: UUID
-    var codeStingData: String
+    var codeStringData: String
     var isFavorite: Bool
     var dateAdded: Date
     var notes: String
@@ -21,7 +21,7 @@ final class CodeScanData {
     
     init(id: UUID, codeStringData: String, isFavorite: Bool, dateAdded: Date, notes: String, location: Data? = nil, image: Data? = nil) {
         self.id = id
-        self.codeStingData = codeStringData
+        self.codeStringData = codeStringData
         self.isFavorite = isFavorite
         self.dateAdded = dateAdded
         self.notes = notes

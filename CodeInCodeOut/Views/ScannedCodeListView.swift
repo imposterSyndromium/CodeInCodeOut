@@ -122,7 +122,7 @@ struct ScannedCodeListView: View {
             VStack(alignment: .leading) {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(codescan.codeStingData)
+                        Text(codescan.codeStringData)
                             .font(.headline)
                         Text(codescan.dateAdded.formatted(date: .abbreviated, time: .shortened))
                             .foregroundStyle(.secondary)

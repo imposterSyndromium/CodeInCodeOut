@@ -21,6 +21,7 @@ func addTextToImage(_ image: UIImage, text: String) -> UIImage {
 
     // Create and fill white background rectangle for text area, size it relative to the original image + addition size
     let textRectangle = CGRect(x: 0, y: image.size.height, width: newSize.width, height: 60)
+    // fill rectangle with color
     UIColor.white.setFill()
     UIRectFill(textRectangle)
 

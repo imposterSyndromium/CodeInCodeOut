@@ -21,21 +21,21 @@ struct DetailView: View {
         List {
             Section(header: Text("Scanned Code Data"), footer: Text("(Press and hold for more options)")) {
                 VStack(alignment: .leading) {
-                    Text(codeScan.codeStingData)
+                    Text(codeScan.codeStringData)
                         .textSelection(.enabled)
                         .contextMenu {
                             // ShareLink
-                            ShareLink(item: codeScan.codeStingData, preview: SharePreview(codeScan.codeStingData))
+                            ShareLink(item: codeScan.codeStringData, preview: SharePreview(codeScan.codeStringData))
                             
                             // copy to clip board
                             Button(action: {
-                                UIPasteboard.general.string = codeScan.codeStingData
+                                UIPasteboard.general.string = codeScan.codeStringData
                             }) {
                                 Label("Copy to Clipboard", systemImage: "document.on.document")
                             }
                             
                             // open in browser if the scan was a URL, otherwise do not show
-                            if let url = URL(string: codeScan.codeStingData), UIApplication.shared.canOpenURL(url) {
+                            if let url = URL(string: codeScan.codeStringData), UIApplication.shared.canOpenURL(url) {
                                 Button(action: {
                                     UIApplication.shared.open(url)
                                 }) {

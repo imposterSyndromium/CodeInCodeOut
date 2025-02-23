@@ -92,7 +92,7 @@ struct MapMultiPinArrayView: View {
                             VStack(alignment: .leading) {
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        Text(scan.codeStingData)
+                                        Text(scan.codeStringData)
                                             .font(.headline)
                                         Text(scan.dateAdded.formatted(date: .abbreviated, time: .shortened))
                                     }

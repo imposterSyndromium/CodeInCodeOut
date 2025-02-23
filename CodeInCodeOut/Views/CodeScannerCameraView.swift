@@ -74,7 +74,7 @@ extension CodeScannerCameraView {
             }
             
             self.modelContext.insert(scannedCode)
-            print("Success scanning barcode: \(scannedCode.codeStingData)")
+            print("Success scanning barcode: \(scannedCode.codeStringData)")
             dismissCamera.toggle()
             
         case .failure(let error):

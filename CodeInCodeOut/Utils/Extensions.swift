@@ -40,6 +40,8 @@ public extension View {
 }
 
 
+
+/// *
 // Convert a UIImage to Data? for storage
 extension UIImage {
     func toData() -> Data? {
